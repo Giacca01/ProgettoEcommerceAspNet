@@ -106,6 +106,7 @@
                                             <select id="lstTipoUtente" title="Tipo Utente" runat="server" class="single-input" required>
                                                 <option value="admin">Admin</option>
                                                 <option value="cliente">Cliente</option>
+                                                <option value="fornitore">Fornitore</option>
                                             </select>
                                         </div>
                                     </div>

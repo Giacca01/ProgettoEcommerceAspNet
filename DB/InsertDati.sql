@@ -15024,49 +15024,35 @@ INSERT INTO [dbo].[Ordini] ([IdOrdine], [DataOrdine], [DataSpedizione], [PrezzoT
 SET IDENTITY_INSERT [dbo].[Ordini] OFF;
 GO
 
--- ***************************
--- *Inserisce Tabella MARCHE *
--- ***************************
-SET IDENTITY_INSERT [dbo].[Marche] ON;
-GO
-
-INSERT INTO [dbo].[Marche] ([IdMarca], [DescrizioneMarca], [IdNazione],[ValMarca]) VALUES (1, 'Huawei', 48, ' ');
-INSERT INTO [dbo].[Marche] ([IdMarca], [DescrizioneMarca], [IdNazione],[ValMarca]) VALUES (2, 'Acer', 228, ' ');
-INSERT INTO [dbo].[Marche] ([IdMarca], [DescrizioneMarca], [IdNazione],[ValMarca]) VALUES (3, 'Lenovo', 95, ' ');
-INSERT INTO [dbo].[Marche] ([IdMarca], [DescrizioneMarca], [IdNazione],[ValMarca]) VALUES (4, 'Apple', 233, ' ');
-INSERT INTO [dbo].[Marche] ([IdMarca], [DescrizioneMarca], [IdNazione],[ValMarca]) VALUES (5, 'HP', 233, ' ');
-INSERT INTO [dbo].[Marche] ([IdMarca], [DescrizioneMarca], [IdNazione],[ValMarca]) VALUES (6, 'ASUS', 228, ' ');
-INSERT INTO [dbo].[Marche] ([IdMarca], [DescrizioneMarca], [IdNazione],[ValMarca]) VALUES (7, 'Samsung', 122, ' ');
-INSERT INTO [dbo].[Marche] ([IdMarca], [DescrizioneMarca], [IdNazione],[ValMarca]) VALUES (8, 'Denim', 114, ' ');
-INSERT INTO [dbo].[Marche] ([IdMarca], [DescrizioneMarca], [IdNazione],[ValMarca]) VALUES (9, 'Navigare', 114,' ');
-INSERT INTO [dbo].[Marche] ([IdMarca], [DescrizioneMarca], [IdNazione],[ValMarca]) VALUES (10, 'Nike', 43, ' ');
-INSERT INTO [dbo].[Marche] ([IdMarca], [DescrizioneMarca], [IdNazione],[ValMarca]) VALUES (11, 'Beta', 166, ' ');  
-
-GO
-
-SET IDENTITY_INSERT [dbo].[Marche] OFF;
-GO
-
 -- ******************************
 -- *Inserisce Tabella FORNITORI *
 -- ******************************
 SET IDENTITY_INSERT [dbo].[Fornitori] ON;
 GO
 
-INSERT INTO [dbo].[Fornitori] ([IdFornitore], [NomeFornitore], [Email], [Telefono], [IdCitta], [ValFornitore]) VALUES (1, 'eGross srl', 'info@egross.it', '0672671892', 10331, ' ');
-INSERT INTO [dbo].[Fornitori] ([IdFornitore], [NomeFornitore], [Email], [Telefono], [IdCitta], [ValFornitore]) VALUES (2, 'L Gest srl', 'info@lgest.it', '0115363878', 13052, ' ');
-INSERT INTO [dbo].[Fornitori] ([IdFornitore], [NomeFornitore], [Email], [Telefono], [IdCitta], [ValFornitore]) VALUES (3, 'Enki', 'info@enki.it', '0115829119', 2325, ' ');
-INSERT INTO [dbo].[Fornitori] ([IdFornitore], [NomeFornitore], [Email], [Telefono], [IdCitta], [ValFornitore]) VALUES (4, 'Focelda SpA', 'info@focelda.it', '0112203130', 7085, ' ');
-INSERT INTO [dbo].[Fornitori] ([IdFornitore], [NomeFornitore], [Email], [Telefono], [IdCitta], [ValFornitore]) VALUES (5, 'Ollo Store', 'info@ollostore.it', '0571173807', 4411, ' ');
-INSERT INTO [dbo].[Fornitori] ([IdFornitore], [NomeFornitore], [Email], [Telefono], [IdCitta], [ValFornitore]) VALUES (6, 'Computer Shop Snc', 'info@computershop.it', '050878779', 9144, ' ');
-INSERT INTO [dbo].[Fornitori] ([IdFornitore], [NomeFornitore], [Email], [Telefono], [IdCitta], [ValFornitore]) VALUES (7, 'Sintolvox', 'info@sintolvox.it', '0232462237', 7085, ' ');
-INSERT INTO [dbo].[Fornitori] ([IdFornitore], [NomeFornitore], [Email], [Telefono], [IdCitta], [ValFornitore]) VALUES (8, 'DRM INFORMATICA', 'info@drminformatica.it', '0118122145', 10331, ' ');
-INSERT INTO [dbo].[Fornitori] ([IdFornitore], [NomeFornitore], [Email], [Telefono], [IdCitta], [ValFornitore]) VALUES (9, 'Brevi S.p.a', 'info@brevi.it', '0353019411', 5483, ' ');
-INSERT INTO [dbo].[Fornitori] ([IdFornitore], [NomeFornitore], [Email], [Telefono], [IdCitta], [ValFornitore]) VALUES (10, 'Hardware Planet', 'info@harplanet.it', '0119862664', 10331, ' ');
+INSERT INTO [dbo].[Fornitori] ([IdFornitore], [NomeFornitore], [Email], [Telefono], [UserFornitore], [PwdFornitore], [ViaFornitore], [CivicoFornitore], [IdCitta], [ValFornitore]) VALUES (1, 'eGross srl', 'info@egross.it', '0672671892', 'Fornitore', 'DC647EB65E6711E155375218212B3964', 'Via IV Novembre', '14/A', 10331, ' ');
+INSERT INTO [dbo].[Fornitori] ([IdFornitore], [NomeFornitore], [Email], [Telefono], [UserFornitore], [PwdFornitore], [ViaFornitore], [CivicoFornitore], [IdCitta], [ValFornitore]) VALUES (2, 'L Gest srl', 'info@lgest.it', '0115363878', 'LGest', '79ED56FDF54EFB9AC98FF667B45614B7', 'Via san carlo', '9', 13052, ' ');
+INSERT INTO [dbo].[Fornitori] ([IdFornitore], [NomeFornitore], [Email], [Telefono], [UserFornitore], [PwdFornitore], [ViaFornitore], [CivicoFornitore], [IdCitta], [ValFornitore]) VALUES (3, 'Enki', 'info@enki.it', '0115829119', 'EnkiStore', '1F65735736426A1071271553C4AD5C54', 'Via san carlo', '9', 2325, ' ');
 
 GO
 
 SET IDENTITY_INSERT [dbo].[Fornitori] OFF;
+GO
+
+-- ***************************************
+-- *Inserisce Tabella Fornitori Pwd in chiaro*
+-- ***************************************
+SET IDENTITY_INSERT [dbo].[FornitoriPwdPlainText] ON;
+GO
+
+/*Pwd: almeno 8 caratteri, una maiuscola un numero e un simbolo tra ! e @*/
+INSERT INTO [dbo].[FornitoriPwdPlainText] ([IdFornitore], [UserFornitore], [PwdFornitore]) VALUES (1, 'Fornitore', 'Password');
+INSERT INTO [dbo].[FornitoriPwdPlainText] ([IdFornitore], [UserFornitore], [PwdFornitore]) VALUES (2, 'LGest', 'Lmster98@');
+INSERT INTO [dbo].[FornitoriPwdPlainText] ([IdFornitore], [UserFornitore], [PwdFornitore]) VALUES (3, 'EnkiStore', 'Kutsfut9!');
+
+GO
+
+SET IDENTITY_INSERT [dbo].[FornitoriPwdPlainText] OFF;
 GO
 
 -- ******************************
@@ -15091,58 +15077,14 @@ GO
 SET IDENTITY_INSERT [dbo].[Prodotti] ON;
 GO
 
-INSERT INTO [dbo].[Prodotti] ([IdProdotto], [ModelloProdotto], [ImmagineProdotto], [DescrizioneProdotto], [IdCategoria], [IdMarca], [IdFornitore], [Prezzo], [QtaGiacenza], [LivRiordino], [LottoMinimo], [ValProdotto]) VALUES (1, 'MateBook D', 'HuaweiMateBookD.jpg', 'Design estetico:display fullview, con un rapporto schermo-corpo dell'' 87%.esperienza di visione immersiva offerta da un display antiriflesso con proporzioni 16:9corpo metallico con un tocco futuristicouno spessore di 16.9 mmtecnologia innovativa：amd ryzen5 3500u, con scheda grafica radeon vega 8le ventole shark fin 2.0 rendono la dissipazione del calore più silenziosa ed efficaceexpandable storage with an ssd+hdd supports faster response speed and larger storagela memoria endibile con ssd+hdd supporta una velocità di risposta più elevata e una memoria più ampiail caricabatterie USB-c compatto supporta la ricarica rapidaesperienza smart:collaborazione multi-schermo per facilitare il lavoro e la vitasensore d''impronte digitali per accensione e accesso velocidisplay certificato tüv rheinland per proteggere gli occhi riducendo la luce blufotocamera a scomparsa per un miglior controllo.', 1, 1, 1, 500, 20, 2, 5, ' ');
-INSERT INTO [dbo].[Prodotti] ([IdProdotto], [ModelloProdotto], [ImmagineProdotto], [DescrizioneProdotto], [IdCategoria], [IdMarca], [IdFornitore], [Prezzo], [Sconto], [QtaGiacenza], [LivRiordino], [LottoMinimo], [ValProdotto]) VALUES (2, 'AirMax', 'AirMax.jpg', 'La scarpa Nike Air Max 90 offre un''ammortizzazione straordinaria grazie all''unità Air-Sole visibile nel tallone. Il sostegno e la resistenza sono garantiti grazie alla tomaia in pelle, alla caviglia rinforzata e agli occhielli supplementari che conferiscono alla scarpa una vestibilità comoda, confortevole e personalizzata. Infine, la suola in gomma con design goffrato offre la massima aderenza e resistenza.', 4, 10, 5, 100, 5, 10, 5, 10, ' ');
-INSERT INTO [dbo].[Prodotti] ([IdProdotto], [ModelloProdotto], [ImmagineProdotto], [DescrizioneProdotto], [IdCategoria], [IdMarca], [IdFornitore], [Prezzo], [QtaGiacenza], [LivRiordino], [LottoMinimo], [ValProdotto]) VALUES (3, 'Beta 903E/C98', 'Beta.jpg', 'Assortimento di 45 chiavi a bussola esagonali, 35 inserti per avvitatori, 4 chiavi maschio esagonale piegata e 14 accessori in cassetta di plastica il kit comprende: cricchetto reversibile con attacco maschio da 1/4" chiavi a bussola da 1/4" snodo da 1/4" prolunga da 1/4" giravite con attacco quadro da 150 mm chiavi a brugola piegate innesto da 1/4" quadro a 1/4" esagonale inserti per avvitatori: taglio, a croce phillips, pozidriv, esagonali, torx da 1/4" dimensioni: 375x295x84 mm peso: 8.0kg.', 3, 11, 7, 118.34, 5, 2, 2, ' ');
+INSERT INTO [dbo].[Prodotti] ([IdProdotto], [ModelloProdotto], [ImmagineProdotto], [DescrizioneProdotto], [MarcaProdotto], [IdCategoria], [IdFornitore], [Prezzo], [QtaGiacenza], [LivRiordino], [LottoMinimo], [ValProdotto]) VALUES (1, 'MateBook D', 'HuaweiMateBookD.jpg', 'Design estetico:display fullview, con un rapporto schermo-corpo dell'' 87%.esperienza di visione immersiva offerta da un display antiriflesso con proporzioni 16:9corpo metallico con un tocco futuristicouno spessore di 16.9 mmtecnologia innovativa：amd ryzen5 3500u, con scheda grafica radeon vega 8le ventole shark fin 2.0 rendono la dissipazione del calore più silenziosa ed efficaceexpandable storage with an ssd+hdd supports faster response speed and larger storagela memoria endibile con ssd+hdd supporta una velocità di risposta più elevata e una memoria più ampiail caricabatterie USB-c compatto supporta la ricarica rapidaesperienza smart:collaborazione multi-schermo per facilitare il lavoro e la vitasensore d''impronte digitali per accensione e accesso velocidisplay certificato tüv rheinland per proteggere gli occhi riducendo la luce blufotocamera a scomparsa per un miglior controllo.', 'Huawei', 1, 1, 500, 20, 2, 5, ' ');
+INSERT INTO [dbo].[Prodotti] ([IdProdotto], [ModelloProdotto], [ImmagineProdotto], [DescrizioneProdotto], [MarcaProdotto], [IdCategoria], [IdFornitore], [Prezzo], [Sconto], [QtaGiacenza], [LivRiordino], [LottoMinimo], [ValProdotto]) VALUES (2, 'AirMax', 'AirMax.jpg', 'La scarpa Nike Air Max 90 offre un''ammortizzazione straordinaria grazie all''unità Air-Sole visibile nel tallone. Il sostegno e la resistenza sono garantiti grazie alla tomaia in pelle, alla caviglia rinforzata e agli occhielli supplementari che conferiscono alla scarpa una vestibilità comoda, confortevole e personalizzata. Infine, la suola in gomma con design goffrato offre la massima aderenza e resistenza.', 'Nike', 4, 2, 100, 5, 10, 5, 10, ' ');
+INSERT INTO [dbo].[Prodotti] ([IdProdotto], [ModelloProdotto], [ImmagineProdotto], [DescrizioneProdotto], [MarcaProdotto], [IdCategoria], [IdFornitore], [Prezzo], [QtaGiacenza], [LivRiordino], [LottoMinimo], [ValProdotto]) VALUES (3, 'Beta 903E/C98', 'Beta.jpg', 'Assortimento di 45 chiavi a bussola esagonali, 35 inserti per avvitatori, 4 chiavi maschio esagonale piegata e 14 accessori in cassetta di plastica il kit comprende: cricchetto reversibile con attacco maschio da 1/4" chiavi a bussola da 1/4" snodo da 1/4" prolunga da 1/4" giravite con attacco quadro da 150 mm chiavi a brugola piegate innesto da 1/4" quadro a 1/4" esagonale inserti per avvitatori: taglio, a croce phillips, pozidriv, esagonali, torx da 1/4" dimensioni: 375x295x84 mm peso: 8.0kg.', 'Beta', 3, 3, 118.34, 5, 2, 2, ' ');
 
 GO
 
 SET IDENTITY_INSERT [dbo].[Prodotti] OFF;
 GO
-
--- ******************************
--- *Inserisce Tabella Caratteristiche *
--- ******************************
-SET IDENTITY_INSERT [dbo].[Caratteristiche] ON;
-GO
-
-INSERT INTO [dbo].[Caratteristiche] ([IdCaratteristica], [DescrizioneCaratteristiche], [ValCaratteristiche]) VALUES (1, 'Ram: 8 GB', ' ');
-INSERT INTO [dbo].[Caratteristiche] ([IdCaratteristica], [DescrizioneCaratteristiche], [ValCaratteristiche]) VALUES (2, 'Memoria: 256 GB', ' ');
-INSERT INTO [dbo].[Caratteristiche] ([IdCaratteristica], [DescrizioneCaratteristiche], [ValCaratteristiche]) VALUES (3, 'Sistema Operativo: Windows 10', ' ');
-
-
-
-SET IDENTITY_INSERT [dbo].[Caratteristiche] OFF;
-GO
-
--- ******************************
--- *Inserisce Tabella CaratteristicheProdotto *
--- ******************************
-
-INSERT INTO [dbo].[CaratteristicheProdotto] ([IdProdotto], [IdCaratteristica], [ValCaratteristicheProdotto]) VALUES (1, 1, ' ');
-INSERT INTO [dbo].[CaratteristicheProdotto] ([IdProdotto], [IdCaratteristica], [ValCaratteristicheProdotto]) VALUES (1, 2, ' ');
-INSERT INTO [dbo].[CaratteristicheProdotto] ([IdProdotto], [IdCaratteristica], [ValCaratteristicheProdotto]) VALUES (1, 3, ' ');
-
-
-
-
--- ******************************
--- *Inserisce Tabella CaratteristicheProdotto * Da ERRORI A CASO
--- ******************************
-
-INSERT INTO [dbo].[CaratteristicheProdotto] ([IdProdotto], [IdCaratteristica], [ValCaratteristicheProdotto]) VALUES (1, 1, ' ');
-INSERT INTO [dbo].[CaratteristicheProdotto] ([IdProdotto], [IdCaratteristica], [ValCaratteristicheProdotto]) VALUES (1, 2, ' ');
-INSERT INTO [dbo].[CaratteristicheProdotto] ([IdProdotto], [IdCaratteristica], [ValCaratteristicheProdotto]) VALUES (1, 3, ' ');
-
-
--- ****************************
--- *Inserisce Tabella LegateA *
--- ****************************
-
-INSERT INTO [dbo].[LegateA] ([IdCategoria], [IdCaratteristica], [ValLegateA]) VALUES (1, 1, ' ');   
-INSERT INTO [dbo].[LegateA] ([IdCategoria], [IdCaratteristica], [ValLegateA]) VALUES (1, 2, ' ');   
-INSERT INTO [dbo].[LegateA] ([IdCategoria], [IdCaratteristica], [ValLegateA]) VALUES (1, 3, ' ');   
-
 
 -- ************************************
 -- *Inserisce Tabella DettaglioOrdini *

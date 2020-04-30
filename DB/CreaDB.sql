@@ -1,6 +1,19 @@
 /************************/
 /* ELIMINAZIONE TABELLE */
 /************************/
+
+-- Drop the table 'FornitoriPwdPlainText' in schema 'dbo'
+IF EXISTS (
+    SELECT *
+        FROM sys.tables
+        JOIN sys.schemas
+            ON sys.tables.schema_id = sys.schemas.schema_id
+    WHERE sys.schemas.name = N'dbo'
+        AND sys.tables.name = N'FornitoriPwdPlainText'
+)
+    DROP TABLE dbo.FornitoriPwdPlainText
+GO
+
 -- Drop the table 'AdminPwdPlainText' in schema 'dbo'
 IF EXISTS (
     SELECT *
@@ -37,18 +50,6 @@ IF EXISTS (
     DROP TABLE dbo.Carrello
 GO
 
--- Drop the table 'LegateA' in schema 'dbo'
-IF EXISTS (
-    SELECT *
-        FROM sys.tables
-        JOIN sys.schemas
-            ON sys.tables.schema_id = sys.schemas.schema_id
-    WHERE sys.schemas.name = N'dbo'
-        AND sys.tables.name = N'LegateA'
-)
-    DROP TABLE dbo.LegateA
-GO
-
 -- Drop the table 'DettaglioOrdini' in schema 'dbo'
 IF EXISTS (
     SELECT *
@@ -61,29 +62,6 @@ IF EXISTS (
     DROP TABLE dbo.DettaglioOrdini
 GO
 
--- Drop the table 'CaratteristicheProdotto' in schema 'dbo'
-IF EXISTS (
-    SELECT *
-        FROM sys.tables
-        JOIN sys.schemas
-            ON sys.tables.schema_id = sys.schemas.schema_id
-    WHERE sys.schemas.name = N'dbo'
-        AND sys.tables.name = N'CaratteristicheProdotto'
-)
-    DROP TABLE dbo.CaratteristicheProdotto
-GO
-
--- Drop the table 'Caratteristiche' in schema 'dbo'
-IF EXISTS (
-    SELECT *
-        FROM sys.tables
-        JOIN sys.schemas
-            ON sys.tables.schema_id = sys.schemas.schema_id
-    WHERE sys.schemas.name = N'dbo'
-        AND sys.tables.name = N'Caratteristiche'
-)
-    DROP TABLE dbo.Caratteristiche
-GO
 
 -- Drop the table 'Prodotti' in schema 'dbo'
 IF EXISTS (
@@ -119,18 +97,6 @@ IF EXISTS (
         AND sys.tables.name = N'Fornitori'
 )
     DROP TABLE dbo.Fornitori
-GO
-
--- Drop the table 'Marche' in schema 'dbo'
-IF EXISTS (
-    SELECT *
-        FROM sys.tables
-        JOIN sys.schemas
-            ON sys.tables.schema_id = sys.schemas.schema_id
-    WHERE sys.schemas.name = N'dbo'
-        AND sys.tables.name = N'Marche'
-)
-    DROP TABLE dbo.Marche
 GO
 
 -- Drop the table 'Ordini' in schema 'dbo'
@@ -411,30 +377,32 @@ CREATE TABLE [dbo].[Ordini] /*Insert Ok*/
     CONSTRAINT [FK_Ordini_ToCarte] FOREIGN KEY ([IdCarta]) REFERENCES [dbo].[Carte] ([IdCarta])
 );
 
-GO
-
-CREATE TABLE [dbo].[Marche] /*Insert Ok*/
-(
-    [IdMarca]           INT           IDENTITY (1, 1) NOT NULL,
-    [DescrizioneMarca]  NVARCHAR (50) NOT NULL,
-    [IdNazione]         INT           NOT NULL,
-    [ValMarca]          CHAR (1)      NOT NULL,
-    PRIMARY KEY ([IdMarca] ASC),
-    CONSTRAINT [FK_Marche_ToNazioni] FOREIGN KEY ([IdNazione]) REFERENCES [Nazioni]([IdNazione]),
-);
-
-GO
-
 CREATE TABLE [dbo].[Fornitori] /*Insert Ok*/
 (
     [IdFornitore]   INT           IDENTITY (1, 1) NOT NULL,
     [NomeFornitore] NVARCHAR (50) NOT NULL,
     [Email]          NVARCHAR (30),       
     [Telefono]      CHAR (10),
+    [UserFornitore]       NVARCHAR (50)   NOT NULL,
+    [PwdFornitore]       NVARCHAR (32)   NOT NULL, /*Hash*/
+    [ViaFornitore]       NVARCHAR (50)   NOT NULL,
+    [CivicoFornitore]       NVARCHAR (5)   NOT NULL,
     [IdCitta]       INT           NOT NULL,
     [ValFornitore]  CHAR (1)      NOT NULL,
     PRIMARY KEY CLUSTERED ([IdFornitore] ASC),
     CONSTRAINT [FK_Fornitori_ToCitta] FOREIGN KEY ([IdCitta]) REFERENCES [dbo].[Citta] ([IdCitta])
+);
+
+GO
+
+GO
+
+CREATE TABLE [dbo].[FornitoriPwdPlainText] /*Insert Ok*/
+(
+    [IdFornitore]         INT             IDENTITY (1, 1) NOT NULL,
+    [UserFornitore]       NVARCHAR (50)   NOT NULL,
+    [PwdFornitore]       NVARCHAR (32)   NOT NULL,
+    PRIMARY KEY CLUSTERED ([IdFornitore])
 );
 
 GO
@@ -454,9 +422,9 @@ CREATE TABLE [dbo].[Prodotti] /*Insert Ok*/
     [IdProdotto]            INT             IDENTITY (1, 1) NOT NULL,
     [ModelloProdotto]       NVARCHAR (50)   NOT NULL,
     [DescrizioneProdotto]       NVARCHAR (1000)   NOT NULL,
+    [MarcaProdotto]       NVARCHAR (500)   NOT NULL,
 	[ImmagineProdotto]		NVARCHAR (50)	NOT NULL,/*Percorso*/
     [IdCategoria]           INT             NOT NULL,
-    [IdMarca]               INT             NOT NULL,
     [IdFornitore]               INT             NOT NULL,
     [Prezzo]        DECIMAL(19, 4)  NOT NULL,
     [Sconto]        INT  , /*In percentuale*/
@@ -466,33 +434,8 @@ CREATE TABLE [dbo].[Prodotti] /*Insert Ok*/
     [ValProdotto]           CHAR (1)        NOT NULL,
     PRIMARY KEY ([IdProdotto] ASC),
     CONSTRAINT [FK_Prodotti_ToCategorie] FOREIGN KEY ([IdCategoria]) REFERENCES [Categorie]([IdCategoria]),
-    CONSTRAINT [FK_Prodotti_ToMarche] FOREIGN KEY ([IdMarca]) REFERENCES [Marche]([IdMarca]),
     CONSTRAINT [FK_Prodotti_ToFornitori] FOREIGN KEY ([IdFornitore]) REFERENCES [Fornitori]([IdFornitore])
 );
-
-GO
-
-CREATE TABLE [dbo].[Caratteristiche] /*Insert Ok*/
-(
-    [IdCaratteristica]           INT           IDENTITY (1, 1) NOT NULL,
-    [DescrizioneCaratteristiche]  NVARCHAR (500) NOT NULL,
-    [ValCaratteristiche]          CHAR (1)      NOT NULL,
-    PRIMARY KEY ([IdCaratteristica] ASC),
-);
-
-GO
-
-CREATE TABLE [dbo].[CaratteristicheProdotto] /*Insert Ok*/ 
-(
-	[IdProdotto] INT NOT NULL,
-	[IdCaratteristica] INT NOT NULL,
-	[ValCaratteristicheProdotto] CHAR(1) NOT NULL,
-	PRIMARY KEY ([IdProdotto], [IdCaratteristica]),
-    CONSTRAINT [FK_CaratteristicheProdotto_ToProdotti] FOREIGN KEY ([IdProdotto]) REFERENCES [dbo].[Prodotti] ([IdProdotto]),
-    CONSTRAINT [FK_CaratteristicheProdotto_ToCaratteristiche] FOREIGN KEY ([IdCaratteristica]) REFERENCES [dbo].[Caratteristiche] ([IdCaratteristica])
-);
-
-GO
 
 CREATE TABLE [dbo].[DettaglioOrdini] /*Insert Ok*/
 (
@@ -505,20 +448,6 @@ CREATE TABLE [dbo].[DettaglioOrdini] /*Insert Ok*/
     CONSTRAINT [FK_DettaglioOrdini_ToOrdini] FOREIGN KEY ([IdOrdine]) REFERENCES [Ordini]([IdOrdine]),
     CONSTRAINT [FK_DettaglioOrdini_ToProdotti] FOREIGN KEY ([IdProdotto]) REFERENCES [Prodotti]([IdProdotto]),
 );
-
-GO
-
-CREATE TABLE [dbo].[LegateA] /*Insert Ok*/
-(
-	[IdCategoria] INT NOT NULL,
-	[IdCaratteristica] INT NOT NULL,
-	[ValLegateA] CHAR(1) NOT NULL,
-	PRIMARY KEY ([IdCategoria], [IdCaratteristica]),
-    CONSTRAINT [FK_LegateA_ToCategorie] FOREIGN KEY ([IdCategoria]) REFERENCES [dbo].[Categorie] ([IdCategoria]),
-    CONSTRAINT [FK_LegateA_ToCaratteristiche] FOREIGN KEY ([IdCaratteristica]) REFERENCES [dbo].[Caratteristiche] ([IdCaratteristica])
-);
-
-GO
 
 CREATE TABLE [dbo].[Carrello] /*Insert Ok*/
 (

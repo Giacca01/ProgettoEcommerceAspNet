@@ -51,6 +51,11 @@ namespace ProgettoEcommerce
                             codSql = "SELECT PwdCliente AS Pwd, IdCliente AS Id FROM Clienti WHERE UserCliente = '" + usernameLogin.Value+ "' AND ValCliente = ' '";
                             tipoUtente = "Cliente";
                         }
+                        else if(lstTipoUtente.Value == "fornitore")
+                        {
+                            codSql = "SELECT PwdFornitore AS Pwd, IdFornitore AS Id FROM Fornitori WHERE UserFornitore = '" + usernameLogin.Value + "' AND ValFornitore = ' '";
+                            tipoUtente = "Fornitore";
+                        }
                         else
                         {
                             printErrori("Tipo utente non valido");

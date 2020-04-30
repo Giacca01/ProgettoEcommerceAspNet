@@ -84,6 +84,18 @@
                             <div class="col-sm-6 col-md-6 col-lg-6 mx-auto">
                                 <div class="input-group-icon mt-10">
                                     <div class="icon">
+                                        <i class="fa fa-building" aria-hidden="true"></i>
+                                    </div>
+                                    <div>
+                                        <asp:DropDownList id="lstTipoUtenteReg" title="Tipo Utente" runat="server" class="single-input" required="required" AutoPostBack="true" OnSelectedIndexChanged="lstTipoUtenteReg_SelectedIndexChanged">
+                                            <asp:ListItem Value="cliente">Cliente</asp:ListItem>
+                                            <asp:ListItem Value="admin">Admin</asp:ListItem>
+                                            <asp:ListItem Value="fornitore">Fornitore</asp:ListItem>
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
+                                <div class="input-group-icon mt-10">
+                                    <div class="icon">
                                         <i class="fa fa-user" aria-hidden="true"></i>
                                     </div>
                                     <input type="text" id="nomeReg" name="nomeReg" placeholder="Nome" onfocus="this.placeholder = ''; this.classList.remove('alert-danger');" onblur="this.placeholder = 'Nome'" required class="single-input" runat="server">
@@ -94,7 +106,7 @@
                                     </div>
                                     <input type="text" id="cognomeReg" name="cognomeReg" placeholder="Cognome" onfocus="this.placeholder = ''; this.classList.remove('alert-danger');" onblur="this.placeholder = 'Cognome'" required class="single-input" runat="server">
                                 </div>
-                                <div class="input-group-icon mt-10">
+                                <div class="input-group-icon mt-10" id="contDataNascitaReg" runat="server">
                                     <div class="icon">
                                         <i class="fa fa-calendar" aria-hidden="true"></i>
                                     </div>
@@ -128,7 +140,7 @@
                                     <small id="descPwdReg" class="form-text text-muted">La Password deve contenere almeno 8 caratteri tra cui almeno una maiuscola, una minuscola, un numero e un carattere tra !@#$%^&*
                                     </small>
                                 </div>
-                                 <div class="input-group-icon mt-10">
+                                <div class="input-group-icon mt-10">
                                     <div class="icon">
                                         <i class="fa fa-map-marker" aria-hidden="true"></i>
                                     </div>
@@ -141,20 +153,20 @@
                                     <input type="text" id="civicoReg" name="civicoReg" placeholder="Civico" onfocus="this.placeholder = ''; this.classList.remove('alert-danger');" onblur="this.placeholder = 'Civico'" required class="single-input" runat="server">
                                 </div>
                                 <div class="input-group-icon mt-10">
-                                        <div class="icon">
-                                            <i class="fa fa-building" aria-hidden="true"></i>
-                                        </div>
-                                        <div>
-                                            <select id="lstCittaReg" title="Città Utente" runat="server" class="single-input" required>
-                                            </select>
-                                        </div>
+                                    <div class="icon">
+                                        <i class="fa fa-building" aria-hidden="true"></i>
                                     </div>
+                                    <div>
+                                        <select id="lstCittaReg" title="Città Utente" runat="server" class="single-input" required>
+                                        </select>
+                                    </div>
+                                </div>
                                 <div id="msgReg" class="msg" runat="server"></div>
                                 <br>
                             </div>
                             <div class="col-sm-6 col-md-6 col-lg-6 mx-auto">
                                 <div class="form-group">
-                                    <asp:Button ID="btnRegistrati" class="genric-btn primary circle btn-block" runat="server" Text="Registrati" OnClick="btnRegistrati_Click"/>
+                                    <asp:Button ID="btnRegistrati" class="genric-btn primary circle btn-block" runat="server" Text="Registrati" OnClick="btnRegistrati_Click" />
                                 </div>
                             </div>
                         </div>

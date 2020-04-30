@@ -70,7 +70,7 @@
     <Content Include="App_Data\DBEcommerce.mdf" />
     <Content Include="App_Data\DBEcommerce_log.ldf" />
     <Content Include="blog.aspx" />
-    <Content Include="cart.aspx" />
+    <Content Include="carrello.aspx" />
     <Content Include="js\registrati.js" />
     <Content Include="prodotti.aspx" />
     <Content Include="checkout.aspx" />
@@ -188,7 +188,7 @@
     <Content Include="js\theme.js" />
     <Content Include="login.aspx" />
     <Content Include="registrati.aspx" />
-    <Content Include="single-product.aspx" />
+    <Content Include="dettaglioProdotto.aspx" />
     <Content Include="vendors\animate-css\animate.css" />
     <Content Include="vendors\animate-css\wow.min.js" />
     <Content Include="vendors\bootstrap-datepicker\bootstrap-datetimepicker.min.css" />
@@ -226,12 +226,12 @@
     <Compile Include="blog.aspx.designer.cs">
       <DependentUpon>blog.aspx</DependentUpon>
     </Compile>
-    <Compile Include="cart.aspx.cs">
-      <DependentUpon>cart.aspx</DependentUpon>
+    <Compile Include="carrello.aspx.cs">
+      <DependentUpon>carrello.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="cart.aspx.designer.cs">
-      <DependentUpon>cart.aspx</DependentUpon>
+    <Compile Include="carrello.aspx.designer.cs">
+      <DependentUpon>carrello.aspx</DependentUpon>
     </Compile>
     <Compile Include="prodotti.aspx.cs">
       <DependentUpon>prodotti.aspx</DependentUpon>
@@ -283,12 +283,12 @@
     <Compile Include="registrati.aspx.designer.cs">
       <DependentUpon>registrati.aspx</DependentUpon>
     </Compile>
-    <Compile Include="single-product.aspx.cs">
-      <DependentUpon>single-product.aspx</DependentUpon>
+    <Compile Include="dettaglioProdotto.aspx.cs">
+      <DependentUpon>dettaglioProdotto.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="single-product.aspx.designer.cs">
-      <DependentUpon>single-product.aspx</DependentUpon>
+    <Compile Include="dettaglioProdotto.aspx.designer.cs">
+      <DependentUpon>dettaglioProdotto.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
