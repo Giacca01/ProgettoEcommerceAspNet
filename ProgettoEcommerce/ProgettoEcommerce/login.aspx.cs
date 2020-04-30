@@ -33,6 +33,7 @@ namespace ProgettoEcommerce
             DataTable tab = new DataTable();
             string hashPwdLogin = String.Empty;
             string tipoUtente = String.Empty;
+            bool errore = false;
 
             if (usernameLogin.Value != String.Empty)
             {
@@ -42,47 +43,50 @@ namespace ProgettoEcommerce
                     {
                         if (lstTipoUtente.Value == "admin")
                         {
-                            codSql = "SELECT PwdAdmin AS Pwd, IdAdmin AS Id FROM Admin WHERE UserAdmin = '" + usernameLogin.Value+"' AND ValCliente = ' '";
+                            codSql = "SELECT PwdAdmin AS Pwd, IdAdmin AS Id FROM Admin WHERE UserAdmin = '" + usernameLogin.Value+ "' AND ValAdmin = ' '";
                             tipoUtente = "Admin";
                         }
                         else if(lstTipoUtente.Value == "cliente")
                         {
-                            codSql = "SELECT PwdCliente AS Pwd, IdCliente AS Id FROM Clienti WHERE UserCliente = '" + usernameLogin.Value+"' AND ValAdmin = ' '";
+                            codSql = "SELECT PwdCliente AS Pwd, IdCliente AS Id FROM Clienti WHERE UserCliente = '" + usernameLogin.Value+ "' AND ValCliente = ' '";
                             tipoUtente = "Cliente";
                         }
                         else
                         {
                             printErrori("Tipo utente non valido");
+                            errore = true;
                         }
 
-                        try
+                        if (!errore)
                         {
-                            tab = ado.eseguiQuery(codSql, CommandType.Text);
-                            if (tab.Rows.Count == 1)
+                            try
                             {
-                                hashPwdLogin = calcolaMD5(pwdLogin.Value);
-                                StringComparer comparer = StringComparer.OrdinalIgnoreCase;
-                                if (comparer.Compare(hashPwdLogin, tab.Rows[0].ItemArray[0].ToString()) == 0)
+                                tab = ado.eseguiQuery(codSql, CommandType.Text);
+                                if (tab.Rows.Count == 1)
                                 {
-                                    Session["IdUtente"] = tab.Rows[0].ItemArray[1].ToString();
-                                    Session["TipoUtente"] = tipoUtente;
-                                    Response.Redirect("prodotti.aspx");
+                                    hashPwdLogin = calcolaMD5(pwdLogin.Value);
+                                    StringComparer comparer = StringComparer.OrdinalIgnoreCase;
+                                    if (comparer.Compare(hashPwdLogin, tab.Rows[0].ItemArray[0].ToString()) == 0)
+                                    {
+                                        Session["IdUtente"] = tab.Rows[0].ItemArray[1].ToString();
+                                        Session["TipoUtente"] = tipoUtente;
+                                        Response.Redirect("prodotti.aspx");
+                                    }
+                                    else
+                                    {
+                                        printErrori("Credenziali errate");
+                                    }
                                 }
                                 else
                                 {
                                     printErrori("Credenziali errate");
                                 }
                             }
-                            else
+                            catch (Exception ex)
                             {
-                                printErrori("Credenziali errate");
+                                printErrori("Attenzione!!! Errore: " + ex.Message);
                             }
                         }
-                        catch (Exception ex)
-                        {
-                            printErrori("Attenzione!!! Errore: "+ex.Message);
-                        }
-                        
                     }
                     else
                     {
