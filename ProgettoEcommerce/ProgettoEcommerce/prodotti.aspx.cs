@@ -15,17 +15,19 @@ namespace ProgettoEcommerce
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
+            {
                 adoNet.impostaConnessione("App_Data/DBEcommerce.mdf");
-            if (Session["IdUtente"] != null && Session["TipoUtente"] != null)
-            {
-                gestUtenteLoggato();
+                if (Session["IdUtente"] != null && Session["TipoUtente"] != null)
+                {
+                    gestUtenteLoggato();
+                }
+                else
+                {
+                    gestUtenteNonLoggato();
+                }
+                ricercaIniziale();
+                stampaElCategorie();
             }
-            else
-            {
-                gestUtenteNonLoggato();
-            }
-            ricercaIniziale();
-            stampaElCategorie();
         }
 
         private void gestUtenteLoggato()
@@ -69,18 +71,18 @@ namespace ProgettoEcommerce
         private void stampaElProdotti(DataTable elProd)
         {
             string codHtml = String.Empty;
-            double ausPrezzo = 0;
+            string ausPrezzo = String.Empty;
 
             for (int i = 0; i < elProd.Rows.Count; i++)
             {
                 if (elProd.Rows[i].ItemArray[8].ToString() != String.Empty)
-                    ausPrezzo = (Convert.ToDouble(elProd.Rows[i].ItemArray[8].ToString()) * 100) / (Convert.ToDouble(elProd.Rows[i].ItemArray[7].ToString()));
+                    ausPrezzo = string.Format("{0:N2}%", (Convert.ToDouble(elProd.Rows[i].ItemArray[8].ToString()) * 100) / (Convert.ToDouble(elProd.Rows[i].ItemArray[7].ToString())));
                 else
-                    ausPrezzo = Convert.ToDouble(elProd.Rows[i].ItemArray[7].ToString());
+                    ausPrezzo = String.Empty;
                 codHtml += "<div class='col-lg-4 col-md-6'>" +
                     "<div class='single-product'>" +
                     "<div class='product-img'>" +
-                    "<img class='card-img' src='img/product/'" + elProd.Rows[i].ItemArray[4].ToString() + "' alt=''/>" +
+                    "<img class='card-img' src='img/product/" + elProd.Rows[i].ItemArray[4].ToString() + "' alt=''/>" +
                     "<div class='p_icon'>" +
                     "<a href='dettaglioProdotto.aspx?codProd=" + elProd.Rows[i].ItemArray[0].ToString() + "'>" +
                     "<i class='ti-eye'></i>" +
@@ -89,16 +91,17 @@ namespace ProgettoEcommerce
                     "</div>" +
                     "<div class='product-btm'>" +
                     "<a href='dettaglioProdotto.aspx?codProd=" + elProd.Rows[i].ItemArray[0].ToString() + "'>" +
-                    "<h4>"+ elProd.Rows[i].ItemArray[1].ToString() + "</h4>" +
+                    "<h4>" + elProd.Rows[i].ItemArray[1].ToString() + "</h4>" +
                     "</a>" +
-                    "</div>" +
                     "<div class='mt-3'>" +
-                    "<span class='mr-4'>"+ elProd.Rows[i].ItemArray[7].ToString() + "&euro;</span>" +
-                    "<del>"+ string.Format("{0:N2}%", ausPrezzo) + "&euro;</del>" +
+                    "<span class='mr-4'>" + string.Format("{0:N2}", Convert.ToDouble(elProd.Rows[i].ItemArray[7].ToString())) + "&euro;</span>";
+                if (ausPrezzo != String.Empty)
+                    codHtml += "<del>" + ausPrezzo + "&euro;</del>";
+                codHtml += "</div>" +
                     "</div>" +
-                    "</div>"+
-                    "</div>"+
-                    "</div>";     
+                    "</div>" +
+                    "</div>";
+
             }
             contProdotti.InnerHtml = codHtml;
         }
@@ -114,13 +117,16 @@ namespace ProgettoEcommerce
             try
             {
                 tab = ado.eseguiQuery(codSql, CommandType.Text);
-                for (int i = 0; i < tab.Rows.Count; i++)
-                {
-                    codHtml += "<li>" +
-                        "<a href='#'>" + tab.Rows[i].ItemArray[1].ToString() + "</a>" +
-                        "</li>";
-                }
-                elencoCategorieRic.InnerHtml = codHtml;
+                DataRow aus = tab.NewRow();
+                aus[0] = 0;
+                aus[1] = "Tutte";
+                aus[2] = ' ';
+                tab.Rows.InsertAt(aus, 0);
+                elencoCatRic.DataSource = tab;
+                elencoCatRic.DataValueField = "IdCategoria";
+                elencoCatRic.DataTextField = "DescrizioneCategoria";
+                elencoCatRic.SelectedIndex = 0;
+                elencoCatRic.DataBind();
             }
             catch (Exception ex)
             {
@@ -130,6 +136,23 @@ namespace ProgettoEcommerce
 
         protected void btnRicercaProdotto_Click(object sender, EventArgs e)
         {
+            adoNet ado = new adoNet();
+            string codSql = String.Empty;
+
+            codSql = "SELECT * FROM Prodotti WHERE ValProdotto = ' '";
+            if (txtNomeProdRic.Value != String.Empty)
+                codSql += "AND ModelloProdotto LIKE '%" + txtNomeProdRic.Value + "%'";
+            if (elencoCatRic.SelectedIndex > 0)
+                codSql += "AND IdCategoria = " + elencoCatRic.SelectedValue.ToString() + "";
+
+            try
+            {
+                stampaElProdotti(ado.eseguiQuery(codSql, CommandType.Text));
+            }
+            catch (Exception ex)
+            {
+                msgErroreElProd.InnerHtml = "Attenzione!!! Errore: " + ex.Message;
+            }
 
         }
     }

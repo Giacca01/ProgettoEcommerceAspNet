@@ -71,6 +71,9 @@
     <Content Include="App_Data\DBEcommerce_log.ldf" />
     <Content Include="blog.aspx" />
     <Content Include="carrello.aspx" />
+    <Content Include="img\product\AirMax.jpg" />
+    <Content Include="img\product\Beta.jpg" />
+    <Content Include="img\product\HuaweiMateBookD.jpg" />
     <Content Include="js\registrati.js" />
     <Content Include="prodotti.aspx" />
     <Content Include="checkout.aspx" />

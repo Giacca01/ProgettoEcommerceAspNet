@@ -51,28 +51,27 @@
                         <!-- Collect the nav links, forms, and other content for toggling -->
                         <div class="collapse navbar-collapse offset w-100" id="navbarSupportedContent">
                             <div class="row w-100 mr-0">
-                                <div class="col-lg-12 pr-0">
-                                    <ul class="nav navbar-nav center_nav pull-right">
-                                        <li class="nav-item active">
-                                            <a href="prodotti.aspx" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                                aria-expanded="false" runat="server">Elenco Prodotti</a>
-                                            <ul id="navUtenteCarrrello" class="nav navbar-nav navbar-right right_nav pull-right" runat="server">
-                                                <li class='nav-item submenu dropdown'>
-                                                    <a href='#' class='icons dropdown-toggle' data-toggle='dropdown' role="button" aria-haspopup='true'><i class='ti-user' aria-hidden='true'></i></a>
-                                                    <ul id="dropDownLogout" class='dropdown-menu' runat="server">
-                                                        <li class='nav-item'></li>
-                                                    </ul>
-                                                </li>
-                                                <li class='nav-item'>
-                                                    <a href='#' class='icons'><i class='ti-shopping-cart' aria-hidden='true'></i></a>
-                                                </li>
+                                <div class="col-lg-7 pr-0">
+                                <ul class="nav navbar-nav center_nav pull-right">
+                                    <li class="nav-item active">
+                                        <a href="prodotti.aspx" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                            aria-expanded="false" runat="server">Elenco Prodotti</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-5 pr-0">
+                                <ul id="navUtenteCarrrello" class="nav navbar-nav navbar-right right_nav pull-right" runat="server">
+                                        <li class='nav-item submenu dropdown'>
+                                            <a href='#' class='icons dropdown-toggle' data-toggle='dropdown' role="button" aria-haspopup='true'><i class='ti-user' aria-hidden='true'></i></a>
+                                            <ul id="dropDownLogout" class='dropdown-menu' runat="server">
+                                                <li class='nav-item'></li>
                                             </ul>
                                         </li>
+                                        <li class='nav-item'>
+                                            <a href='#' class='icons'><i class='ti-shopping-cart' aria-hidden='true'></i></a>
+                                        </li>
                                     </ul>
-                                </div>
-                                <%--<div class="col-lg-5 pr-0">
-                                <ul id="navUtenteCarrrello" class="nav navbar-nav navbar-right right_nav pull-right" runat="server"></ul>
-                            </div>--%>
+                            </div>
                             </div>
                         </div>
                     </nav>
@@ -106,33 +105,6 @@
                     <div class="col-lg-9">
                         <div class="latest_product_inner">
                             <div id="contProdotti" class="row" runat="server">
-                                <%--<div class="col-lg-4 col-md-6">
-                                    <div class="single-product">
-                                        <div class="product-img">
-                                            <img class="card-img" src="img/product/inspired-product/i1.jpg" alt="" />
-                                            <div class="p_icon">
-                                                <a href="#">
-                                                    <i class="ti-eye"></i>
-                                                </a>
-                                                <a href="#">
-                                                    <i class="ti-heart"></i>
-                                                </a>
-                                                <a href="#">
-                                                    <i class="ti-shopping-cart"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="product-btm">
-                                            <a href="#" class="d-block">
-                                                <h4>Latest men’s sneaker</h4>
-                                            </a>
-                                            <div class="mt-3">
-                                                <span class="mr-4">$25.00</span>
-                                                <del>$35.00</del>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>--%>
                             </div>
                             <div id="msgErroreElProd" class="msg" runat="server"></div>
                         </div>
@@ -150,19 +122,21 @@
                                             <span class="input-group-text" id="basic-addon1"><i class="fa fa-search" aria-hidden="true"></i></span>
                                         </div>
                                         <input type="text" id="txtNomeProdRic" class="form-control" placeholder="Nome Prodotto" aria-label="Nome Prodotto"
-                                            aria-describedby="basic-addon1">
+                                            aria-describedby="basic-addon1" runat="server">
                                     </div>
                                 </div>
                                 <div class="l_w_title">
                                     <h3>Categoria Prodotto</h3>
                                 </div>
                                 <div class="widgets_inner">
-                                    <ul id="elencoCategorieRic" class="list" runat="server">
-                                    </ul>
+                                    <asp:RadioButtonList ID="elencoCatRic" CssClass="list" runat="server">
+                                    </asp:RadioButtonList>
+                                    <%--<ul id="elencoCategorieRic" class="list" runat="server">
+                                    </ul>--%>
                                 </div>
                                 <br />
                                 <div class="widgets_inner">
-                                    <asp:Button ID="btnRicercaProdotto" class="genric-btn primary circle btn-block" runat="server" Text="Prodotto" OnClick="btnRicercaProdotto_Click"/>
+                                    <asp:Button ID="btnRicercaProdotto" class="genric-btn primary circle btn-block" runat="server" Text="Prodotto" OnClick="btnRicercaProdotto_Click" />
                                 </div>
                                 <div id="msgRicProd" class="msg" runat="server"></div>
                             </aside>
@@ -217,7 +191,7 @@
                         <h4>Newsletter</h4>
                         <p>You can trust us. we only send promo offers,</p>
                         <div class="form-wrap" id="mc_embed_signup">
-                            <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
+                            <%--<form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
                                 method="get" class="form-inline">
                                 <input class="form-control" name="EMAIL" placeholder="Your Email Address" onfocus="this.placeholder = ''"
                                     onblur="this.placeholder = 'Your Email Address '" required="" type="email">
@@ -227,7 +201,7 @@
                                 </div>
 
                                 <div class="info"></div>
-                            </form>
+                            </form>--%>
                         </div>
                     </div>
                 </div>

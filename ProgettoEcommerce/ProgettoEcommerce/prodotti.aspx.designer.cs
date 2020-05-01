@@ -58,13 +58,22 @@ namespace ProgettoEcommerce {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl msgErroreElProd;
         
         /// <summary>
-        /// Controllo elencoCategorieRic.
+        /// Controllo txtNomeProdRic.
         /// </summary>
         /// <remarks>
         /// Campo generato automaticamente.
         /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl elencoCategorieRic;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtNomeProdRic;
+        
+        /// <summary>
+        /// Controllo elencoCatRic.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButtonList elencoCatRic;
         
         /// <summary>
         /// Controllo btnRicercaProdotto.
