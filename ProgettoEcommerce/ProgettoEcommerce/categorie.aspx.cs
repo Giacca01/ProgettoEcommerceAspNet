@@ -15,9 +15,7 @@ namespace ProgettoEcommerce
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
-            {
                 adoNet.impostaConnessione("App_Data/DBEcommerce.mdf");
-            }
                 
 
             if (Session["IdUtente"] == null && Session["TipoUtente"] == null)

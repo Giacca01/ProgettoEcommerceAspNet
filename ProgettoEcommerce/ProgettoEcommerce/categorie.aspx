@@ -167,7 +167,7 @@
                         </div>
                         <div class="page_link">
                             <a href="index.aspx">Home</a>
-                            <a id="linkCurrentPage" runat="server">Categorie</a>
+                            <a href="categorie.aspx" runat="server">Categorie</a>
                         </div>
                     </div>
                 </div>
@@ -178,18 +178,27 @@
         <!--================ Sezione Elenco Categorie =================-->
         <section id="sezElencoCategorie" class="cart_area" runat="server">
             <div class="container">
-                <div class="col-sm-12 col-md-8 col-lg-8 col-xs-8 mx-auto table-responsive">
-                    <table id="tabellaElencoCategorie" class="table table-striped table-hover table-bordered" style="text-align: center;">
-                        <thead class="thead-inverse">
-                            <tr id="rigaTabElencoCategorie">
-                                <th>Descrizione</th>
-                                <th>Valido</th>
-                                <th>Azioni</th>
-                                <%--Modifica/Elimina--%>
-                            </tr>
-                        </thead>
-                        <tbody id="corpoTabElencoCategorie" runat="server"></tbody>
-                    </table>
+                <div class="row">
+                    <div class="col-lg-12 mx-auto">
+                        <div class="main_title">
+                            <h2><span>Elenco Categorie</span></h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-8 col-lg-8 col-xs-8 mx-auto table-responsive">
+                        <table id="tabellaElencoCategorie" class="table table-striped table-hover table-bordered" style="text-align: center;">
+                            <thead class="thead-inverse">
+                                <tr id="rigaTabElencoCategorie">
+                                    <th>Descrizione</th>
+                                    <th>Valido</th>
+                                    <th>Azioni</th>
+                                    <%--Modifica/Elimina--%>
+                                </tr>
+                            </thead>
+                            <tbody id="corpoTabElencoCategorie" runat="server"></tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6 col-md-12 col-lg-6 mx-auto">
