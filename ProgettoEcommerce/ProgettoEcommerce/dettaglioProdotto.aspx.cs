@@ -17,16 +17,17 @@ namespace ProgettoEcommerce
             if (!Page.IsPostBack)
             {
                 adoNet.impostaConnessione("App_Data/DBEcommerce.mdf");
-                if (Session["IdUtente"] != null && Session["TipoUtente"] != null)
-                {
-                    gestUtenteLoggato();
-                }
-                else
-                {
-                    gestUtenteNonLoggato();
-                }
-                stampaDettaglioProdotto();
+
             }
+            if (Session["IdUtente"] != null && Session["TipoUtente"] != null)
+            {
+                gestUtenteLoggato();
+            }
+            else
+            {
+                gestUtenteNonLoggato();
+            }
+            stampaDettaglioProdotto();
         }
 
         private void gestUtenteLoggato()
@@ -92,9 +93,12 @@ namespace ProgettoEcommerce
                         codHtml += "<input type='number' name='qtaProdotto' id='qtaProdotto' maxlength='12' value='1' title='Quantit&agrave;:' class='input-text qty' />";
                         codHtml += "</div>";
                         codHtml += "<div class='card_area'>";
-                        codHtml += "<a class='main_btn' href='#'>Aggiungi al carrello</a>";
-                        codHtml += "</div>";
                         contDetProd.InnerHtml = codHtml;
+                        LinkButton btnAddCarrello = new LinkButton();
+                        btnAddCarrello.Text = "Aggiungi al carrello";
+                        btnAddCarrello.CssClass = "main_btn";
+                        btnAddCarrello.Click += BtnAddCarrello_Click;
+                        contDetProd.Controls.Add(btnAddCarrello);
                         descProdotto.InnerText = tab.Rows[0].ItemArray[2].ToString();
                         linkCurrentPage.HRef = "dettaglioProdotto.aspx?codProd=" + tab.Rows[0].ItemArray[0].ToString();
                         contDettaglioProdotto.Visible = true;
@@ -110,12 +114,23 @@ namespace ProgettoEcommerce
                 
             }
             else
-            {
-                contDettaglioProdotto.Visible = false;
-                contMsgNoProd.Visible = true;
                 stampaErroreCreazioneDetProd("Il proddoto richiesto non è disponibile");
-            }
             
+        }
+
+        private void BtnAddCarrello_Click(object sender, EventArgs e)
+        {
+            
+            if (Int32.TryParse(Request.Form["qtaProdotto"], out int qta))
+            {
+                Session["CodProd"] = Request.QueryString["codProd"];
+                Session["Qta"] = Request.Form["qtaProdotto"];
+                Response.Redirect("carrello.aspx");
+            }
+            else
+            {
+                //Stampare errore in boostrap alert
+            }
         }
 
         private void stampaErroreCreazioneDetProd(string msgErrore)

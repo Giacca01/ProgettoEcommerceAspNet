@@ -426,7 +426,7 @@ CREATE TABLE [dbo].[Prodotti] /*Insert Ok*/
 	[ImmagineProdotto]		NVARCHAR (50)	NOT NULL,/*Percorso*/
     [IdCategoria]           INT             NOT NULL,
     [IdFornitore]               INT             NOT NULL,
-    [Prezzo]        DECIMAL(19, 4)  NOT NULL,
+    [Prezzo]        DECIMAL(19, 4)  NOT NULL, /*Da Scontare*/
     [Sconto]        INT  , /*In percentuale*/
     [QtaGiacenza]           INT             NOT NULL,
     [LivRiordino]           INT             NOT NULL,
@@ -453,11 +453,12 @@ CREATE TABLE [dbo].[Carrello] /*Insert Ok*/
 (
     [IdCliente]           INT         NOT NULL,
     [IdProdotto]            INT         NOT NULL,
+    [DataAggiunta]	       DATETIME          NOT  NULL,
     [QtaProd]             INT         NOT NULL, /*Qta di ogni singolo prodotto messo nel carrello*/
-    [PrezzoUnitario]        DECIMAL(19, 4)  NOT NULL,
+    [PrezzoUnitario]        DECIMAL(19, 4)  NOT NULL, /*Prezzo unitario * quantità nel carrello*/
     [Ordinato]        INT  NOT NULL CHECK(Ordinato = 0 OR Ordinato = 1), /*0=>Prodotto NON ancora ordinato 1=>Prodotto già ordinato*/
     [ValCarrello]    CHAR (1)    NOT NULL,
-    PRIMARY KEY CLUSTERED ([IdCliente], [IdProdotto]),
+    PRIMARY KEY CLUSTERED ([IdCliente], [IdProdotto], DataAggiunta),
     CONSTRAINT [FK_Carrello_ToCliente] FOREIGN KEY ([IdCliente]) REFERENCES [Clienti]([IdCliente]),
     CONSTRAINT [FK_Carrello_ToProdotti] FOREIGN KEY ([IdProdotto]) REFERENCES [Prodotti]([IdProdotto]),
 );

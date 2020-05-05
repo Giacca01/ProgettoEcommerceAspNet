@@ -15102,5 +15102,5 @@ INSERT INTO [dbo].[DettaglioOrdini] ([IdOrdine], [IdProdotto], [QtaOrdine], [Pre
 -- *Inserisce Tabella Carrello *
 -- *****************************
 
-INSERT INTO [dbo].[Carrello] ([IdCliente], [IdProdotto], [QtaProd], [PrezzoUnitario], [Ordinato], [ValCarrello]) VALUES (1, 1, 1, 500, 0, ' ');
-INSERT INTO [dbo].[Carrello] ([IdCliente], [IdProdotto], [QtaProd], [PrezzoUnitario], [Ordinato], [ValCarrello]) VALUES (1, 2, 2, 200, 0, ' ');
+INSERT INTO [dbo].[Carrello] ([IdCliente], [IdProdotto], [DataAggiunta], [QtaProd], [PrezzoUnitario], [Ordinato], [ValCarrello]) VALUES (1, 1, '2020/03/12', 1, 500, 0, ' ');
+INSERT INTO [dbo].[Carrello] ([IdCliente], [IdProdotto], [DataAggiunta], [QtaProd], [PrezzoUnitario], [Ordinato], [ValCarrello]) VALUES (1, 2, '2020/03/12', 2, 200, 0, ' ');

@@ -17,7 +17,8 @@
     <link rel="stylesheet" href="css/themify-icons.css" />
     <link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css" />
     <link rel="stylesheet" href="vendors/lightbox/simpleLightbox.css" />
-    <link rel="stylesheet" href="vendors/nice-select/css/nice-select.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.12/dist/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.12/dist/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="vendors/animate-css/animate.css" />
     <link rel="stylesheet" href="vendors/jquery-ui/jquery-ui.css" />
     <!-- main css -->
@@ -26,471 +27,254 @@
 </head>
 
 <body>
-    <!--================Header Menu Area =================-->
-    <header class="header_area">
-        <div class="top_menu">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-7">
-                        <div class="float-left">
-                            <p>Phone: +01 256 25 235</p>
-                            <p>email: info@eiser.com</p>
+    <form id="form1" runat="server">
+        <!--================Header Menu Area =================-->
+        <header class="header_area">
+            <div class="main_menu">
+                <div class="container">
+                    <nav class="navbar navbar-expand-lg navbar-light w-100">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <a class="navbar-brand logo_h" href="index.aspx">
+                            <img src="img/logo.png" alt="" />
+                        </a>
+                        <button
+                            class="navbar-toggler"
+                            type="button"
+                            data-toggle="collapse"
+                            data-target="#navbarSupportedContent"
+                            aria-controls="navbarSupportedContent"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div
+                            class="collapse navbar-collapse offset w-100"
+                            id="navbarSupportedContent">
+                            <div class="row w-100 mr-0">
+                                <div class="col-lg-7 pr-0">
+                                    <ul class="nav navbar-nav center_nav pull-right">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="index.aspx">Home</a>
+                                        </li>
+                                        <li class="nav-item active submenu dropdown">
+                                            <a
+                                                href="#"
+                                                class="fa fa-sign-out"
+                                                data-toggle="dropdown"
+                                                role="button"
+                                                aria-haspopup="true"
+                                                aria-expanded="false">Shop</a>
+                                            <ul class="dropdown-menu">
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="category.html">Shop Category</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="single-product.html">Product Details</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="checkout.html">Product Checkout</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="cart.html">Shopping Cart</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="nav-item submenu dropdown">
+                                            <a
+                                                href="#"
+                                                class="nav-link dropdown-toggle"
+                                                data-toggle="dropdown"
+                                                role="button"
+                                                aria-haspopup="true"
+                                                aria-expanded="false">Blog</a>
+                                            <ul class="dropdown-menu">
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="blog.html">Blog</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="single-blog.html">Blog Details</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="nav-item submenu dropdown">
+                                            <a
+                                                href="#"
+                                                class="nav-link dropdown-toggle"
+                                                data-toggle="dropdown"
+                                                role="button"
+                                                aria-haspopup="true"
+                                                aria-expanded="false">Pages</a>
+                                            <ul class="dropdown-menu">
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="tracking.html">Tracking</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="elements.html">Elements</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="contact.html">Contact</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-lg-5 pr-0">
+                                    <ul class="nav navbar-nav navbar-right right_nav pull-right">
+                                        <li class="nav-item">
+                                            <a href="#" class="icons">
+                                                <i class="ti-search" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a href="#" class="icons">
+                                                <i class="ti-shopping-cart"></i>
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a href="#" class="icons">
+                                                <i class="ti-user" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a href="#" class="icons">
+                                                <i class="ti-heart" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-5">
-                        <div class="float-right">
-                            <ul class="right_side">
-                                <li>
-                                    <a href="cart.html">gift card
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="tracking.html">track order
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="contact.html">Contact Us
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                    </nav>
                 </div>
             </div>
-        </div>
-        <div class="main_menu">
-            <div class="container">
-                <nav class="navbar navbar-expand-lg navbar-light w-100">
-                    <!-- Brand and toggle get grouped for better mobile display -->
-                    <a class="navbar-brand logo_h" href="index.html">
-                        <img src="img/logo.png" alt="" />
-                    </a>
-                    <button
-                        class="navbar-toggler"
-                        type="button"
-                        data-toggle="collapse"
-                        data-target="#navbarSupportedContent"
-                        aria-controls="navbarSupportedContent"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <!-- Collect the nav links, forms, and other content for toggling -->
+        </header>
+        <!--================Header Menu Area =================-->
+
+        <!--================Home Banner Area =================-->
+        <section class="banner_area">
+            <div class="banner_inner d-flex align-items-center">
+                <div class="container">
                     <div
-                        class="collapse navbar-collapse offset w-100"
-                        id="navbarSupportedContent">
-                        <div class="row w-100 mr-0">
-                            <div class="col-lg-7 pr-0">
-                                <ul class="nav navbar-nav center_nav pull-right">
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="index.html">Home</a>
-                                    </li>
-                                    <li class="nav-item active submenu dropdown">
-                                        <a
-                                            href="#"
-                                            class="fa fa-sign-out"
-                                            data-toggle="dropdown"
-                                            role="button"
-                                            aria-haspopup="true"
-                                            aria-expanded="false">Shop</a>
-                                        <ul class="dropdown-menu">
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="category.html">Shop Category</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="single-product.html">Product Details</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="checkout.html">Product Checkout</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="cart.html">Shopping Cart</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="nav-item submenu dropdown">
-                                        <a
-                                            href="#"
-                                            class="nav-link dropdown-toggle"
-                                            data-toggle="dropdown"
-                                            role="button"
-                                            aria-haspopup="true"
-                                            aria-expanded="false">Blog</a>
-                                        <ul class="dropdown-menu">
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="blog.html">Blog</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="single-blog.html">Blog Details</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="nav-item submenu dropdown">
-                                        <a
-                                            href="#"
-                                            class="nav-link dropdown-toggle"
-                                            data-toggle="dropdown"
-                                            role="button"
-                                            aria-haspopup="true"
-                                            aria-expanded="false">Pages</a>
-                                        <ul class="dropdown-menu">
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="tracking.html">Tracking</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="elements.html">Elements</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="contact.html">Contact</a>
-                                    </li>
-                                </ul>
-                            </div>
+                        class="banner_content d-md-flex justify-content-between align-items-center">
+                        <div class="mb-3 mb-md-0">
+                            <h2>Carrello</h2>
+                        </div>
+                        <div class="page_link">
+                            <a href="index.aspx">Home</a>
+                            <a id="linkCurrentPage" runat="server">Carrello</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--================End Home Banner Area =================-->
 
-                            <div class="col-lg-5 pr-0">
-                                <ul class="nav navbar-nav navbar-right right_nav pull-right">
-                                    <li class="nav-item">
-                                        <a href="#" class="icons">
-                                            <i class="ti-search" aria-hidden="true"></i>
-                                        </a>
-                                    </li>
+        <div id="contMsgNoProd" runat="server">
+            <section class="product_image_area">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-6 col-md-6 mx-auto">
+                            <h2 id="contMsgErroreElencoProdCarrello" runat="server"></h2>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <br />
+            <br />
+        </div>
 
-                                    <li class="nav-item">
-                                        <a href="#" class="icons">
-                                            <i class="ti-shopping-cart"></i>
-                                        </a>
-                                    </li>
+        <!--================Cart Area =================-->
+        <section id="sezElencoProdCarrello" class="cart_area" runat="server">
+            <div class="container">
+                <div class="cart_inner">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Prodotto</th>
+                                    <th scope="col">Prezzo</th>
+                                    <th scope="col">Quantit&agrave;</th>
+                                    <th scope="col">Totale</th>
+                                    <th scope="col">Elimina</th>
+                                </tr>
+                            </thead>
+                            <tbody id="corpoTabCarrello" runat="server">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-sm-12 col-md-6 col-lg-6 mx-auto" style="text-align: center">
+                        <select id="lstCartePagamento" title="Carta di credito" runat="server" class="single-input" required></select>
+                        <a id="btnAddCarta" class="genric-btn link" href="modificaProfilo.aspx" runat="server">Aggiungi una carta di credito</a>
+                        <div id="msgErrCartaCredito" class="msg" runat="server"></div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col col-sm-12 col-md-6 col-lg-6 mx-auto" style="text-align: center">
+                        <a class="genric-btn success circle" href="prodotti.aspx">Torna ai prodotti</a>
+                        <a id="btnGestOrdine" class="genric-btn primary circle" runat="server">Effettua Ordine</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--================End Cart Area =================-->
 
-                                    <li class="nav-item">
-                                        <a href="#" class="icons">
-                                            <i class="ti-user" aria-hidden="true"></i>
-                                        </a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a href="#" class="icons">
-                                            <i class="ti-heart" aria-hidden="true"></i>
-                                        </a>
-                                    </li>
-                                </ul>
+        <!-- Modal Conferma Ordine-->
+        <div class="modal fade" id="modalConfermaOrdine" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+            aria-hidden="true" style="margin-top: 10%;">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Conferma Ordine</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <p id="msgConfermaOrdine" style="text-align: center;" runat="server"></p>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 col-md-12 col-lg-6 mx-auto">
+                                <div id="msgErroreConfermaOrdine" role="alert" style="text-align: center;"></div>
                             </div>
                         </div>
                     </div>
-                </nav>
-            </div>
-        </div>
-    </header>
-    <!--================Header Menu Area =================-->
-
-    <!--================Home Banner Area =================-->
-    <section class="banner_area">
-        <div class="banner_inner d-flex align-items-center">
-            <div class="container">
-                <div
-                    class="banner_content d-md-flex justify-content-between align-items-center">
-                    <div class="mb-3 mb-md-0">
-                        <h2>Cart</h2>
-                        <p>Very us move be blessed multiply night</p>
-                    </div>
-                    <div class="page_link">
-                        <a href="index.html">Home</a>
-                        <a href="cart.html">Cart</a>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Annulla</button>
+                        <asp:LinkButton ID="btnConfermaOrdine" CssClass="btn btn-success" Text="Conferma" runat="server" OnClick="btnConfermaOrdine_Click">
+                        </asp:LinkButton>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-    <!--================End Home Banner Area =================-->
+        <!-- Fine Modal Conferma Ordine-->
 
-    <!--================Cart Area =================-->
-    <section class="cart_area">
-        <div class="container">
-            <div class="cart_inner">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Product</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="media">
-                                        <div class="d-flex">
-                                            <img
-                                                src="img/product/single-product/cart-1.jpg"
-                                                alt="" />
-                                        </div>
-                                        <div class="media-body">
-                                            <p>Minimalistic shop for multipurpose use</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <h5>$360.00</h5>
-                                </td>
-                                <td>
-                                    <div class="product_count">
-                                        <input
-                                            type="text"
-                                            name="qty"
-                                            id="sst"
-                                            maxlength="12"
-                                            value="1"
-                                            title="Quantity:"
-                                            class="input-text qty" />
-                                        <button
-                                            onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-                                            class="increase items-count"
-                                            type="button">
-                                            <i class="lnr lnr-chevron-up"></i>
-                                        </button>
-                                        <button
-                                            onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-                                            class="reduced items-count"
-                                            type="button">
-                                            <i class="lnr lnr-chevron-down"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                                <td>
-                                    <h5>$720.00</h5>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="media">
-                                        <div class="d-flex">
-                                            <img
-                                                src="img/product/single-product/cart-1.jpg"
-                                                alt="" />
-                                        </div>
-                                        <div class="media-body">
-                                            <p>Minimalistic shop for multipurpose use</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <h5>$360.00</h5>
-                                </td>
-                                <td>
-                                    <div class="product_count">
-                                        <input
-                                            type="text"
-                                            name="qty"
-                                            id="sst"
-                                            maxlength="12"
-                                            value="1"
-                                            title="Quantity:"
-                                            class="input-text qty" />
-                                        <button
-                                            onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-                                            class="increase items-count"
-                                            type="button">
-                                            <i class="lnr lnr-chevron-up"></i>
-                                        </button>
-                                        <button
-                                            onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-                                            class="reduced items-count"
-                                            type="button">
-                                            <i class="lnr lnr-chevron-down"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                                <td>
-                                    <h5>$720.00</h5>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="media">
-                                        <div class="d-flex">
-                                            <img
-                                                src="img/product/single-product/cart-1.jpg"
-                                                alt="" />
-                                        </div>
-                                        <div class="media-body">
-                                            <p>Minimalistic shop for multipurpose use</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <h5>$360.00</h5>
-                                </td>
-                                <td>
-                                    <div class="product_count">
-                                        <input
-                                            type="text"
-                                            name="qty"
-                                            id="sst"
-                                            maxlength="12"
-                                            value="1"
-                                            title="Quantity:"
-                                            class="input-text qty" />
-                                        <button
-                                            onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-                                            class="increase items-count"
-                                            type="button">
-                                            <i class="lnr lnr-chevron-up"></i>
-                                        </button>
-                                        <button
-                                            onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-                                            class="reduced items-count"
-                                            type="button">
-                                            <i class="lnr lnr-chevron-down"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                                <td>
-                                    <h5>$720.00</h5>
-                                </td>
-                            </tr>
-                            <tr class="bottom_button">
-                                <td>
-                                    <a class="gray_btn" href="#">Update Cart</a>
-                                </td>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                    <div class="cupon_text">
-                                        <input type="text" placeholder="Coupon Code" />
-                                        <a class="main_btn" href="#">Apply</a>
-                                        <a class="gray_btn" href="#">Close Coupon</a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                    <h5>Subtotal</h5>
-                                </td>
-                                <td>
-                                    <h5>$2160.00</h5>
-                                </td>
-                            </tr>
-                            <tr class="shipping_area">
-                                <td></td>
-                                <td></td>
-                                <td>
-                                    <h5>Shipping</h5>
-                                </td>
-                                <td>
-                                    <div class="shipping_box">
-                                        <ul class="list">
-                                            <li>
-                                                <a href="#">Flat Rate: $5.00</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Free Shipping</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Flat Rate: $10.00</a>
-                                            </li>
-                                            <li class="active">
-                                                <a href="#">Local Delivery: $2.00</a>
-                                            </li>
-                                        </ul>
-                                        <h6>Calculate Shipping
-                        <i class="fa fa-caret-down" aria-hidden="true"></i>
-                                        </h6>
-                                        <select class="shipping_select">
-                                            <option value="1">Bangladesh</option>
-                                            <option value="2">India</option>
-                                            <option value="4">Pakistan</option>
-                                        </select>
-                                        <select class="shipping_select">
-                                            <option value="1">Select a State</option>
-                                            <option value="2">Select a State</option>
-                                            <option value="4">Select a State</option>
-                                        </select>
-                                        <input type="text" placeholder="Postcode/Zipcode" />
-                                        <a class="gray_btn" href="#">Update Details</a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="out_button_area">
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                    <div class="checkout_btn_inner">
-                                        <a class="gray_btn" href="#">Continue Shopping</a>
-                                        <a class="main_btn" href="#">Proceed to checkout</a>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--================End Cart Area =================-->
-
-    <!--================ start footer Area  =================-->
+        <!--================ start footer Area  =================-->
     <footer class="footer-area section_gap">
         <div class="container">
             <div class="row">
-                <div class="col-lg-2 col-md-6 single-footer-widget">
-                    <h4>Top Products</h4>
-                    <ul>
-                        <li><a href="#">Managed Website</a></li>
-                        <li><a href="#">Manage Reputation</a></li>
-                        <li><a href="#">Power Tools</a></li>
-                        <li><a href="#">Marketing Service</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-2 col-md-6 single-footer-widget">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="#">Jobs</a></li>
-                        <li><a href="#">Brand Assets</a></li>
-                        <li><a href="#">Investor Relations</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-2 col-md-6 single-footer-widget">
-                    <h4>Features</h4>
-                    <ul>
-                        <li><a href="#">Jobs</a></li>
-                        <li><a href="#">Brand Assets</a></li>
-                        <li><a href="#">Investor Relations</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-2 col-md-6 single-footer-widget">
-                    <h4>Resources</h4>
-                    <ul>
-                        <li><a href="#">Guides</a></li>
-                        <li><a href="#">Research</a></li>
-                        <li><a href="#">Experts</a></li>
-                        <li><a href="#">Agencies</a></li>
-                    </ul>
-                </div>
                 <div class="col-lg-4 col-md-6 single-footer-widget">
-                    <h4>Newsletter</h4>
-                    <p>You can trust us. we only send promo offers,</p>
-                    <div class="form-wrap" id="mc_embed_signup">
-                        <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
-                            method="get" class="form-inline">
-                            <input class="form-control" name="EMAIL" placeholder="Your Email Address" onfocus="this.placeholder = ''"
-                                onblur="this.placeholder = 'Your Email Address '" required="" type="email">
-                            <button class="click-btn btn btn-default">Subscribe</button>
-                            <div style="position: absolute; left: -5000px;">
-                                <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
-                            </div>
-
-                            <div class="info"></div>
-                        </form>
-                    </div>
+                    <h4>Giacardi's Store</h4>
+                    <p>Un negozio all'avanguardia per tutte le tue esigenze</p>
+                </div>
+                <div class="col-lg-4 col-md-6 single-footer-widget"></div>
+                <div class="col-lg-4 col-md-6 single-footer-widget">
+                    <h4>Contatti</h4>
+                    <ul>
+                        <li>+3984190593</li>
+                        <li>Via Genova, 105 Palermo</li>
+                        <li>info@giacardistore.com</li>
+                    </ul>
                 </div>
             </div>
             <div class="footer-bottom row align-items-center">
@@ -510,6 +294,8 @@
         </div>
     </footer>
     <!--================ End footer Area  =================-->
+    </form>
+
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -518,7 +304,7 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/stellar.js"></script>
     <script src="vendors/lightbox/simpleLightbox.min.js"></script>
-    <script src="vendors/nice-select/js/jquery.nice-select.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.12/dist/js/bootstrap-select.min.js"></script>
     <script src="vendors/isotope/imagesloaded.pkgd.min.js"></script>
     <script src="vendors/isotope/isotope-min.js"></script>
     <script src="vendors/owl-carousel/owl.carousel.min.js"></script>
@@ -528,6 +314,7 @@
     <script src="vendors/counter-up/jquery.waypoints.min.js"></script>
     <script src="vendors/counter-up/jquery.counterup.js"></script>
     <script src="js/theme.js"></script>
+    <script src="js/carrello.js"></script>
 </body>
 </html>
 

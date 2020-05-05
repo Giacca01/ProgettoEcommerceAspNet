@@ -72,7 +72,7 @@ namespace adoNetWebSQlServer //Se non metto il namespace della soluzione devo in
             cmd.CommandText = sql;
             cmd.CommandType = tipo;
             if (daTable.IsInitialized) daTable.Clear();
-            // apriConnessione()
+            //apriConnessione()
             adp.Fill(daTable);
             // chiudiConnessione()
             this.cmd.Parameters.Clear();
@@ -127,6 +127,31 @@ namespace adoNetWebSQlServer //Se non metto il namespace della soluzione devo in
             if (adp != null) adp.Dispose();
             if (cmd != null) cmd.Dispose();
             if (cn != null) cn.Dispose();
+        }
+
+        public void transazioneOrdine(string sqlQuery1, string sqlQuery2, string sqlQuery3, CommandType tipo)
+        {
+            SqlTransaction transazione = null;
+            try
+            {
+                apriConnessione();
+                transazione = cn.BeginTransaction();
+                cmd.CommandText = sqlQuery1;
+                cmd.CommandType = tipo;
+                cmd.Transaction = transazione;
+                cmd.ExecuteNonQuery();
+                cmd.CommandText = sqlQuery2;
+                cmd.ExecuteNonQuery();
+                cmd.CommandText = sqlQuery3;
+                cmd.ExecuteNonQuery();
+                transazione.Commit();
+            }
+            catch (Exception ex)
+            {
+                transazione.Rollback();
+                throw new Exception("Ordine fallito");
+            }
+            
         }
     }
 }
