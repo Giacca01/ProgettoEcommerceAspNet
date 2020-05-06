@@ -110,7 +110,7 @@
                                     <div class="icon">
                                         <i class="fa fa-calendar" aria-hidden="true"></i>
                                     </div>
-                                    <input type="date" id="dataNascitaReg" name="dataNascitaReg" placeholder="Cognome" onfocus="this.placeholder = ''; this.classList.remove('alert-danger');" onblur="this.placeholder = 'Data Nascita'" aria-describedby="descDataNascitaReg" required class="single-input" runat="server">
+                                    <input type="date" id="dataNascitaReg" name="dataNascitaReg" placeholder="Data Nascita" onfocus="this.placeholder = ''; this.classList.remove('alert-danger');" onblur="this.placeholder = 'Data Nascita'" aria-describedby="descDataNascitaReg" required class="single-input" runat="server">
                                     <small id="descDataNascitaReg" class="form-text text-muted">Devi avere almeno 18 anni per iscriverti
                                     </small>
                                 </div>

@@ -134,6 +134,7 @@ namespace adoNetWebSQlServer //Se non metto il namespace della soluzione devo in
             SqlTransaction transazione = null;
             try
             {
+                //Decrementare anche i prodotti
                 apriConnessione();
                 transazione = cn.BeginTransaction();
                 cmd.CommandText = sqlQuery1;

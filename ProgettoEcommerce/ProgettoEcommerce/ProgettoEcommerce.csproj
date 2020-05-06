@@ -80,7 +80,9 @@
     <Content Include="img\product\Beta.jpg" />
     <Content Include="img\product\HuaweiMateBookD.jpg" />
     <Content Include="js\carrello.js" />
+    <Content Include="js\modificaProfilo.js" />
     <Content Include="js\registrati.js" />
+    <Content Include="modificaProfilo.aspx" />
     <Content Include="prodotti.aspx" />
     <Content Include="checkout.aspx" />
     <Content Include="contact.aspx" />
@@ -269,6 +271,13 @@
     </Compile>
     <Compile Include="gestioneUtenti.aspx.designer.cs">
       <DependentUpon>gestioneUtenti.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modificaProfilo.aspx.cs">
+      <DependentUpon>modificaProfilo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modificaProfilo.aspx.designer.cs">
+      <DependentUpon>modificaProfilo.aspx</DependentUpon>
     </Compile>
     <Compile Include="prodotti.aspx.cs">
       <DependentUpon>prodotti.aspx</DependentUpon>
