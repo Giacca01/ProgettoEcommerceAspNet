@@ -14921,20 +14921,6 @@ INSERT INTO [dbo].[TipiCarte] ([IdTipoCarte], [DescTipoCarte], [ValTipoCarte]) V
 SET IDENTITY_INSERT [dbo].[TipiCarte] OFF;
 GO
 
--- ******************************
--- *Inserisce Tabella Carte *
--- ******************************
-SET IDENTITY_INSERT [dbo].[Carte] ON;
-GO
-
-INSERT INTO [dbo].[Carte] ([IdCarta], [CodiceCarta], [IdTipoCarta], [ValCarta]) VALUES (1, '4916700760976019', 1, ' ');
-INSERT INTO [dbo].[Carte] ([IdCarta], [CodiceCarta], [IdTipoCarta], [ValCarta]) VALUES (2, '4485596450363968', 2, ' ');
-INSERT INTO [dbo].[Carte] ([IdCarta], [CodiceCarta], [IdTipoCarta], [ValCarta]) VALUES (3, '4539611785320488', 3, ' ');
-
-
-SET IDENTITY_INSERT [dbo].[Carte] OFF;
-GO
-
 -- ****************************
 -- *Inserisce Tabella Clienti *
 -- ****************************
@@ -15000,12 +14986,18 @@ SET IDENTITY_INSERT [dbo].[AdminPwdPlainText] OFF;
 GO
 
 -- ******************************
--- *Inserisce Tabella PagaCon *
+-- *Inserisce Tabella Carte *
 -- ******************************
+SET IDENTITY_INSERT [dbo].[Carte] ON;
+GO
 
-INSERT INTO [dbo].[PagaCon] ([IdCliente], [IdCarta], [ValPagaCon]) VALUES (1, 1, ' ');
-INSERT INTO [dbo].[PagaCon] ([IdCliente], [IdCarta], [ValPagaCon]) VALUES (2, 2, ' ');
-INSERT INTO [dbo].[PagaCon] ([IdCliente], [IdCarta], [ValPagaCon]) VALUES (3, 3, ' ');
+INSERT INTO [dbo].[Carte] ([IdCarta], [CodiceCarta], [IdTipoCarta], [IdCliente], [ValCarta]) VALUES (1, '4916700760976019', 1, 1, ' ');
+INSERT INTO [dbo].[Carte] ([IdCarta], [CodiceCarta], [IdTipoCarta], [IdCliente], [ValCarta]) VALUES (2, '4485596450363968', 2, 2, ' ');
+INSERT INTO [dbo].[Carte] ([IdCarta], [CodiceCarta], [IdTipoCarta], [IdCliente], [ValCarta]) VALUES (3, '4539611785320488', 3, 3, ' ');
+
+
+SET IDENTITY_INSERT [dbo].[Carte] OFF;
+GO
 
 
 -- ******************************

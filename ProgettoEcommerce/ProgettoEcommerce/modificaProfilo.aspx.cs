@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-//Using Specifiche
+﻿//Using Specifiche
 using adoNetWebSQlServer;
+using System;
 using System.Data;
-using System.Web.UI.HtmlControls;
 using System.Text.RegularExpressions;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
 
 namespace ProgettoEcommerce
 {
@@ -26,8 +23,18 @@ namespace ProgettoEcommerce
                     Page.ClientScript.RegisterStartupScript(GetType(), "impostaLista", "impostaLista();", true);
                     stampaFormModifica();
                     caricaComboCitta();
+                    if (Session["TipoUtente"].ToString() == "Cliente")
+                        caricaTipiCarte();
+                    else
+                    {
+                        sezElencoCarte.Visible = false;
+                        sezInsCarta.Visible = false;
+                    }
                 }
+
             }
+
+            caricaCarteDiCredito();
 
             Page.ClientScript.RegisterStartupScript(GetType(), "impostaLista", "impostaLista();", true);
 
@@ -117,6 +124,117 @@ namespace ProgettoEcommerce
             {
                 stampaErrori(msgModificaProfilo, "Errore: " + ex.Message);
             }
+        }
+
+        private void caricaTipiCarte()
+        {
+            adoNet ado = new adoNet();
+            string codSql = String.Empty;
+            DataTable tab = new DataTable();
+
+            try
+            {
+                codSql = "SELECT * FROM TipiCarte WHERE ValTipoCarte = ' '";
+                tab = ado.eseguiQuery(codSql, CommandType.Text);
+                lstTipoCarta.DataSource = tab;
+                lstTipoCarta.DataTextField = "DescTipoCarte";
+                lstTipoCarta.DataValueField = "IdTipoCarte";
+                lstTipoCarta.DataBind();
+            }
+            catch (Exception ex)
+            {
+                stampaErrori(msgModificaProfilo, "Attenzione!!! Errore: " + ex.Message);
+            }
+        }
+
+        private void caricaCarteDiCredito()
+        {
+            adoNet ado = new adoNet();
+            string codSql = String.Empty;
+            DataTable tab = new DataTable();
+            TableRow riga;
+            TableCell cella;
+            LinkButton btnGestioneCarta;
+            CheckBox chkVal;
+
+            sezElencoCarte.Visible = true;
+            sezInsCarta.Visible = true;
+            codSql = "SELECT C.*, T.* FROM Carte AS C " +
+                "INNER JOIN TipiCarte AS T " +
+                "ON C.IdTipoCarta = T.IdTipoCarte " +
+                "WHERE IdCliente = " + Session["IdUtente"].ToString();
+            tab = ado.eseguiQuery(codSql, CommandType.Text);
+            for (int i = 0; i < tab.Rows.Count; i++)
+            {
+                riga = new TableRow();
+
+                cella = new TableCell();
+                cella.Text = tab.Rows[i].ItemArray[6].ToString();
+                riga.Cells.Add(cella);
+
+                cella = new TableCell();
+                cella.Text = tab.Rows[i].ItemArray[1].ToString();
+                riga.Cells.Add(cella);
+
+                cella = new TableCell();
+                chkVal = new CheckBox();
+                if (tab.Rows[i].ItemArray[4].ToString() == "A")
+                    chkVal.Checked = false;
+                else
+                    chkVal.Checked = true;
+                chkVal.Enabled = false;
+                cella.Controls.Add(chkVal);
+                riga.Cells.Add(cella);
+
+                cella = new TableCell();
+                btnGestioneCarta = new LinkButton();
+                btnGestioneCarta.Attributes.Add("data-codCarta", tab.Rows[i].ItemArray[0].ToString());
+                if (tab.Rows[i].ItemArray[4].ToString() == "A")
+                {
+                    btnGestioneCarta.Text = "<i class='fa fa-edit'></i> Ripristina";
+                    btnGestioneCarta.CssClass = "btn btn-success circle";
+                    btnGestioneCarta.Attributes.Add("data-tipoOp", "0"); //Ripristina
+                }
+                else
+                {
+                    btnGestioneCarta.Text = "<i class='fa fa-trash'></i> Elimina";
+                    btnGestioneCarta.CssClass = "btn btn-danger circle";
+                    btnGestioneCarta.Attributes.Add("data-tipoOp", "1");//Elimina
+                }
+                btnGestioneCarta.Click += BtnGestioneCarta_Click;
+                cella.Controls.Add(btnGestioneCarta);
+                riga.Cells.Add(cella);
+
+                corpoTabElencoCarte.Controls.Add(riga);
+            }
+        }
+
+        private void BtnGestioneCarta_Click(object sender, EventArgs e)
+        {
+            LinkButton btnSender = sender as LinkButton;
+            adoNet ado = new adoNet();
+            string codSql = String.Empty;
+            string codCat = btnSender.Attributes["data-codCarta"];
+            string tipoOp = btnSender.Attributes["data-tipoOp"];
+
+            if (Int32.TryParse(codCat, out int cdCat) && tipoOp != String.Empty)
+            {
+                if (tipoOp == "1")
+                    codSql = "UPDATE Carte SET ValCarta = 'A' WHERE IdCarta = " + cdCat;
+                else if(tipoOp == "0")
+                    codSql = "UPDATE Carte SET ValCarta = ' ' WHERE IdCarta = " + cdCat;
+                try
+                {
+                    ado.eseguiNonQuery(codSql, CommandType.Text);
+                    Response.Redirect(Request.RawUrl);
+                }
+                catch (Exception ex)
+                {
+                    stampaErrori(msgElencoCarte, "Errore: " + ex.Message);
+                }
+            }
+            else
+                stampaErrori(msgElencoCarte, "Dati mancanti. Ricaricare la pagina");
         }
 
         private void stampaErrori(HtmlGenericControl contMsg, string msgErrore)
@@ -274,6 +392,43 @@ namespace ProgettoEcommerce
             {
                 return false;
             }
+        }
+
+        protected void btnInsCarta_Click(object sender, EventArgs e)
+        {
+            adoNet ado = new adoNet();
+            string codSql = String.Empty;
+            DataTable tab = new DataTable();
+            Regex regCodCarta = new Regex(@"^[0-9]*$");
+
+            if (codiceInsCarta.Value.Length >= 13 && codiceInsCarta.Value.Length <= 16)
+            {
+                if (regCodCarta.IsMatch(codiceInsCarta.Value))
+                {
+                    if (lstTipoCarta.SelectedIndex != -1)
+                    {
+                        codSql = "SELECT COUNT(*) AS NCarte FROM Carte WHERE CodiceCarta = '" + codiceInsCarta.Value.ToString() + "' AND IdTipoCarta = " + lstTipoCarta.Value.ToString() + " AND IdCliente = " + Session["IdUtente"].ToString();
+                        if (Convert.ToInt32(ado.eseguiScalar(codSql, CommandType.Text)) == 0)
+                        {
+                            codSql = "INSERT INTO Carte " +
+                                "VALUES (" + codiceInsCarta.Value.ToString() + ", "+ lstTipoCarta.Value.ToString() + ", "+ Session["IdUtente"].ToString() + ", ' ')";
+                            ado.eseguiNonQuery(codSql, CommandType.Text);
+                            codiceInsCarta.Value = String.Empty;
+                            lstTipoCarta.SelectedIndex = -1;
+                            msgInsCarta.Visible = false;
+                            Response.Redirect(Request.RawUrl);
+                        }
+                        else
+                            stampaErrori(msgInsCarta, "Dati carta non validi");
+                    }
+                    else
+                        stampaErrori(msgInsCarta, "Inserire il Tipo Carta");
+                }
+                else
+                    stampaErrori(msgInsCarta, "Il Codice Carta deve essere numerico");
+            }
+            else
+                stampaErrori(msgInsCarta, "Il Codice Carta deve essere compreso tra 13 e 16 cifre");
         }
     }
 }

@@ -111,17 +111,6 @@ IF EXISTS (
     DROP TABLE dbo.Ordini
 GO
 
--- Drop the table 'PagaCon' in schema 'dbo'
-IF EXISTS (
-    SELECT *
-        FROM sys.tables
-        JOIN sys.schemas
-            ON sys.tables.schema_id = sys.schemas.schema_id
-    WHERE sys.schemas.name = N'dbo'
-        AND sys.tables.name = N'PagaCon'
-)
-    DROP TABLE dbo.PagaCon
-GO
 
 -- Drop the table 'Admin' in schema 'dbo'
 IF EXISTS (
@@ -285,10 +274,12 @@ CREATE TABLE [dbo].[Carte] /*Insert Ok*/
 	[IdCarta] INT IDENTITY (1, 1) NOT NULL,
 	[CodiceCarta] NVARCHAR(32) NOT NULL ,
 	[IdTipoCarta] INT NOT NULL,
+	[IdCliente] INT NOT NULL,
 	[ValCarta] CHAR(1) NOT NULL,
 	PRIMARY KEY ([IdCarta]),
     CONSTRAINT [FK_UC_CodiceCarta] UNIQUE ([CodiceCarta]),
-    CONSTRAINT [FK_Carte_ToTipiCarte] FOREIGN KEY ([IdTipoCarta]) REFERENCES [dbo].[TipiCarte] ([IdTipoCarte])
+    CONSTRAINT [FK_Carte_ToTipiCarte] FOREIGN KEY ([IdTipoCarta]) REFERENCES [dbo].[TipiCarte] ([IdTipoCarte]),
+    CONSTRAINT [FK_Carte_ToClienti] FOREIGN KEY ([IdCliente]) REFERENCES [dbo].[Clienti] ([IdCliente])
 );
 
 GO
@@ -353,17 +344,6 @@ CREATE TABLE [dbo].[AdminPwdPlainText] /*Insert Ok*/
 
 GO
 
-CREATE TABLE [dbo].[PagaCon] /*Insert Ok*/
-(
-	[IdCliente] INT NOT NULL,
-	[IdCarta] INT NOT NULL,
-	[ValPagaCon] CHAR(1) NOT NULL,
-	PRIMARY KEY ([IdCliente], [IdCarta]),
-    CONSTRAINT [FK_PagaCon_ToClienti] FOREIGN KEY ([IdCliente]) REFERENCES [dbo].[Clienti] ([IdCliente]),
-    CONSTRAINT [FK_PagaCon_ToCarte] FOREIGN KEY ([IdCarta]) REFERENCES [dbo].[Carte] ([IdCarta])
-);
-
-GO
 
 CREATE TABLE [dbo].[Ordini] /*Insert Ok*/
 (

@@ -116,8 +116,6 @@ namespace ProgettoEcommerce
             }
             else
                 stampaErroriElencoCat("Codice categoria non valido");
-
-            
         }
 
         private void BtnModifica_Click(object sender, EventArgs e)

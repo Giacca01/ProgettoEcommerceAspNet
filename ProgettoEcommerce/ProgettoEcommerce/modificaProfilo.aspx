@@ -40,8 +40,9 @@
     <script src="js/mail-script.js"></script>
 
     <script type="text/javascript">
-        function impostaLista() {
+        function impostaLista(codLista) {
             $('#lstCittaModProfilo').selectpicker('refresh');
+            $('#lstTipoCarta').selectpicker('refresh');
         }
 
         function refreshListaCitta(indice) {
@@ -200,7 +201,7 @@
         </section>
         <!--================End Home Banner Area =================-->
 
-        <!--================ Sezione Grafici Vendite =================-->
+        <!--================ Sezione Modifica Profilo =================-->
         <section id="sezModificaProfilo" class="cart_area" runat="server">
             <div class="container">
                 <div class="row">
@@ -286,6 +287,89 @@
                 </div>
             </div>
         </section>
+        <!--================ Fine Sezione Modifica Profilo =================-->
+
+        <!--================ Sezione Elenco Carte di Credito =================-->
+        <section id="sezElencoCarte" class="cart_area" runat="server">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 mx-auto">
+                        <div class="main_title">
+                            <h2><span>Elenco Carte di Credito</span></h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-8 col-lg-8 col-xs-8 mx-auto table-responsive">
+                        <table id="tabellaElencoCarte" class="table table-striped table-hover table-bordered" style="text-align: center;">
+                            <thead class="thead-inverse">
+                                <tr id="rigaTabElencoCarte">
+                                    <th>Tipo Carta</th>
+                                    <th>Codice Carta</th>
+                                    <th>Valida</th>
+                                    <th>Azioni</th><%--Modifica/Elimina--%>
+                                </tr>
+                            </thead>
+                            <tbody id="corpoTabElencoCarte" runat="server"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-12 col-lg-6 mx-auto">
+                        <div id="msgElencoCarte" role="alert" style="text-align: center;" runat="server"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--================ Fine Sezione Elenco Carte di Credito =================-->
+
+        <!--================ Sezione Inserimento Carte di Credito =================-->
+        <section id="sezInsCarta" class="cart_area" runat="server">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 mx-auto">
+                        <div class="main_title">
+                            <h2><span>Inserimento Carte di Credito</span></h2>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4 col-lg-4 mx-auto">
+                        <div class="input-group-icon mt-10">
+                            <div class="icon">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                            </div>
+                            <input type="text" id="codiceInsCarta" name="codiceInsCarta" placeholder="Codice"
+                                onfocus="this.placeholder = ''; this.classList.remove('alert-danger');" onblur="this.placeholder = 'Codice'"
+                                class="single-input" runat="server" required="required" aria-describedby="descCodiceInsCarta"/>
+                            <small id="descCodiceInsCarta" class="form-text text-muted">Il Codice Carta deve essere compreso tra 13 e 16 cifre</small>
+                        </div>
+                        <div class="input-group-icon mt-10">
+                            <div class="icon">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                            </div>
+                            <div>
+                                <select id="lstTipoCarta" title="Tipo Carta" runat="server" class="single-input" required="required" >
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-sm-12 col-md-4 col-lg-4 mx-auto">
+                        <div id="msgInsCarta" role="alert" style="text-align: center;" runat="server"></div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-sm-12 col-md-4 col-lg-4 mx-auto">
+                        <div class="form-group">
+                            <asp:LinkButton ID="btnInsCarta" CssClass="genric-btn primary circle btn-block" runat="server" OnClick="btnInsCarta_Click"><i class="fa fa-plus" aria-hidden="true"></i> Aggiungi</asp:LinkButton>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--================ Fine Sezione Inserimento Carte di Credito =================-->
 
         <!--================ start footer Area  =================-->
         <footer class="footer-area section_gap">
