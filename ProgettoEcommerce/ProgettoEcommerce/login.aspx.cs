@@ -20,6 +20,7 @@ namespace ProgettoEcommerce
                 Response.Redirect("prodotti.aspx");
             }
 
+            //Se sbagli le credenziali non funge
             if (!Page.IsPostBack)
             {
                 adoNet.impostaConnessione("App_Data/DBEcommerce.mdf");

@@ -106,53 +106,33 @@ namespace ProgettoEcommerce
                                                             if (lstCittaReg.SelectedIndex != -1)
                                                             {
                                                                 if (lstTipoUtenteReg.SelectedValue == "fornitore")
-                                                                {
                                                                     codSql = "SELECT * FROM Fornitori WHERE Telefono = '" + telReg.Value + "'";
-                                                                }
                                                                 else if (lstTipoUtenteReg.SelectedValue == "cliente")
-                                                                {
                                                                     codSql = "SELECT * FROM Clienti WHERE TelefonoCliente = '" + telReg.Value + "'";
-                                                                }
                                                                 else
-                                                                {
                                                                     codSql = "SELECT * FROM Admin WHERE TelefonoAdmin = '" + telReg.Value + "'";
-
-                                                                }
 
                                                                 tab = ado.eseguiQuery(codSql, CommandType.Text);
 
                                                                 if (tab.Rows.Count == 0)
                                                                 {
                                                                     if (lstTipoUtenteReg.SelectedValue == "fornitore")
-                                                                    {
                                                                         codSql = "SELECT * FROM Fornitori WHERE Email = '" + mailReg.Value + "'";
-                                                                    }
                                                                     else if (lstTipoUtenteReg.SelectedValue == "cliente")
-                                                                    {
                                                                         codSql = "SELECT * FROM Clienti WHERE MailCliente = '" + mailReg.Value + "'";
-                                                                    }
                                                                     else
-                                                                    {
                                                                         codSql = "SELECT * FROM Admin WHERE MailAdmin = '" + mailReg.Value + "'";
-
-                                                                    }
 
                                                                     tab = ado.eseguiQuery(codSql, CommandType.Text);
 
                                                                     if (tab.Rows.Count == 0)
                                                                     {
                                                                         if (lstTipoUtenteReg.SelectedValue == "fornitore")
-                                                                        {
                                                                             codSql = "SELECT * FROM Fornitori WHERE UserFornitore = '" + usernameReg.Value + "'";
-                                                                        }
                                                                         else if (lstTipoUtenteReg.SelectedValue == "cliente")
-                                                                        {
                                                                             codSql = "SELECT * FROM Clienti WHERE UserCliente = '" + usernameReg.Value + "'";
-                                                                        }
                                                                         else
-                                                                        {
                                                                             codSql = "SELECT * FROM Admin WHERE UserAdmin = '" + usernameReg.Value + "'";
-                                                                        }
 
                                                                         tab = ado.eseguiQuery(codSql, CommandType.Text);
 
@@ -255,7 +235,7 @@ namespace ProgettoEcommerce
             
         }
 
-        bool validaEmail(string email)
+        private bool validaEmail(string email)
         {
             try
             {

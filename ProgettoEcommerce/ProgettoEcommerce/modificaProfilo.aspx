@@ -40,13 +40,13 @@
     <script src="js/mail-script.js"></script>
 
     <script type="text/javascript">
-        //$(document).ready(function () {
-        //    refreshListaCitta(-1);
-        //});
+        function impostaLista() {
+            $('#lstCittaModProfilo').selectpicker('refresh');
+        }
 
         function refreshListaCitta(indice) {
             document.getElementById("lstCittaModProfilo").selectedIndex = indice;
-            //$('#lstCittaModProfilo').selectpicker('refresh');
+            $('#lstCittaModProfilo').selectpicker('refresh');
         }
     </script>
 </head>
@@ -250,13 +250,6 @@
                         </div>
                         <div class="input-group-icon mt-10">
                             <div class="icon">
-                                <i class="fa fa-lock" aria-hidden="true"></i>
-                            </div>
-                            <input type="password" id="pwdModProfilo" name="pwdModProfilo" placeholder="Password" onfocus="this.placeholder = ''; this.classList.remove('alert-danger');" onblur="this.placeholder = 'Password'" aria-describedby="descPwdModProfilo" required="required" class="single-input" runat="server" />
-                            <small id="descPwdModProfilo" class="form-text text-muted">La Password deve contenere almeno 8 caratteri tra cui almeno una maiuscola, una minuscola, un numero e un carattere tra !@#$%^&*</small>
-                        </div>
-                        <div class="input-group-icon mt-10">
-                            <div class="icon">
                                 <i class="fa fa-map-marker" aria-hidden="true"></i>
                             </div>
                             <input type="text" id="viaModProfilo" name="viaModProfilo" placeholder="Via" onfocus="this.placeholder = ''; this.classList.remove('alert-danger');" onblur="this.placeholder = 'Via'" required="required" class="single-input" runat="server" />
@@ -287,7 +280,7 @@
                 <div>
                     <div class="col-sm-6 col-md-6 col-lg-6 mx-auto">
                         <div class="form-group">
-                            <asp:Button ID="btnModificaProfilo" class="btn btn-success circle btn-block" runat="server" Text="Modifica Profilo" />
+                            <asp:Button ID="btnModificaProfilo" class="btn btn-success circle btn-block" runat="server" Text="Modifica Profilo" OnClick="btnModificaProfilo_Click"/>
                         </div>
                     </div>
                 </div>
