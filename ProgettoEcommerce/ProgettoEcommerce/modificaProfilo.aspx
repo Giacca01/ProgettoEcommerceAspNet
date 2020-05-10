@@ -323,6 +323,7 @@
         </section>
         <!--================ Fine Sezione Elenco Carte di Credito =================-->
 
+        <!--Attenzione!! Qui non funge: se questi campi sono vuoti non puoi modificare l'utente-->
         <!--================ Sezione Inserimento Carte di Credito =================-->
         <section id="sezInsCarta" class="cart_area" runat="server">
             <div class="container">

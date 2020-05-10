@@ -200,6 +200,7 @@
     <Content Include="login.aspx" />
     <Content Include="registrati.aspx" />
     <Content Include="dettaglioProdotto.aspx" />
+    <Content Include="TipiCarteCredito.aspx" />
     <Content Include="vendors\animate-css\animate.css" />
     <Content Include="vendors\animate-css\wow.min.js" />
     <Content Include="vendors\bootstrap-datepicker\bootstrap-datetimepicker.min.css" />
@@ -335,6 +336,13 @@
     </Compile>
     <Compile Include="dettaglioProdotto.aspx.designer.cs">
       <DependentUpon>dettaglioProdotto.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TipiCarteCredito.aspx.cs">
+      <DependentUpon>TipiCarteCredito.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TipiCarteCredito.aspx.designer.cs">
+      <DependentUpon>TipiCarteCredito.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

@@ -202,18 +202,19 @@ namespace ProgettoEcommerce
             {
                 if (Session["IdCat"] != null || Session["DescCat"] != null)
                 {
-                    if (Session["DescCat"].ToString().ToUpper() == txtDescModCat.Value.ToUpper())
-                        modOk = true;
-                    else
-                    {
-                        codSql = "SELECT COUNT(*) AS NCat FROM Categorie WHERE UPPER(DescrizioneCategoria) = '" + txtDescModCat.Value.ToUpper() + "' ";
-                        if (Convert.ToInt32(ado.eseguiScalar(codSql, CommandType.Text)) == 0)
-                            modOk = true;
-                        else
-                            modOk = false;
-                    }
-                    
-                    if (modOk)
+                    //if (Session["DescCat"].ToString().ToUpper() == txtDescModCat.Value.ToUpper())
+                    //    modOk = true;
+                    //else
+                    //{
+                    //    codSql = "SELECT COUNT(*) AS NCat FROM Categorie WHERE UPPER(DescrizioneCategoria) = '" + txtDescModCat.Value.ToUpper() + "' ";
+                    //    if (Convert.ToInt32(ado.eseguiScalar(codSql, CommandType.Text)) == 0)
+                    //        modOk = true;
+                    //    else
+                    //        modOk = false;
+                    //}
+
+                    codSql = "SELECT COUNT(*) AS NCat FROM Categorie WHERE UPPER(DescrizioneCategoria) = '" + txtDescModCat.Value.ToUpper() + "' AND NOT IdCategoria = "+ Session["IdCat"].ToString();
+                    if (Convert.ToInt32(ado.eseguiScalar(codSql, CommandType.Text)) == 0)
                     {
                         if (chkValModCat.Checked)
                             valCat = ' ';
