@@ -88,17 +88,24 @@ namespace ProgettoEcommerce
                         codHtml += "<a> <span>Stato:</span> "+ statoProd + "</a>";
                         codHtml += "</li>";
                         codHtml += "</ul>";
-                        codHtml += "<div class='product_count'>";
-                        codHtml += "<label for='qtaProdotto'>Quantit&agrave;:</label>";
-                        codHtml += "<input type='number' name='qtaProdotto' id='qtaProdotto' maxlength='12' value='1' title='Quantit&agrave;:' class='input-text qty' />";
-                        codHtml += "</div>";
-                        codHtml += "<div class='card_area'>";
-                        contDetProd.InnerHtml = codHtml;
-                        LinkButton btnAddCarrello = new LinkButton();
-                        btnAddCarrello.Text = "Aggiungi al carrello";
-                        btnAddCarrello.CssClass = "main_btn";
-                        btnAddCarrello.Click += BtnAddCarrello_Click;
-                        contDetProd.Controls.Add(btnAddCarrello);
+                        
+
+                        if (statoProd != "Non Disponibile")
+                        {
+                            codHtml += "<div class='product_count'>";
+                            codHtml += "<label for='qtaProdotto'>Quantit&agrave;:</label>";
+                            codHtml += "<input type='number' name='qtaProdotto' id='qtaProdotto' maxlength='12' value='1' title='Quantit&agrave;:' class='input-text qty' />";
+                            codHtml += "</div>";
+                            codHtml += "<div class='card_area'>";
+                            contDetProd.InnerHtml = codHtml;
+                            LinkButton btnAddCarrello = new LinkButton();
+                            btnAddCarrello.Text = "Aggiungi al carrello";
+                            btnAddCarrello.CssClass = "main_btn";
+                            btnAddCarrello.Click += BtnAddCarrello_Click;
+                            contDetProd.Controls.Add(btnAddCarrello);
+                        }
+                        else
+                            contDetProd.InnerHtml = codHtml;                       
                         descProdotto.InnerText = tab.Rows[0].ItemArray[2].ToString();
                         linkCurrentPage.HRef = "dettaglioProdotto.aspx?codProd=" + tab.Rows[0].ItemArray[0].ToString();
                         contDettaglioProdotto.Visible = true;

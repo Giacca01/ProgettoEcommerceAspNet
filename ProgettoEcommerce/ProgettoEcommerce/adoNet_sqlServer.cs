@@ -129,7 +129,7 @@ namespace adoNetWebSQlServer //Se non metto il namespace della soluzione devo in
             if (cn != null) cn.Dispose();
         }
 
-        public void transazioneOrdine(string sqlQuery1, string sqlQuery2, string sqlQuery3, CommandType tipo)
+        public void transazioneOrdine(string sqlQuery1, string sqlQuery2, string sqlQuery3, string sqlQuery4, CommandType tipo)
         {
             SqlTransaction transazione = null;
             try
@@ -142,6 +142,8 @@ namespace adoNetWebSQlServer //Se non metto il namespace della soluzione devo in
                 cmd.Transaction = transazione;
                 cmd.ExecuteNonQuery();
                 cmd.CommandText = sqlQuery2;
+                cmd.ExecuteNonQuery();
+                cmd.CommandText = sqlQuery4;
                 cmd.ExecuteNonQuery();
                 cmd.CommandText = sqlQuery3;
                 cmd.ExecuteNonQuery();
