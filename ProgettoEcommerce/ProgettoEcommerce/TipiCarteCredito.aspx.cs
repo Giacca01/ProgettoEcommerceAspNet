@@ -172,9 +172,9 @@ namespace ProgettoEcommerce
             string codSql = String.Empty;
             DataTable tab = new DataTable();
 
-            //Se questi parametri sono settati significa che si vuole fare una modifica
+            //Se questo parametro sono settati significa che si vuole fare una modifica
             //altrimenti faccio l'inserimento
-            if (Session["IdTipoCarta"] != null && Session["DescTipoCarta"] != null)
+            if (Session["IdTipoCarta"] != null)
             {
                 codSql = "SELECT COUNT(*) AS NTipiCarte FROM TipiCarte WHERE UPPER(DescTipoCarte) = '" + descrizioneInsModTipiCarte.Value.ToUpper() + "' AND NOT IdTipoCarte = "+ Session["IdTipoCarta"].ToString();
                 if (Convert.ToInt32(ado.eseguiScalar(codSql, CommandType.Text)) == 0)

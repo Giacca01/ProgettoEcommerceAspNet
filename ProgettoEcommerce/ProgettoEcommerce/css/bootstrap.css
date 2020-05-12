@@ -3891,7 +3891,7 @@ input[type=submit].btn-block {
 }
 
 .custom-file-input:lang(en)~.custom-file-label::after {
-    content: "Browse"
+    content: "Sfoglia"
 }
 
 .custom-file-label {
@@ -3920,7 +3920,7 @@ input[type=submit].btn-block {
     padding: .375rem .75rem;
     line-height: 1.5;
     color: #495057;
-    content: "Browse";
+    content: "Sfoglia";
     background-color: #e9ecef;
     border-left: 1px solid #ced4da;
     border-radius: 0 .25rem .25rem 0
