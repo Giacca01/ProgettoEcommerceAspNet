@@ -408,9 +408,7 @@ CREATE TABLE [dbo].[Prodotti] /*Insert Ok*/
     [IdFornitore]               INT             NOT NULL,
     [Prezzo]        DECIMAL(19, 4)  NOT NULL, /*Da Scontare*/
     [Sconto]        INT  , /*In percentuale*/
-    [QtaGiacenza]           INT             NOT NULL,
-    [LivRiordino]           INT             NOT NULL,
-    [LottoMinimo]           INT             NOT NULL,
+    [QtaGiacenza]           INT             NOT NULL
     [ValProdotto]           CHAR (1)        NOT NULL,
     PRIMARY KEY ([IdProdotto] ASC),
     CONSTRAINT [FK_Prodotti_ToCategorie] FOREIGN KEY ([IdCategoria]) REFERENCES [Categorie]([IdCategoria]),

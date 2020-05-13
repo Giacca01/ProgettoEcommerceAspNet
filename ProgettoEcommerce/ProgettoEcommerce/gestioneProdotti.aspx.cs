@@ -22,9 +22,17 @@ namespace ProgettoEcommerce
                     Response.Redirect("login.aspx");
                 else if (Session["TipoUtente"].ToString().ToUpper() == "CLIENTE")
                     Response.Redirect("prodotti.aspx");
+                setListaImg();
+                elencoCategorie();
             }
-
             stampaElencoProdotti();
+        }
+
+        private void setListaImg()
+        {
+            contLstGestImg.Visible = false;
+            contImgProd.Visible = true;
+            //Page.ClientScript.RegisterStartupScript(GetType(), "lstGestImg", "refreshLista('lstGestImg', -1);", true);
         }
 
         private void stampaElencoProdotti()
@@ -39,6 +47,7 @@ namespace ProgettoEcommerce
             CheckBox chkVal;
 
             msgElencoProdotti.Visible = false;
+            corpoTabElencoProdotti.Controls.Clear();
             if (Session["TipoUtente"].ToString().ToUpper() == "ADMIN")
                 codSql = "SELECT * FROM Prodotti AS P INNER JOIN Categorie AS C ON C.IdCategoria = P.IdCategoria INNER JOIN Fornitori AS F ON F.IdFornitore = P.IdFornitore";
             else
@@ -132,6 +141,28 @@ namespace ProgettoEcommerce
             }
         }
 
+        private void elencoCategorie()
+        {
+            adoNet ado = new adoNet();
+            string codSql = String.Empty;
+            DataTable tab = new DataTable();
+            string codHtml = String.Empty;
+
+            codSql = "SELECT * FROM Categorie WHERE ValCategoria = ' '";
+            try
+            {
+                tab = ado.eseguiQuery(codSql, CommandType.Text);
+                lstCatInsModProdotti.DataSource = tab;
+                lstCatInsModProdotti.DataValueField = "IdCategoria";
+                lstCatInsModProdotti.DataTextField = "DescrizioneCategoria";
+                Page.ClientScript.RegisterStartupScript(GetType(), "refreshLista", "refreshLista('lstCatInsModProdotti', -1);", true);
+                lstCatInsModProdotti.DataBind();
+            }
+            catch (Exception ex)
+            {
+                stampaErrori(msgInsModProdotti, "Errore: " + ex.Message);
+            }
+        }
         private void BtnGestProd_Click(object sender, EventArgs e)
         {
             LinkButton btnSender = sender as LinkButton;
@@ -149,7 +180,7 @@ namespace ProgettoEcommerce
                 try
                 {
                     ado.eseguiNonQuery(codSql, CommandType.Text);
-                    Response.Redirect(Request.RawUrl);
+                    ClientScript.RegisterStartupScript(typeof(Page), "autoPostback", ClientScript.GetPostBackEventReference(this, String.Empty), true);
                 }
                 catch (Exception ex)
                 {
@@ -185,8 +216,8 @@ namespace ProgettoEcommerce
                     titoloSezInsModProdotti.InnerText = "Modifica Tipo Carta";
                     btnInsModProdotti.Text = "<i class='fa fa-edit' aria-hidden='true'></i> Salva";
                     Session["IdProdotto"] = cdProdotto;
-                    contLstGestImg.Visible = false;
-                    contImgProd.Visible = true;
+                    contLstGestImg.Visible = true;
+                    Page.ClientScript.RegisterStartupScript(GetType(), "lstGestImg", "refreshLista('lstGestImg', 0);", true);
                     SetFocus(sezInsModProdotti);
                 }
                 catch (Exception ex)
@@ -311,24 +342,24 @@ namespace ProgettoEcommerce
                         "AND NOT IdProdotto = " + Session["IdProdotto"].ToString();
                     if (Convert.ToInt32(ado.eseguiScalar(codSql, CommandType.Text)) == 0)
                     {
-                        codSql = "UPDATE Prodotti SET ModelloProdotto = '" + modelloInsModProdotti.Value + "' AND DescrizioneProdotto = '" + descrizioneInsModProdotti.Value + "' AND MarcaProdotto = '" + marcaInsModProdotti.Value + "' AND IdCategoria = " + lstCatInsModProdotti.Value + " AND Prezzo = " + prezzoInsModProdotti.Value + " AND QtaGiacenza = " + giacenzaInsModProdotti.Value;
+                        codSql = "UPDATE Prodotti SET ModelloProdotto = '" + modelloInsModProdotti.Value + "', DescrizioneProdotto = '" + descrizioneInsModProdotti.Value + "', MarcaProdotto = '" + marcaInsModProdotti.Value + "', IdCategoria = " + lstCatInsModProdotti.Value + ", Prezzo = " + prezzoInsModProdotti.Value + ", QtaGiacenza = " + giacenzaInsModProdotti.Value;
                         if (scontoInsModProdotti.Value != String.Empty)
-                            codSql += " AND Sconto = " + scontoInsModProdotti.Value;
+                            codSql += ", Sconto = " + scontoInsModProdotti.Value;
                         if (immagineInsModProdotti.PostedFile.FileName != String.Empty)
                         {
                             erroreUpload = uploadImgProdotto();
-                            codSql = " AND ImmagineProdotto = '" + immagineInsModProdotti.PostedFile.FileName + "'";
+                            codSql = ", ImmagineProdotto = '" + immagineInsModProdotti.PostedFile.FileName + "'";
                         }
                         codSql += " WHERE IdProdotto = " + Session["IdProdotto"].ToString();
                         if (!erroreUpload)
                         {
                             ado.eseguiNonQuery(codSql, CommandType.Text);
                             Session["IdProdotto"] = null;
-                            Response.Redirect(Request.RawUrl);
+                            ClientScript.RegisterStartupScript(typeof(Page), "autoPostback", ClientScript.GetPostBackEventReference(this, String.Empty), true);
                         }
                     }
                     else
-                        stampaErrori(msgInsModProdotti, "Esiste già un prodotto con la stessa descrizione, modello o marca");
+                        stampaErrori(msgInsModProdotti, "Esiste già un prodotto con la stessa descrizione, modello e marca");
                 }
                 else
                 {
@@ -337,19 +368,21 @@ namespace ProgettoEcommerce
                         "FROM Prodotti " +
                         "WHERE UPPER(ModelloProdotto) = '" + modelloInsModProdotti.Value.ToUpper() + "' " +
                         "AND UPPER(DescrizioneProdotto) = '" + descrizioneInsModProdotti.Value.ToUpper() + "' " +
-                        "AND MarcaProdotto = '" + marcaInsModProdotti.Value.ToUpper();
+                        "AND MarcaProdotto = '" + marcaInsModProdotti.Value.ToUpper()+"'";
                     if (Convert.ToInt32(ado.eseguiScalar(codSql, CommandType.Text)) == 0)
                     {
                         codSql = "INSERT INTO Prodotti " +
                             "VALUES ('" + modelloInsModProdotti.Value + "', '"+descrizioneInsModProdotti.Value+"', '"+marcaInsModProdotti.Value+"', '"+ immagineInsModProdotti.PostedFile.FileName + "', "+lstCatInsModProdotti.Value+", "+ Session["IdUtente"].ToString()+ ", '"+prezzoInsModProdotti.Value+"'";
                         if (scontoInsModProdotti.Value != String.Empty)
                             codSql += ", " + scontoInsModProdotti.Value;
+                        else
+                            codSql += ", null";
                         codSql += ", " + giacenzaInsModProdotti.Value + ", ' ')";
                         ado.eseguiNonQuery(codSql, CommandType.Text);
                         Response.Redirect(Request.RawUrl);
                     }
                     else
-                        stampaErrori(msgInsModProdotti, "Esiste già un prodotto con la stessa descrizione, modello o marca");
+                        stampaErrori(msgInsModProdotti, "Esiste già un prodotto con la stessa descrizione, modello e marca");
                 }
 
                 modelloInsModProdotti.Value = String.Empty;
