@@ -22,17 +22,29 @@ namespace ProgettoEcommerce
                     Response.Redirect("login.aspx");
                 else if (Session["TipoUtente"].ToString().ToUpper() == "CLIENTE")
                     Response.Redirect("prodotti.aspx");
+                impostaPagina();
+            }
+            stampaElencoProdotti();
+            Page.ClientScript.RegisterStartupScript(GetType(), "lstGestImg", "refreshLista('lstGestImg', -2);", true);
+            Page.ClientScript.RegisterStartupScript(GetType(), "lstCatInsModProdotti", "refreshLista('lstCatInsModProdotti', -2);", true);
+        }
+
+        private void impostaPagina()
+        {
+            if (Session["TipoUtente"].ToString().ToUpper() == "ADMIN")
+                sezInsModProdotti.Visible = false;
+            else
+            {
                 setListaImg();
                 elencoCategorie();
             }
-            stampaElencoProdotti();
         }
 
         private void setListaImg()
         {
+            //Page.ClientScript.RegisterStartupScript(GetType(), "lstGestImg", "refreshLista('lstGestImg', -1);", true);
             contLstGestImg.Visible = false;
             contImgProd.Visible = true;
-            //Page.ClientScript.RegisterStartupScript(GetType(), "lstGestImg", "refreshLista('lstGestImg', -1);", true);
         }
 
         private void stampaElencoProdotti()
@@ -76,7 +88,7 @@ namespace ProgettoEcommerce
                     riga.Cells.Add(cella);
 
                     cella = new TableCell();
-                    cella.Text = string.Format("{0:C}", tab.Rows[i].ItemArray[7].ToString()) + "&euro;";
+                    cella.Text = string.Format("{0:0.##}", tab.Rows[i].ItemArray[7].ToString()) + "&euro;";
                     riga.Cells.Add(cella);
 
                     cella = new TableCell();
@@ -116,7 +128,7 @@ namespace ProgettoEcommerce
                     
                     btnGestProd = new LinkButton();
                     btnGestProd.Attributes.Add("data-codProdotto", tab.Rows[i].ItemArray[0].ToString());
-                    if (tab.Rows[i].ItemArray[12].ToString() == "A")
+                    if (tab.Rows[i].ItemArray[tab.Columns["ValProdotto"].Ordinal].ToString() == "A")
                     {
                         btnGestProd.Text = "<i class='fa fa-edit'></i> Ripristina";
                         btnGestProd.CssClass = "btn btn-success circle";
@@ -155,8 +167,8 @@ namespace ProgettoEcommerce
                 lstCatInsModProdotti.DataSource = tab;
                 lstCatInsModProdotti.DataValueField = "IdCategoria";
                 lstCatInsModProdotti.DataTextField = "DescrizioneCategoria";
-                Page.ClientScript.RegisterStartupScript(GetType(), "refreshLista", "refreshLista('lstCatInsModProdotti', -1);", true);
                 lstCatInsModProdotti.DataBind();
+                Page.ClientScript.RegisterStartupScript(GetType(), "refreshLista", "refreshLista('lstCatInsModProdotti', -1);", true);
             }
             catch (Exception ex)
             {
@@ -208,8 +220,7 @@ namespace ProgettoEcommerce
                     modelloInsModProdotti.Value = tab.Rows[0].ItemArray[1].ToString();
                     descrizioneInsModProdotti.Value = tab.Rows[0].ItemArray[2].ToString();
                     marcaInsModProdotti.Value = tab.Rows[0].ItemArray[3].ToString();
-                    lstCatInsModProdotti.SelectedIndex = Convert.ToInt32(tab.Rows[0].ItemArray[5].ToString());
-                    prezzoInsModProdotti.Value = tab.Rows[0].ItemArray[7].ToString();
+                    prezzoInsModProdotti.Value = tab.Rows[0].ItemArray[7].ToString().Replace(',', '.');
                     scontoInsModProdotti.Value = tab.Rows[0].ItemArray[8].ToString();
                     giacenzaInsModProdotti.Value = tab.Rows[0].ItemArray[9].ToString();
                     lstGestImg.SelectedIndex = 0;
@@ -218,6 +229,7 @@ namespace ProgettoEcommerce
                     Session["IdProdotto"] = cdProdotto;
                     contLstGestImg.Visible = true;
                     Page.ClientScript.RegisterStartupScript(GetType(), "lstGestImg", "refreshLista('lstGestImg', 0);", true);
+                    Page.ClientScript.RegisterStartupScript(GetType(), "refreshLista", "refreshLista('lstCatInsModProdotti', "+ tab.Rows[0].ItemArray[5].ToString() + ");", true);
                     SetFocus(sezInsModProdotti);
                 }
                 catch (Exception ex)
@@ -245,7 +257,7 @@ namespace ProgettoEcommerce
             bool scontoOk = false;
             bool datiProdOk = false;
             bool erroreUpload = false;
-            int sconto;
+            float sconto;
 
             if (modelloInsModProdotti.Value != String.Empty)
             {
@@ -288,11 +300,11 @@ namespace ProgettoEcommerce
                         {
                             if (lstCatInsModProdotti.SelectedIndex != -1)
                             {
-                                if (int.TryParse(prezzoInsModProdotti.Value, out _))
+                                if (float.TryParse(prezzoInsModProdotti.Value, out _))
                                 {
                                     if (scontoInsModProdotti.Value != String.Empty)
                                     {
-                                        if (int.TryParse(scontoInsModProdotti.Value, out sconto))
+                                        if (float.TryParse(scontoInsModProdotti.Value, out sconto))
                                         {
                                             if (sconto < 100 && sconto > 0)
                                                 scontoOk = true;
@@ -333,69 +345,80 @@ namespace ProgettoEcommerce
                 //altrimenti faccio l'inserimento
                 if (Session["IdProdotto"] != null)
                 {
-                    //Controllare
                     codSql = "SELECT COUNT(*) AS NProd " +
                         "FROM Prodotti " +
                         "WHERE UPPER(ModelloProdotto) = '" + modelloInsModProdotti.Value.ToUpper() + "' " +
-                        "AND UPPER(DescrizioneProdotto) = '"+descrizioneInsModProdotti.Value.ToUpper()+"' " +
-                        "AND MarcaProdotto = '"+marcaInsModProdotti.Value.ToUpper()+"' " +
+                        "AND IdFornitore = " + Session["IdUtente"].ToString() + " " +
+                        "AND MarcaProdotto = '" + marcaInsModProdotti.Value.ToUpper() + "' " +
                         "AND NOT IdProdotto = " + Session["IdProdotto"].ToString();
                     if (Convert.ToInt32(ado.eseguiScalar(codSql, CommandType.Text)) == 0)
                     {
-                        codSql = "UPDATE Prodotti SET ModelloProdotto = '" + modelloInsModProdotti.Value + "', DescrizioneProdotto = '" + descrizioneInsModProdotti.Value + "', MarcaProdotto = '" + marcaInsModProdotti.Value + "', IdCategoria = " + lstCatInsModProdotti.Value + ", Prezzo = " + prezzoInsModProdotti.Value + ", QtaGiacenza = " + giacenzaInsModProdotti.Value;
+                        codSql = "UPDATE Prodotti SET ModelloProdotto = '" + modelloInsModProdotti.Value + "', DescrizioneProdotto = '" + descrizioneInsModProdotti.Value.Replace("'", "''") + "', MarcaProdotto = '" + marcaInsModProdotti.Value + "', IdCategoria = " + lstCatInsModProdotti.Value + ", Prezzo = " + prezzoInsModProdotti.Value + ", QtaGiacenza = " + giacenzaInsModProdotti.Value;
                         if (scontoInsModProdotti.Value != String.Empty)
                             codSql += ", Sconto = " + scontoInsModProdotti.Value;
+                        else
+                            codSql += ", Sconto = null";
                         if (immagineInsModProdotti.PostedFile.FileName != String.Empty)
                         {
                             erroreUpload = uploadImgProdotto();
-                            codSql = ", ImmagineProdotto = '" + immagineInsModProdotti.PostedFile.FileName + "'";
+                            codSql += ", ImmagineProdotto = '" + immagineInsModProdotti.PostedFile.FileName + "'";
                         }
                         codSql += " WHERE IdProdotto = " + Session["IdProdotto"].ToString();
                         if (!erroreUpload)
                         {
                             ado.eseguiNonQuery(codSql, CommandType.Text);
                             Session["IdProdotto"] = null;
+                            pulisciCampiInput();
                             ClientScript.RegisterStartupScript(typeof(Page), "autoPostback", ClientScript.GetPostBackEventReference(this, String.Empty), true);
                         }
                     }
                     else
-                        stampaErrori(msgInsModProdotti, "Esiste già un prodotto con la stessa descrizione, modello e marca");
+                        stampaErrori(msgInsModProdotti, "Esiste già un prodotto dello stesso fornitore, modello e marca");
                 }
                 else
                 {
-                    //Controllare
                     codSql = "SELECT COUNT(*) AS NProd " +
                         "FROM Prodotti " +
                         "WHERE UPPER(ModelloProdotto) = '" + modelloInsModProdotti.Value.ToUpper() + "' " +
-                        "AND UPPER(DescrizioneProdotto) = '" + descrizioneInsModProdotti.Value.ToUpper() + "' " +
-                        "AND MarcaProdotto = '" + marcaInsModProdotti.Value.ToUpper()+"'";
+                        "AND IdFornitore = " + Session["IdUtente"].ToString() + " " +
+                        "AND MarcaProdotto = '" + marcaInsModProdotti.Value.ToUpper() + "'";
                     if (Convert.ToInt32(ado.eseguiScalar(codSql, CommandType.Text)) == 0)
                     {
-                        codSql = "INSERT INTO Prodotti " +
-                            "VALUES ('" + modelloInsModProdotti.Value + "', '"+descrizioneInsModProdotti.Value+"', '"+marcaInsModProdotti.Value+"', '"+ immagineInsModProdotti.PostedFile.FileName + "', "+lstCatInsModProdotti.Value+", "+ Session["IdUtente"].ToString()+ ", '"+prezzoInsModProdotti.Value+"'";
-                        if (scontoInsModProdotti.Value != String.Empty)
-                            codSql += ", " + scontoInsModProdotti.Value;
-                        else
-                            codSql += ", null";
-                        codSql += ", " + giacenzaInsModProdotti.Value + ", ' ')";
-                        ado.eseguiNonQuery(codSql, CommandType.Text);
-                        Response.Redirect(Request.RawUrl);
+                        erroreUpload = uploadImgProdotto();
+                        if (!erroreUpload)
+                        {
+                            codSql = "INSERT INTO Prodotti " +
+                            "VALUES ('" + modelloInsModProdotti.Value + "', '" + descrizioneInsModProdotti.Value.Replace("'", "''") + "', '" + marcaInsModProdotti.Value + "', '" + immagineInsModProdotti.PostedFile.FileName + "', " + lstCatInsModProdotti.Value + ", " + Session["IdUtente"].ToString() + ", '" + prezzoInsModProdotti.Value + "'";
+                            if (scontoInsModProdotti.Value != String.Empty)
+                                codSql += ", " + scontoInsModProdotti.Value;
+                            else
+                                codSql += ", null";
+                            codSql += ", " + giacenzaInsModProdotti.Value + ", ' ')";
+                            ado.eseguiNonQuery(codSql, CommandType.Text);
+                            pulisciCampiInput();
+                            ClientScript.RegisterStartupScript(typeof(Page), "autoPostback", ClientScript.GetPostBackEventReference(this, String.Empty), true);
+                        }
                     }
                     else
-                        stampaErrori(msgInsModProdotti, "Esiste già un prodotto con la stessa descrizione, modello e marca");
+                        stampaErrori(msgInsModProdotti, "Esiste già un prodotto dello stesso fornitore, modello e marca");
                 }
-
-                modelloInsModProdotti.Value = String.Empty;
-                descrizioneInsModProdotti.Value = String.Empty;
-                marcaInsModProdotti.Value = String.Empty;
-                lstCatInsModProdotti.SelectedIndex = -1;
-                prezzoInsModProdotti.Value = String.Empty;
-                scontoInsModProdotti.Value = String.Empty;
-                giacenzaInsModProdotti.Value = String.Empty;
-                titoloSezInsModProdotti.InnerText = "Inserimento Tipo Carta";
-                btnInsModProdotti.Text = "<i class='fa fa-plus' aria-hidden='true'></i> Salva";
             }
-            
+        }
+
+        private void pulisciCampiInput()
+        {
+            modelloInsModProdotti.Value = String.Empty;
+            descrizioneInsModProdotti.Value = String.Empty;
+            marcaInsModProdotti.Value = String.Empty;
+            lstCatInsModProdotti.SelectedIndex = -1;
+            prezzoInsModProdotti.Value = String.Empty;
+            scontoInsModProdotti.Value = String.Empty;
+            giacenzaInsModProdotti.Value = String.Empty;
+            msgInsModProdotti.Visible = false;
+            msgInsModProdotti.InnerText = String.Empty;
+            titoloSezInsModProdotti.InnerText = "Inserimento Tipo Carta";
+            btnInsModProdotti.Text = "<i class='fa fa-plus' aria-hidden='true'></i> Salva";
+            contLstGestImg.Visible = false;
         }
 
         private bool uploadImgProdotto()
@@ -404,7 +427,7 @@ namespace ProgettoEcommerce
 
             try
             {
-                immagineInsModProdotti.PostedFile.SaveAs(Server.MapPath("img/") + immagineInsModProdotti.PostedFile.FileName);
+                immagineInsModProdotti.PostedFile.SaveAs(Server.MapPath("img/product/") + immagineInsModProdotti.PostedFile.FileName);
             }
             catch (Exception ex)
             {

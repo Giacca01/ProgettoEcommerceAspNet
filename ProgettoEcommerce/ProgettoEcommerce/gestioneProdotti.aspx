@@ -31,7 +31,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.12/dist/js/bootstrap-select.min.js"></script>
     <script type="text/javascript">
         function refreshLista(idLista, indice) {
-            document.getElementById(idLista).selectedIndex = indice;
+            if (indice != -2) {
+                document.getElementById(idLista).selectedIndex = indice;
+            }
+            
             $('#' + idLista).selectpicker('refresh');
         }
     </script>
