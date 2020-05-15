@@ -352,9 +352,11 @@ CREATE TABLE [dbo].[Ordini] /*Insert Ok*/
 	[DataSpedizione] DATETIME , /*Vuoto se non ancora consegnato*/
 	[PrezzoTotale]        DECIMAL(19, 4)  NOT NULL,
     [IdCarta] INT NOT NULL,
+    [IdCliente] INT NOT NULL,
     [ValOrdine] CHAR(1) NOT NULL,
 	PRIMARY KEY ([IdOrdine]),
-    CONSTRAINT [FK_Ordini_ToCarte] FOREIGN KEY ([IdCarta]) REFERENCES [dbo].[Carte] ([IdCarta])
+    CONSTRAINT [FK_Ordini_ToCarte] FOREIGN KEY ([IdCarta]) REFERENCES [dbo].[Carte] ([IdCarta]),
+    CONSTRAINT [FK_Ordini_ToClienti] FOREIGN KEY ([IdCliente]) REFERENCES [dbo].[Clienti] ([IdCliente])
 );
 
 CREATE TABLE [dbo].[Fornitori] /*Insert Ok*/
@@ -421,6 +423,7 @@ CREATE TABLE [dbo].[DettaglioOrdini] /*Insert Ok*/
     [IdProdotto]            INT         NOT NULL,
     [QtaOrdine]             INT         NOT NULL,
     [PrezzoUnitario]        DECIMAL(19, 4)  NOT NULL,
+    [Accettato]        INT  NOT NULL CHECK(Accettato = 0 OR Accettato = 1), /*0=>Prodotto NON accettato 1=>Prodotto accettato*/
     [ValDettaglioOrdini]    CHAR (1)    NOT NULL,
     PRIMARY KEY CLUSTERED ([IdOrdine], [IdProdotto]),
     CONSTRAINT [FK_DettaglioOrdini_ToOrdini] FOREIGN KEY ([IdOrdine]) REFERENCES [Ordini]([IdOrdine]),

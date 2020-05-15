@@ -15006,12 +15006,12 @@ GO
 SET IDENTITY_INSERT [dbo].[Ordini] ON;
 GO
 
-INSERT INTO [dbo].[Ordini] ([IdOrdine], [DataOrdine], [PrezzoTotale], [IdCarta], [ValOrdine]) VALUES (1, '2020/04/25', 600, 1, ' ');
-INSERT INTO [dbo].[Ordini] ([IdOrdine], [DataOrdine], [DataSpedizione], [PrezzoTotale], [IdCarta], [ValOrdine]) VALUES (2, '2020/02/10', '2020/02/15', 200, 1, ' ');
-INSERT INTO [dbo].[Ordini] ([IdOrdine], [DataOrdine], [PrezzoTotale], [IdCarta], [ValOrdine]) VALUES (3, '2019/10/05', 118.34, 2, ' ');
-INSERT INTO [dbo].[Ordini] ([IdOrdine], [DataOrdine], [DataSpedizione], [PrezzoTotale], [IdCarta], [ValOrdine]) VALUES (4, '2019/11/13', '2019/11/20', 1000, 2, ' ');
-INSERT INTO [dbo].[Ordini] ([IdOrdine], [DataOrdine], [PrezzoTotale], [IdCarta], [ValOrdine]) VALUES (5, '2020/01/15', 100, 3, ' ');
-INSERT INTO [dbo].[Ordini] ([IdOrdine], [DataOrdine], [DataSpedizione], [PrezzoTotale], [IdCarta], [ValOrdine]) VALUES (6, '2019/04/16', '2019/04/25', 236.48, 3, ' ');
+INSERT INTO [dbo].[Ordini] ([IdOrdine], [DataOrdine], [PrezzoTotale], [IdCarta], [IdCliente], [ValOrdine]) VALUES (1, '2020/04/25', 600, 1, 1, ' ');
+INSERT INTO [dbo].[Ordini] ([IdOrdine], [DataOrdine], [DataSpedizione], [PrezzoTotale], [IdCarta], [IdCliente], [ValOrdine]) VALUES (2, '2020/02/10', '2020/02/15', 200, 1, 1, ' ');
+INSERT INTO [dbo].[Ordini] ([IdOrdine], [DataOrdine], [PrezzoTotale], [IdCarta], [IdCliente], [ValOrdine]) VALUES (3, '2019/10/05', 118.34, 2, 2, ' ');
+INSERT INTO [dbo].[Ordini] ([IdOrdine], [DataOrdine], [DataSpedizione], [PrezzoTotale], [IdCarta], [IdCliente], [ValOrdine]) VALUES (4, '2019/11/13', '2019/11/20', 1000, 2, 2, ' ');
+INSERT INTO [dbo].[Ordini] ([IdOrdine], [DataOrdine], [PrezzoTotale], [IdCarta], [IdCliente], [ValOrdine]) VALUES (5, '2020/01/15', 100, 3, 3, ' ');
+INSERT INTO [dbo].[Ordini] ([IdOrdine], [DataOrdine], [DataSpedizione], [PrezzoTotale], [IdCarta], [IdCliente], [ValOrdine]) VALUES (6, '2019/04/16', '2019/04/25', 236.48, 3, 3, ' ');
 
 SET IDENTITY_INSERT [dbo].[Ordini] OFF;
 GO
@@ -15082,13 +15082,13 @@ GO
 -- *Inserisce Tabella DettaglioOrdini *
 -- ************************************
 
-INSERT INTO [dbo].[DettaglioOrdini] ([IdOrdine], [IdProdotto], [QtaOrdine], [PrezzoUnitario], [ValDettaglioOrdini]) VALUES (1, 1, 1, 500, ' ');
-INSERT INTO [dbo].[DettaglioOrdini] ([IdOrdine], [IdProdotto], [QtaOrdine], [PrezzoUnitario], [ValDettaglioOrdini]) VALUES (1, 2, 1, 100, ' ');
-INSERT INTO [dbo].[DettaglioOrdini] ([IdOrdine], [IdProdotto], [QtaOrdine], [PrezzoUnitario], [ValDettaglioOrdini]) VALUES (2, 2, 2, 200, ' ');
-INSERT INTO [dbo].[DettaglioOrdini] ([IdOrdine], [IdProdotto], [QtaOrdine], [PrezzoUnitario], [ValDettaglioOrdini]) VALUES (3, 3, 1, 118.34, ' ');
-INSERT INTO [dbo].[DettaglioOrdini] ([IdOrdine], [IdProdotto], [QtaOrdine], [PrezzoUnitario], [ValDettaglioOrdini]) VALUES (4, 1, 2, 1000, ' ');
-INSERT INTO [dbo].[DettaglioOrdini] ([IdOrdine], [IdProdotto], [QtaOrdine], [PrezzoUnitario], [ValDettaglioOrdini]) VALUES (5, 2, 1, 100, ' ');
-INSERT INTO [dbo].[DettaglioOrdini] ([IdOrdine], [IdProdotto], [QtaOrdine], [PrezzoUnitario], [ValDettaglioOrdini]) VALUES (6, 3, 2, 236.68, ' ');
+INSERT INTO [dbo].[DettaglioOrdini] ([IdOrdine], [IdProdotto], [QtaOrdine], [PrezzoUnitario], [Accettato], [ValDettaglioOrdini]) VALUES (1, 1, 1, 500, 1, ' ');
+INSERT INTO [dbo].[DettaglioOrdini] ([IdOrdine], [IdProdotto], [QtaOrdine], [PrezzoUnitario], [Accettato], [ValDettaglioOrdini]) VALUES (1, 2, 1, 100, 1, ' ');
+INSERT INTO [dbo].[DettaglioOrdini] ([IdOrdine], [IdProdotto], [QtaOrdine], [PrezzoUnitario], [Accettato], [ValDettaglioOrdini]) VALUES (2, 2, 2, 200, 1, ' ');
+INSERT INTO [dbo].[DettaglioOrdini] ([IdOrdine], [IdProdotto], [QtaOrdine], [PrezzoUnitario], [Accettato], [ValDettaglioOrdini]) VALUES (3, 3, 1, 118.34, 1, ' ');
+INSERT INTO [dbo].[DettaglioOrdini] ([IdOrdine], [IdProdotto], [QtaOrdine], [PrezzoUnitario], [Accettato], [ValDettaglioOrdini]) VALUES (4, 1, 2, 1000, 1, ' ');
+INSERT INTO [dbo].[DettaglioOrdini] ([IdOrdine], [IdProdotto], [QtaOrdine], [PrezzoUnitario], [Accettato], [ValDettaglioOrdini]) VALUES (5, 2, 1, 100, 1, ' ');
+INSERT INTO [dbo].[DettaglioOrdini] ([IdOrdine], [IdProdotto], [QtaOrdine], [PrezzoUnitario], [Accettato], [ValDettaglioOrdini]) VALUES (6, 3, 2, 236.68, 1, ' ');
 
 -- *****************************
 -- *Inserisce Tabella Carrello *
