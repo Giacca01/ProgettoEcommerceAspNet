@@ -134,7 +134,6 @@ namespace adoNetWebSQlServer //Se non metto il namespace della soluzione devo in
             SqlTransaction transazione = null;
             try
             {
-                //Decrementare anche i prodotti
                 apriConnessione();
                 transazione = cn.BeginTransaction();
                 cmd.CommandText = sqlQuery1;
@@ -154,7 +153,28 @@ namespace adoNetWebSQlServer //Se non metto il namespace della soluzione devo in
                 transazione.Rollback();
                 throw new Exception("Ordine fallito");
             }
-            
+        }
+
+        public void transazioneSpedizione(string sqlQuery1, string sqlQuery2, CommandType tipo)
+        {
+            SqlTransaction transazione = null;
+            try
+            {
+                apriConnessione();
+                transazione = cn.BeginTransaction();
+                cmd.CommandText = sqlQuery1;
+                cmd.CommandType = tipo;
+                cmd.Transaction = transazione;
+                cmd.ExecuteNonQuery();
+                cmd.CommandText = sqlQuery2;
+                cmd.ExecuteNonQuery();
+                transazione.Commit();
+            }
+            catch (Exception ex)
+            {
+                transazione.Rollback();
+                throw new Exception("Spedizione fallita");
+            }
         }
     }
 }

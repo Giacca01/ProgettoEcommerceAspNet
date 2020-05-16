@@ -74,6 +74,7 @@
     <Content Include="blog.aspx" />
     <Content Include="carrello.aspx" />
     <Content Include="categorie.aspx" />
+    <Content Include="gestioneOrdini.aspx" />
     <Content Include="gestioneProdotti.aspx" />
     <Content Include="gestioneUtenti.aspx" />
     <Content Include="img\product\AirMax.jpg" />
@@ -260,6 +261,13 @@
     </Compile>
     <Compile Include="categorie.aspx.designer.cs">
       <DependentUpon>categorie.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="gestioneOrdini.aspx.cs">
+      <DependentUpon>gestioneOrdini.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="gestioneOrdini.aspx.designer.cs">
+      <DependentUpon>gestioneOrdini.aspx</DependentUpon>
     </Compile>
     <Compile Include="gestioneProdotti.aspx.cs">
       <DependentUpon>gestioneProdotti.aspx</DependentUpon>

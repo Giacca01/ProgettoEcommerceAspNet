@@ -57,7 +57,10 @@ namespace ProgettoEcommerce
                     riga.Cells.Add(cella);
 
                     cella = new TableCell();
-                    cella.Text = tab.Rows[i].ItemArray[2].ToString();
+                    if (tab.Rows[i].ItemArray[2].ToString() != String.Empty)
+                        cella.Text = Convert.ToDateTime(tab.Rows[i].ItemArray[2].ToString()).ToString(@"dd/MM/yyyy");
+                    else
+                        cella.Text = String.Empty;
                     riga.Cells.Add(cella);
 
                     cella = new TableCell();
@@ -116,8 +119,8 @@ namespace ProgettoEcommerce
             LinkButton btnSender = sender as LinkButton;
             if (btnSender.Attributes["data-TipoOp"].ToUpper() == "DETTAGLI")
             {
-                if (Int32.TryParse(btnSender.Attributes["data-codOrdine"], out int cdProdotto))
-                    stampaDettagliOrdine(cdProdotto);
+                if (Int32.TryParse(btnSender.Attributes["data-codOrdine"], out int cdOrdine))
+                    stampaDettagliOrdine(cdOrdine);
                 else
                     stampaErrori(msgElencoOrdini, "Codice ordine non valido");
                 btnSender.Attributes["data-TipoOp"] = "CHIUDI";
@@ -199,7 +202,7 @@ namespace ProgettoEcommerce
             if (Int32.TryParse(codOrdine, out int cdOrdine))
             {
                 Session["codOrdine"] = cdOrdine;
-                ClientScript.RegisterStartupScript(typeof(Page), "apriModal", "apriModal()();", true);
+                ClientScript.RegisterStartupScript(typeof(Page), "apriModal", "apriModal();", true);
             }
             else
                 stampaErrori(msgElencoOrdini, "Codice ordine non valido");
