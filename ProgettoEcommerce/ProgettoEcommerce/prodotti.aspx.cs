@@ -7,39 +7,74 @@ using System.Web.UI.WebControls;
 //Using Specifiche
 using adoNetWebSQlServer;
 using System.Data;
+using System.Web.UI.HtmlControls;
 
 namespace ProgettoEcommerce
 {
     public partial class category : System.Web.UI.Page
     {
+        /**********************/
+        /* Routine Principale */
+        /**********************/
         protected void Page_Load(object sender, EventArgs e)
         {
+            //Gestito fuori dal postback per poter agganciare l'evento al bottone di logout
+            if (Session["IdUtente"] != null && Session["TipoUtente"] != null)
+                gestUtenteLoggato();
+            else
+                gestUtenteNonLoggato();
             if (!Page.IsPostBack)
             {
                 adoNet.impostaConnessione("App_Data/DBEcommerce.mdf");
-                if (Session["IdUtente"] != null && Session["TipoUtente"] != null)
-                {
-                    gestUtenteLoggato();
-                }
-                else
-                {
-                    gestUtenteNonLoggato();
-                }
                 ricercaIniziale();
                 stampaElCategorie();
             }
         }
 
+        /**********************************/
+        /* Gestione NavBar Utente Loggato */
+        /**********************************/
         private void gestUtenteLoggato()
         {
+            contNavBar.Attributes.Add("class", "col-lg-7 pr-0");
             navUtenteCarrrello.Visible = true;
             LinkButton btnLogout = new LinkButton();
-            btnLogout.CssClass = "nav-link";
+            btnLogout.CssClass = "icons";
             btnLogout.Text = "<i class='fa fa-sign-out' aria-hidden='true'></i> Esci";
             btnLogout.Click += BtnLogout_Click;
-            dropDownLogout.Controls.Add(btnLogout);
+            contLogout.Controls.Add(btnLogout);
+            if (Session["TipoUtente"].ToString().ToUpper() == "ADMIN")
+            {
+                navCarrello.Visible = false;
+                navStoricoOrdini.Visible = false;
+            }
+            else if(Session["TipoUtente"].ToString().ToUpper() == "CLIENTE")
+            {
+                navAndamentoVendite.Visible = false;
+                navCategorie.Visible = false;
+                navGestioneOrdini.Visible = false;
+                navGestioneProdotti.Visible = false;
+                navGestioneUtenti.Visible = false;
+                navTipiCarte.Visible = false;
+            }
+            else
+            {
+                navCarrello.Visible = false;
+                navGestioneUtenti.Visible = false;
+                navStoricoOrdini.Visible = false;
+                navTipiCarte.Visible = false;
+                navCategorie.Visible = false;
+                navGestioneOrdini.Visible = false;
+            }
+            navHome.Visible = false;
+            navRegistrati.Visible = false;
+            navLogin.Visible = false;
+            navReimpostaPwd.Visible = false;
         }
 
+        /*******************/
+        /* Gestione Logout */
+        /*******************/
         private void BtnLogout_Click(object sender, EventArgs e)
         {
             Session.Clear();
@@ -47,27 +82,53 @@ namespace ProgettoEcommerce
             Response.Redirect("login.aspx");
         }
 
+        /**************************************/
+        /* Gestione NavBar Utente Non Loggato */
+        /**************************************/
         private void gestUtenteNonLoggato()
         {
             navUtenteCarrrello.Visible = false;
+            navAndamentoVendite.Visible = false;
+            navCarrello.Visible = false;
+            navGestioneProdotti.Visible = false;
+            navGestioneUtenti.Visible = false;
+            navStoricoOrdini.Visible = false;
+            navTipiCarte.Visible = false;
+            navCategorie.Visible = false;
+            navGestioneOrdini.Visible = false;
+            contNavBar.Attributes.Add("class", "col-lg-12 pr-0");
         }
 
+        /****************************/
+        /* Recupero Elenco Prodotti */
+        /****************************/
         private void ricercaIniziale()
         {
             adoNet ado = new adoNet();
             string codSql = String.Empty;
 
-            codSql = "SELECT * FROM Prodotti WHERE ValProdotto = ' '";
+            codSql = "SELECT * " +
+                "FROM Prodotti AS P " +
+                "INNER JOIN Fornitori AS F " +
+                "ON P.IdFornitore = F.IdFornitore " +
+                "INNER JOIN Categorie AS C " +
+                "ON C.IdCategoria = P.IdCategoria " +
+                "WHERE P.ValProdotto = ' ' " +
+                "AND F.ValFornitore = ' ' " +
+                "AND C.ValCategoria = ' ' ";
             try
             {
                 stampaElProdotti(ado.eseguiQuery(codSql, CommandType.Text));
             }
             catch (Exception ex)
             {
-                msgErroreElProd.InnerHtml = "Attenzione!!! Errore: " + ex.Message;
+                stampaErrori(msgErroreElProd, "Attenzione!!! Errore: " + ex.Message);
             }
         }
 
+        /**************************/
+        /* Stampa Elenco Prodotti */
+        /**************************/
         private void stampaElProdotti(DataTable elProd)
         {
             string codHtml = String.Empty;
@@ -76,7 +137,7 @@ namespace ProgettoEcommerce
             for (int i = 0; i < elProd.Rows.Count; i++)
             {
                 if (elProd.Rows[i].ItemArray[8].ToString() != String.Empty)
-                    ausPrezzo = string.Format("{0:N2}%", (Convert.ToDouble(elProd.Rows[i].ItemArray[8].ToString()) * 100) / (Convert.ToDouble(elProd.Rows[i].ItemArray[7].ToString())));
+                    ausPrezzo = ((Convert.ToDouble(elProd.Rows[i].ItemArray[8].ToString()) * 100) / (Convert.ToDouble(elProd.Rows[i].ItemArray[7].ToString()))).ToString();
                 else
                     ausPrezzo = String.Empty;
                 codHtml += "<div class='col-lg-4 col-md-6'>" +
@@ -94,7 +155,7 @@ namespace ProgettoEcommerce
                     "<h4>" + elProd.Rows[i].ItemArray[1].ToString() + "</h4>" +
                     "</a>" +
                     "<div class='mt-3'>" +
-                    "<span class='mr-4'>" + string.Format("{0:N2}", Convert.ToDouble(elProd.Rows[i].ItemArray[7].ToString())) + "&euro;</span>";
+                    "<span class='mr-4'>" + Convert.ToDouble(elProd.Rows[i].ItemArray[7].ToString()) + "&euro;</span>";
                 if (ausPrezzo != String.Empty)
                     codHtml += "<del>" + ausPrezzo + "&euro;</del>";
                 codHtml += "</div>" +
@@ -106,6 +167,9 @@ namespace ProgettoEcommerce
             contProdotti.InnerHtml = codHtml;
         }
 
+        /***************************/
+        /* Stampa Elenco Categorie */
+        /***************************/
         private void stampaElCategorie()
         {
             adoNet ado = new adoNet();
@@ -117,6 +181,8 @@ namespace ProgettoEcommerce
             try
             {
                 tab = ado.eseguiQuery(codSql, CommandType.Text);
+                //Aggiungo al recordset una voce che indichi tutte le categorie
+                //per la ricerca
                 DataRow aus = tab.NewRow();
                 aus[0] = 0;
                 aus[1] = "Tutte";
@@ -130,10 +196,13 @@ namespace ProgettoEcommerce
             }
             catch (Exception ex)
             {
-                msgRicProd.InnerHtml = "Attenzione!!! Errore: " + ex.Message;
+                stampaErrori(msgRicProd, "Attenzione!!! Errore: " + ex.Message);
             }
         }
 
+        /***************************/
+        /* Stampa Ricerca Prodotti */
+        /***************************/
         protected void btnRicercaProdotto_Click(object sender, EventArgs e)
         {
             adoNet ado = new adoNet();
@@ -151,9 +220,19 @@ namespace ProgettoEcommerce
             }
             catch (Exception ex)
             {
-                msgErroreElProd.InnerHtml = "Attenzione!!! Errore: " + ex.Message;
+                stampaErrori(msgErroreElProd, "Attenzione!!! Errore: " + ex.Message);
             }
 
+        }
+
+        /*******************/
+        /* Gestione Errori */
+        /*******************/
+        private void stampaErrori(HtmlGenericControl contMsg, string msgErrore)
+        {
+            contMsg.InnerText = msgErrore;
+            contMsg.Attributes.Add("class", "alert alert-danger");
+            contMsg.Visible = true;
         }
     }
 }

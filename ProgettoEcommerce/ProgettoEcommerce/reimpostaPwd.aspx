@@ -123,7 +123,7 @@
                                             <i class="fa fa-tag"></i>
                                         </div>
                                         <div>
-                                            <select id="lstTipoUtenteReimpPwd" title="Tipo Utente" runat="server" class="single-input" required="required">
+                                            <select id="lstTipoUtenteReimpPwd" title="Tipo Utente" runat="server" class="single-input form-control" required="required">
                                                 <option value="admin">Admin</option>
                                                 <option value="cliente">Cliente</option>
                                                 <option value="fornitore">Fornitore</option>

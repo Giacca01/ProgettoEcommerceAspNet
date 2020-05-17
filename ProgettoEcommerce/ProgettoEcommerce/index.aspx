@@ -61,36 +61,12 @@
                                         <a href="login.aspx" class="nav-link" role="button"
                                             aria-expanded="false">Login</a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="reimpostaPwd.aspx" class="nav-link" role="button"
+                                            aria-expanded="false">Reimposta Password</a>
+                                    </li>
                                 </ul>
                             </div>
-                            <!--Lo stampo SOLO dopo il login-->
-                            <%--<div class="col-lg-5 pr-0">
-                <ul class="nav navbar-nav navbar-right right_nav pull-right">
-                  <li class="nav-item">
-                    <a href="#" class="icons">
-                      <i class="ti-search" aria-hidden="true"></i>
-                    </a>
-                  </li>
-
-                  <li class="nav-item">
-                    <a href="#" class="icons">
-                      <i class="ti-shopping-cart"></i>
-                    </a>
-                  </li>
-
-                  <li class="nav-item">
-                    <a href="#" class="icons">
-                      <i class="ti-user" aria-hidden="true"></i>
-                    </a>
-                  </li>
-
-                  <li class="nav-item">
-                    <a href="#" class="icons">
-                      <i class="ti-heart" aria-hidden="true"></i>
-                    </a>
-                  </li>
-                </ul>
-              </div>--%>
                         </div>
                     </div>
                 </nav>
@@ -109,7 +85,7 @@
                         <h3><span>Ecommerce</span> Giacardi</h3>
                         <h4>Un negozio all'avanguardia per tutte le tue esigenze</h4>
                         <a class="main_btn mt-40" href="login.aspx">Login</a>
-                        <a class="main_btn mt-40" href="#">Registrati</a>
+                        <a class="main_btn mt-40" href="registrati.aspx">Registrati</a>
                     </div>
                 </div>
             </div>

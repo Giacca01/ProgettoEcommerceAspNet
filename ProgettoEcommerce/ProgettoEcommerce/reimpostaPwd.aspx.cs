@@ -15,9 +15,11 @@ namespace ProgettoEcommerce
 {
     public partial class reimpostaPwd : System.Web.UI.Page
     {
+        /**********************/
+        /* Routine Principale */
+        /**********************/
         protected void Page_Load(object sender, EventArgs e)
         {
-            //Se sbagli le credenziali non funge
             if (!Page.IsPostBack)
             {
                 adoNet.impostaConnessione("App_Data/DBEcommerce.mdf");
@@ -26,6 +28,9 @@ namespace ProgettoEcommerce
             }
         }
 
+        /************************************/
+        /* Gestione Reimpostazione Password */
+        /************************************/
         protected void btnReimpPwd_Click(object sender, EventArgs e)
         {
             string codSql = String.Empty;
@@ -36,6 +41,7 @@ namespace ProgettoEcommerce
             Regex regTel = new Regex(@"^[0-9]{10,10}$");
             Regex regPwd = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
 
+            //Controllo dati di input
             if (usernameReimpPwd.Value != String.Empty)
             {
                 if (validaEmail(emailReimpPwd.Value))
@@ -46,6 +52,7 @@ namespace ProgettoEcommerce
                         {
                             if (lstTipoUtenteReimpPwd.SelectedIndex != -1)
                             {
+                                //Controllo se l'utente esiste su db
                                 if (lstTipoUtenteReimpPwd.Value == "admin")
                                     codSql = "SELECT IdAdmin FROM Admin WHERE UserAdmin = '" + usernameReimpPwd.Value + "' AND MailAdmin = '" + emailReimpPwd.Value + "' AND TelefonoAdmin = '" + telReimpPwd.Value + "' AND ValAdmin = ' '";
                                 else if (lstTipoUtenteReimpPwd.Value == "cliente")
@@ -65,6 +72,8 @@ namespace ProgettoEcommerce
                                         tab = ado.eseguiQuery(codSql, CommandType.Text);
                                         if (tab.Rows.Count == 1)
                                         {
+                                            //Calcolo l'MD5 della nuova password
+                                            //e la salvo nel db
                                             newPwd = calcolaMD5(pwdReimpPwd.Value);
                                             if (lstTipoUtenteReimpPwd.Value == "admin")
                                                 codSql = "UPDATE Admin SET PwdAdmin = '" + newPwd + "' WHERE IdAdmin = " + tab.Rows[0].ItemArray[0].ToString();
@@ -101,6 +110,9 @@ namespace ProgettoEcommerce
                 stampaErrori(msgReimpPwd, "Inserire lo Username");
         }
 
+        /******************************/
+        /* Gestione Chiusura Sessione */
+        /******************************/
         private void chiudiSessione()
         {
             Session.Clear();
@@ -108,6 +120,9 @@ namespace ProgettoEcommerce
             Response.Redirect("login.aspx");
         }
 
+        /*******************/
+        /* Gestione Errori */
+        /*******************/
         private void stampaErrori(HtmlGenericControl contMsg, string msgErrore)
         {
             contMsg.InnerText = msgErrore;
@@ -115,6 +130,9 @@ namespace ProgettoEcommerce
             contMsg.Visible = true;
         }
 
+        /*********************/
+        /* Validazione Email */
+        /*********************/
         private bool validaEmail(string email)
         {
             try
@@ -128,7 +146,9 @@ namespace ProgettoEcommerce
             }
         }
 
-        //Conversione della stringa in input in MD5
+        /*********************************************/
+        /* Conversione della stringa in input in MD5 */
+        /*********************************************/
         public string calcolaMD5(string strIn)
         {
             string ret = String.Empty;

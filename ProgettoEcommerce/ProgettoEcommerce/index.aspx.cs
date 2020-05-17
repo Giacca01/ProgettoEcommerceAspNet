@@ -9,12 +9,14 @@ namespace ProgettoEcommerce
 {
     public partial class index : System.Web.UI.Page
     {
+        /**********************/
+        /* Routine Principale */
+        /**********************/
         protected void Page_Load(object sender, EventArgs e)
         {
+            //Se l'utente è loggato lo mando alla pagina prodotti
             if (Session["IdUtente"] != null && Session["TipoUtente"] != null)
-            {
                 Response.Redirect("prodotti.aspx");
-            }
         }
     }
 }

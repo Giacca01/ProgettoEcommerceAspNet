@@ -51,16 +51,16 @@
                                             <a class="nav-link" href="index.html">Home</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="prodotti.aspx" class="nav-link" role="button"
-                                                aria-expanded="false">Elenco Prodotti</a>
+                                            <a href="prodotti.aspx" class="nav-link">Elenco Prodotti</a>
+                                        </li>
+                                        <li class="nav-item active">
+                                            <a href="registrati.aspx" class="nav-link active">Registrati</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="registrati.aspx" class="nav-link active" role="button"
-                                                aria-expanded="false">Registrati</a>
+                                            <a href="login.aspx" class="nav-link">Login</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="login.aspx" class="nav-link" role="button"
-                                                aria-expanded="false">Login</a>
+                                            <a href="reimpostaPwd.aspx" class="nav-link">Reimposta Password</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -72,7 +72,7 @@
         </header>
         <!--================Header Menu Area =================-->
 
-        <!--================ Home Banner Area =================-->
+        <!--================ Inizio Sezione Registrazione =================-->
         <section class="section_gap">
             <div class="banner_inner d-flex align-items-center">
                 <div class="container">
@@ -81,88 +81,94 @@
                             <div class="main_title">
                                 <h2><span>Registrati</span></h2>
                             </div>
-                            <div class="col-sm-6 col-md-6 col-lg-6 mx-auto">
-                                <div class="input-group-icon mt-10">
-                                    <div class="icon">
-                                        <i class="fa fa-building" aria-hidden="true"></i>
+                            <div class="row">
+                                <div class="col-sm-6 col-md-6 col-lg-6 mx-auto">
+                                    <div class="input-group-icon mt-10">
+                                        <div class="icon">
+                                            <i class="fa fa-building" aria-hidden="true"></i>
+                                        </div>
+                                        <div>
+                                            <asp:DropDownList ID="lstTipoUtenteReg" title="Tipo Utente" runat="server" class="single-input form-control" required="required" AutoPostBack="true" OnSelectedIndexChanged="lstTipoUtenteReg_SelectedIndexChanged">
+                                                <asp:ListItem Value="cliente">Cliente</asp:ListItem>
+                                                <asp:ListItem Value="admin">Admin</asp:ListItem>
+                                                <asp:ListItem Value="fornitore">Fornitore</asp:ListItem>
+                                            </asp:DropDownList>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <asp:DropDownList id="lstTipoUtenteReg" title="Tipo Utente" runat="server" class="single-input" required="required" AutoPostBack="true" OnSelectedIndexChanged="lstTipoUtenteReg_SelectedIndexChanged">
-                                            <asp:ListItem Value="cliente">Cliente</asp:ListItem>
-                                            <asp:ListItem Value="admin">Admin</asp:ListItem>
-                                            <asp:ListItem Value="fornitore">Fornitore</asp:ListItem>
-                                        </asp:DropDownList>
+                                    <div class="input-group-icon mt-10">
+                                        <div class="icon">
+                                            <i class="fa fa-user" aria-hidden="true"></i>
+                                        </div>
+                                        <input type="text" id="nomeReg" name="nomeReg" placeholder="Nome" onfocus="this.placeholder = ''; this.classList.remove('alert-danger');" onblur="this.placeholder = 'Nome'" required class="single-input" runat="server">
                                     </div>
+                                    <div class="input-group-icon mt-10">
+                                        <div class="icon">
+                                            <i class="fa fa-user-md" aria-hidden="true"></i>
+                                        </div>
+                                        <input type="text" id="cognomeReg" name="cognomeReg" placeholder="Cognome" onfocus="this.placeholder = ''; this.classList.remove('alert-danger');" onblur="this.placeholder = 'Cognome'" required class="single-input" runat="server">
+                                    </div>
+                                    <div class="input-group-icon mt-10" id="contDataNascitaReg" runat="server">
+                                        <div class="icon">
+                                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        </div>
+                                        <input type="date" id="dataNascitaReg" name="dataNascitaReg" placeholder="Data Nascita" onfocus="this.placeholder = ''; this.classList.remove('alert-danger');" onblur="this.placeholder = 'Data Nascita'" aria-describedby="descDataNascitaReg" required class="single-input" runat="server">
+                                        <small id="descDataNascitaReg" class="form-text text-muted">Devi avere almeno 18 anni per iscriverti
+                                        </small>
+                                    </div>
+                                    <div class="input-group-icon mt-10">
+                                        <div class="icon">
+                                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                                        </div>
+                                        <input type="email" id="mailReg" name="mailReg" placeholder="Mail" onfocus="this.placeholder = ''; this.classList.remove('alert-danger');" onblur="this.placeholder = 'Mail'" required class="single-input" runat="server">
+                                    </div>
+                                    <div class="input-group-icon mt-10">
+                                        <div class="icon">
+                                            <i class="fa fa-phone-square" aria-hidden="true"></i>
+                                        </div>
+                                        <input type="tel" id="telReg" name="telReg" placeholder="Telefono Prefisso Escluso" onfocus="this.placeholder = ''; this.classList.remove('alert-danger');" onblur="this.placeholder = 'Telefono Prefisso Escluso'" required class="single-input" runat="server">
+                                    </div>
+                                    <div class="input-group-icon mt-10">
+                                        <div class="icon">
+                                            <i class="fa fa-user" aria-hidden="true"></i>
+                                        </div>
+                                        <input type="text" id="usernameReg" name="usernameReg" placeholder="Username" onfocus="this.placeholder = ''; this.classList.remove('alert-danger');" onblur="this.placeholder = 'Username'" required class="single-input" runat="server">
+                                    </div>
+                                    <div class="input-group-icon mt-10">
+                                        <div class="icon">
+                                            <i class="fa fa-lock" aria-hidden="true"></i>
+                                        </div>
+                                        <input type="password" id="pwdReg" name="pwdReg" placeholder="Password" onfocus="this.placeholder = ''; this.classList.remove('alert-danger');" onblur="this.placeholder = 'Password'" aria-describedby="descPwdReg" required class="single-input" runat="server">
+                                        <small id="descPwdReg" class="form-text text-muted">La Password deve contenere almeno 8 caratteri tra cui almeno una maiuscola, una minuscola, un numero e un carattere tra !@#$%^&*
+                                        </small>
+                                    </div>
+                                    <div class="input-group-icon mt-10">
+                                        <div class="icon">
+                                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                        </div>
+                                        <input type="text" id="viaReg" name="viaReg" placeholder="Via" onfocus="this.placeholder = ''; this.classList.remove('alert-danger');" onblur="this.placeholder = 'Via'" required class="single-input" runat="server">
+                                    </div>
+                                    <div class="input-group-icon mt-10">
+                                        <div class="icon">
+                                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                        </div>
+                                        <input type="text" id="civicoReg" name="civicoReg" placeholder="Civico" onfocus="this.placeholder = ''; this.classList.remove('alert-danger');" onblur="this.placeholder = 'Civico'" required class="single-input" runat="server">
+                                    </div>
+                                    <div class="input-group-icon mt-10">
+                                        <div class="icon">
+                                            <i class="fa fa-building" aria-hidden="true"></i>
+                                        </div>
+                                        <div>
+                                            <select id="lstCittaReg" title="Città Utente" runat="server" class="single-input form-control" required>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <br>
                                 </div>
-                                <div class="input-group-icon mt-10">
-                                    <div class="icon">
-                                        <i class="fa fa-user" aria-hidden="true"></i>
-                                    </div>
-                                    <input type="text" id="nomeReg" name="nomeReg" placeholder="Nome" onfocus="this.placeholder = ''; this.classList.remove('alert-danger');" onblur="this.placeholder = 'Nome'" required class="single-input" runat="server">
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-7 col-lg-7 mx-auto">
+                                    <div id="msgReg" role="alert" style="text-align: center;" runat="server"></div>
                                 </div>
-                                <div class="input-group-icon mt-10">
-                                    <div class="icon">
-                                        <i class="fa fa-user-md" aria-hidden="true"></i>
-                                    </div>
-                                    <input type="text" id="cognomeReg" name="cognomeReg" placeholder="Cognome" onfocus="this.placeholder = ''; this.classList.remove('alert-danger');" onblur="this.placeholder = 'Cognome'" required class="single-input" runat="server">
-                                </div>
-                                <div class="input-group-icon mt-10" id="contDataNascitaReg" runat="server">
-                                    <div class="icon">
-                                        <i class="fa fa-calendar" aria-hidden="true"></i>
-                                    </div>
-                                    <input type="date" id="dataNascitaReg" name="dataNascitaReg" placeholder="Data Nascita" onfocus="this.placeholder = ''; this.classList.remove('alert-danger');" onblur="this.placeholder = 'Data Nascita'" aria-describedby="descDataNascitaReg" required class="single-input" runat="server">
-                                    <small id="descDataNascitaReg" class="form-text text-muted">Devi avere almeno 18 anni per iscriverti
-                                    </small>
-                                </div>
-                                <div class="input-group-icon mt-10">
-                                    <div class="icon">
-                                        <i class="fa fa-envelope" aria-hidden="true"></i>
-                                    </div>
-                                    <input type="email" id="mailReg" name="mailReg" placeholder="Mail" onfocus="this.placeholder = ''; this.classList.remove('alert-danger');" onblur="this.placeholder = 'Mail'" required class="single-input" runat="server">
-                                </div>
-                                <div class="input-group-icon mt-10">
-                                    <div class="icon">
-                                        <i class="fa fa-phone-square" aria-hidden="true"></i>
-                                    </div>
-                                    <input type="tel" id="telReg" name="telReg" placeholder="Telefono Prefisso Escluso" onfocus="this.placeholder = ''; this.classList.remove('alert-danger');" onblur="this.placeholder = 'Telefono Prefisso Escluso'" required class="single-input" runat="server">
-                                </div>
-                                <div class="input-group-icon mt-10">
-                                    <div class="icon">
-                                        <i class="fa fa-user" aria-hidden="true"></i>
-                                    </div>
-                                    <input type="text" id="usernameReg" name="usernameReg" placeholder="Username" onfocus="this.placeholder = ''; this.classList.remove('alert-danger');" onblur="this.placeholder = 'Username'" required class="single-input" runat="server">
-                                </div>
-                                <div class="input-group-icon mt-10">
-                                    <div class="icon">
-                                        <i class="fa fa-lock" aria-hidden="true"></i>
-                                    </div>
-                                    <input type="password" id="pwdReg" name="pwdReg" placeholder="Password" onfocus="this.placeholder = ''; this.classList.remove('alert-danger');" onblur="this.placeholder = 'Password'" aria-describedby="descPwdReg" required class="single-input" runat="server">
-                                    <small id="descPwdReg" class="form-text text-muted">La Password deve contenere almeno 8 caratteri tra cui almeno una maiuscola, una minuscola, un numero e un carattere tra !@#$%^&*
-                                    </small>
-                                </div>
-                                <div class="input-group-icon mt-10">
-                                    <div class="icon">
-                                        <i class="fa fa-map-marker" aria-hidden="true"></i>
-                                    </div>
-                                    <input type="text" id="viaReg" name="viaReg" placeholder="Via" onfocus="this.placeholder = ''; this.classList.remove('alert-danger');" onblur="this.placeholder = 'Via'" required class="single-input" runat="server">
-                                </div>
-                                <div class="input-group-icon mt-10">
-                                    <div class="icon">
-                                        <i class="fa fa-map-marker" aria-hidden="true"></i>
-                                    </div>
-                                    <input type="text" id="civicoReg" name="civicoReg" placeholder="Civico" onfocus="this.placeholder = ''; this.classList.remove('alert-danger');" onblur="this.placeholder = 'Civico'" required class="single-input" runat="server">
-                                </div>
-                                <div class="input-group-icon mt-10">
-                                    <div class="icon">
-                                        <i class="fa fa-building" aria-hidden="true"></i>
-                                    </div>
-                                    <div>
-                                        <select id="lstCittaReg" title="Città Utente" runat="server" class="single-input" required>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div id="msgReg" class="msg" runat="server"></div>
-                                <br>
                             </div>
                             <div class="col-sm-6 col-md-6 col-lg-6 mx-auto">
                                 <div class="form-group">
@@ -174,7 +180,7 @@
                 </div>
             </div>
         </section>
-        <!--================End Home Banner Area =================-->
+        <!--================ Fine Sezione Registrazione =================-->
 
 
         <!--================ start footer Area  =================-->

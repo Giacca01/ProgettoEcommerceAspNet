@@ -350,7 +350,7 @@ CREATE TABLE [dbo].[Ordini] /*Insert Ok*/
 	[IdOrdine] INT IDENTITY (1, 1) NOT NULL,
 	[DataOrdine] DATETIME NOT NULL,
 	[DataSpedizione] DATETIME , /*Vuoto se non ancora consegnato*/
-	[PrezzoTotale]        DECIMAL(19, 4)  NOT NULL,
+	[PrezzoTotale]        DECIMAL(19, 2)  NOT NULL,
     [IdCarta] INT NOT NULL,
     [IdCliente] INT NOT NULL,
     [ValOrdine] CHAR(1) NOT NULL,
@@ -408,7 +408,7 @@ CREATE TABLE [dbo].[Prodotti] /*Insert Ok*/
 	[ImmagineProdotto]		NVARCHAR (50)	NOT NULL,/*Percorso*/
     [IdCategoria]           INT             NOT NULL,
     [IdFornitore]               INT             NOT NULL,
-    [Prezzo]        DECIMAL(19, 4)  NOT NULL, /*Da Scontare*/
+    [Prezzo]        DECIMAL(19, 2)  NOT NULL, /*Da Scontare*/
     [Sconto]        INT  , /*In percentuale*/
     [QtaGiacenza]           INT             NOT NULL
     [ValProdotto]           CHAR (1)        NOT NULL,
@@ -422,7 +422,7 @@ CREATE TABLE [dbo].[DettaglioOrdini] /*Insert Ok*/
     [IdOrdine]           INT         NOT NULL,
     [IdProdotto]            INT         NOT NULL,
     [QtaOrdine]             INT         NOT NULL,
-    [PrezzoUnitario]        DECIMAL(19, 4)  NOT NULL,
+    [PrezzoUnitario]        DECIMAL(19, 2)  NOT NULL,
     [Accettato]        INT  NOT NULL CHECK(Accettato = 0 OR Accettato = 1), /*0=>Prodotto NON accettato 1=>Prodotto accettato*/
     [ValDettaglioOrdini]    CHAR (1)    NOT NULL,
     PRIMARY KEY CLUSTERED ([IdOrdine], [IdProdotto]),
@@ -436,7 +436,9 @@ CREATE TABLE [dbo].[Carrello] /*Insert Ok*/
     [IdProdotto]            INT         NOT NULL,
     [DataAggiunta]	       DATETIME          NOT  NULL,
     [QtaProd]             INT         NOT NULL, /*Qta di ogni singolo prodotto messo nel carrello*/
-    [PrezzoUnitario]        DECIMAL(19, 4)  NOT NULL, /*Prezzo unitario * quantità nel carrello*/
+    [PrezzoUnitario]        DECIMAL(19, 2
+    
+    )  NOT NULL, /*Prezzo unitario * quantità nel carrello*/
     [Ordinato]        INT  NOT NULL CHECK(Ordinato = 0 OR Ordinato = 1), /*0=>Prodotto NON ancora ordinato 1=>Prodotto già ordinato*/
     [ValCarrello]    CHAR (1)    NOT NULL,
     PRIMARY KEY CLUSTERED ([IdCliente], [IdProdotto], DataAggiunta),

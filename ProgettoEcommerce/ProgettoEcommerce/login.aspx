@@ -48,19 +48,19 @@
                                 <div class="col-lg-12 pr-0">
                                     <ul class="nav navbar-nav center_nav pull-right">
                                         <li class="nav-item">
-                                            <a class="nav-link" href="index.html">Home</a>
+                                            <a class="nav-link" href="index.aspx">Home</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                                aria-expanded="false">Elenco Prodotti</a>
+                                            <a href="prodotti.aspx" class="nav-link">Elenco Prodotti</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                                aria-expanded="false">Registrati</a>
+                                            <a href="registrati.aspx" class="nav-link"">Registrati</a>
                                         </li>
                                         <li class="nav-item active">
-                                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                                aria-expanded="false">Login</a>
+                                            <a href="login.aspx" class="nav-link">Login</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="reimpostaPwd.aspx" class="nav-link">Reimposta Password</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -72,7 +72,7 @@
         </header>
         <!--================Header Menu Area =================-->
 
-        <!--================ Home Banner Area =================-->
+        <!--================ Inizio Sezione Login =================-->
         <section class="section_gap">
             <div class="banner_inner d-flex align-items-center">
                 <div class="container">
@@ -81,7 +81,8 @@
                             <div class="main_title">
                                 <h2><span>Login</span></h2>
                             </div>
-                            <div class="col-sm-6 col-md-6 col-lg-6 mx-auto">
+                            <div class="row">
+                                <div class="col-sm-6 col-md-6 col-lg-6 mx-auto">
                                     <div class="input-group-icon mt-10">
                                         <div class="icon">
                                             <i class="fa fa-user" aria-hidden="true"></i>
@@ -100,33 +101,39 @@
                                     </div>
                                     <div class="input-group-icon mt-10">
                                         <div class="icon">
-                                            <i class="fa fa-globe" aria-hidden="true"></i>
+                                            <i class="fa fa-tag" aria-hidden="true"></i>
                                         </div>
                                         <div>
-                                            <select id="lstTipoUtente" title="Tipo Utente" runat="server" class="single-input" required>
+                                            <select id="lstTipoUtente" title="Tipo Utente" runat="server" class="single-input form-control" required>
                                                 <option value="admin">Admin</option>
                                                 <option value="cliente">Cliente</option>
                                                 <option value="fornitore">Fornitore</option>
                                             </select>
                                         </div>
                                     </div>
-                                    <div id="msgLogin" class="msg" runat="server"></div>
                                     <br>
                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-7 col-lg-7 mx-auto">
+                                    <div id="msgLogin" role="alert" style="text-align: center;" runat="server"></div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-sm-6 col-md-6 col-lg-6 mx-auto">
                                     <div class="form-group">
-                                        <asp:Button id="btnLogin" class="genric-btn primary circle btn-block" runat="server" Text="Login" OnClick="btnLogin_Click"/>
-                                        <%--<a id="btnLogin" class="genric-btn primary circle btn-block" runat="server">Login</a>--%>
+                                        <asp:Button ID="btnLogin" class="genric-btn primary circle btn-block" runat="server" Text="Login" OnClick="btnLogin_Click" />
                                         <a id="btnRegistrati" href="registrati.aspx" class="genric-btn link circle btn-block">Non hai un account? Registrati!</a>
                                         <a id="btnReimpostaPwd" href="reimpostaPwd.aspx" class="genric-btn link circle btn-block">Password dimenticata? Reimpostala!</a>
                                     </div>
                                 </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-        <!--================End Home Banner Area =================-->
+        <!--================ Fine Sezione Login =================-->
 
 
         <!--================ start footer Area  =================-->

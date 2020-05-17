@@ -13,6 +13,9 @@ namespace ProgettoEcommerce
 {
     public partial class gestioneProdotti : System.Web.UI.Page
     {
+        /**********************/
+        /* Routine Principale */
+        /**********************/
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
@@ -24,11 +27,17 @@ namespace ProgettoEcommerce
                     Response.Redirect("prodotti.aspx");
                 impostaPagina();
             }
+            //Gestito fuori dal postback per poter agganciare l'evento al bottone di logout
+            gestUtenteLoggato();
+            //Gestito fuori dal postback per poter agganciare gli eventi ai bottoni elimina e modifica
             stampaElencoProdotti();
             Page.ClientScript.RegisterStartupScript(GetType(), "lstGestImg", "refreshLista('lstGestImg', -2);", true);
             Page.ClientScript.RegisterStartupScript(GetType(), "lstCatInsModProdotti", "refreshLista('lstCatInsModProdotti', -2);", true);
         }
 
+        /***********************/
+        /* Impostazione Pagina */
+        /***********************/
         private void impostaPagina()
         {
             if (Session["TipoUtente"].ToString().ToUpper() == "ADMIN")
@@ -40,6 +49,56 @@ namespace ProgettoEcommerce
             }
         }
 
+        /**********************************/
+        /* Gestione NavBar Utente Loggato */
+        /**********************************/
+        private void gestUtenteLoggato()
+        {
+            contNavBar.Attributes.Add("class", "col-lg-7 pr-0");
+            navUtenteCarrrello.Visible = true;
+            LinkButton btnLogout = new LinkButton();
+            btnLogout.CssClass = "icons";
+            btnLogout.Text = "<i class='fa fa-sign-out' aria-hidden='true'></i> Esci";
+            btnLogout.Click += BtnLogout_Click;
+            contLogout.Controls.Add(btnLogout);
+            if (Session["TipoUtente"].ToString().ToUpper() == "ADMIN")
+            {
+                navCarrello.Visible = false;
+                navStoricoOrdini.Visible = false;
+            }
+            else if (Session["TipoUtente"].ToString().ToUpper() == "CLIENTE")
+            {
+                navAndamentoVendite.Visible = false;
+                navCategorie.Visible = false;
+                navGestioneOrdini.Visible = false;
+                navGestioneProdotti.Visible = false;
+                navGestioneUtenti.Visible = false;
+                navTipiCarte.Visible = false;
+            }
+            else
+            {
+                navCarrello.Visible = false;
+                navGestioneUtenti.Visible = false;
+                navStoricoOrdini.Visible = false;
+                navTipiCarte.Visible = false;
+                navCategorie.Visible = false;
+                navGestioneOrdini.Visible = false;
+            }
+        }
+
+        /*******************/
+        /* Gestione Logout */
+        /*******************/
+        private void BtnLogout_Click(object sender, EventArgs e)
+        {
+            Session.Clear();
+            Session.Abandon();
+            Response.Redirect("login.aspx");
+        }
+
+        /************************************/
+        /* Gestione Lista Immagine Prodotto */
+        /************************************/
         private void setListaImg()
         {
             //Page.ClientScript.RegisterStartupScript(GetType(), "lstGestImg", "refreshLista('lstGestImg', -1);", true);
@@ -47,6 +106,9 @@ namespace ProgettoEcommerce
             contImgProd.Visible = true;
         }
 
+        /****************************/
+        /* Recupero Elenco Prodotti */
+        /****************************/
         private void stampaElencoProdotti()
         {
             adoNet ado = new adoNet();
@@ -88,7 +150,7 @@ namespace ProgettoEcommerce
                     riga.Cells.Add(cella);
 
                     cella = new TableCell();
-                    cella.Text = string.Format("{0:0.##}", tab.Rows[i].ItemArray[7].ToString()) + "&euro;";
+                    cella.Text = tab.Rows[i].ItemArray[7].ToString() + "&euro;";
                     riga.Cells.Add(cella);
 
                     cella = new TableCell();
@@ -153,6 +215,9 @@ namespace ProgettoEcommerce
             }
         }
 
+        /***************************/
+        /* Stampa Elenco Categorie */
+        /***************************/
         private void elencoCategorie()
         {
             adoNet ado = new adoNet();
@@ -175,6 +240,10 @@ namespace ProgettoEcommerce
                 stampaErrori(msgInsModProdotti, "Errore: " + ex.Message);
             }
         }
+
+        /****************************************/
+        /* Gestione Elimina/Ripristina Prodotto */
+        /****************************************/
         private void BtnGestProd_Click(object sender, EventArgs e)
         {
             LinkButton btnSender = sender as LinkButton;
@@ -203,6 +272,9 @@ namespace ProgettoEcommerce
                 stampaErrori(msgElencoProdotti, "Dati mancanti. Ricaricare la pagina");
         }
 
+        /******************************/
+        /* Gestione Modifica Prodotto */
+        /******************************/
         private void BtnModifica_Click(object sender, EventArgs e)
         {
             LinkButton btnSender = sender as LinkButton;
@@ -241,6 +313,9 @@ namespace ProgettoEcommerce
                 stampaErrori(msgElencoProdotti, "Codice prodotto non valido");
         }
 
+        /*******************/
+        /* Gestione Errori */
+        /*******************/
         private void stampaErrori(HtmlGenericControl contMsg, string msgErrore)
         {
             contMsg.InnerText = msgErrore;
@@ -248,6 +323,9 @@ namespace ProgettoEcommerce
             contMsg.Visible = true;
         }
 
+        /*********************************/
+        /* Gestione Inserimento Prodotto */
+        /*********************************/
         protected void btnInsModProdotti_Click(object sender, EventArgs e)
         {
             adoNet ado = new adoNet();
@@ -405,6 +483,9 @@ namespace ProgettoEcommerce
             }
         }
 
+        /***********************/
+        /* Pulizia Campi Input */
+        /***********************/
         private void pulisciCampiInput()
         {
             modelloInsModProdotti.Value = String.Empty;
@@ -421,6 +502,9 @@ namespace ProgettoEcommerce
             contLstGestImg.Visible = false;
         }
 
+        /*******************************************/
+        /* Caricamento Immagine Prodotto su Server */
+        /*******************************************/
         private bool uploadImgProdotto()
         {
             bool ret = false;
@@ -438,8 +522,14 @@ namespace ProgettoEcommerce
             return ret;
         }
 
+        /****************************/
+        /* Gestione Scelta Immagine */
+        /****************************/
         protected void lstGestImg_ServerChange(object sender, EventArgs e)
         {
+            //Mostro il campo per inserire una nuova immagine
+            //se si è selezionato nuova
+            //in caso contrario lo nascondo perchè si vuole mantenere quella corrente
             if (lstGestImg.Value == "nuova")
                 contImgProd.Visible = true;
             else

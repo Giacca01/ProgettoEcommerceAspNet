@@ -8,25 +8,29 @@ using System.Web.UI.WebControls;
 using adoNetWebSQlServer;
 using System.Security.Cryptography; //funzioni di sicurezza per la cifratura
 using System.Data;
+using System.Web.UI.HtmlControls;
 
 namespace ProgettoEcommerce
 {
     public partial class login : System.Web.UI.Page
     {
+        /**********************/
+        /* Routine Principale */
+        /**********************/
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["IdUtente"] != null && Session["TipoUtente"] != null)
-            {
-                Response.Redirect("prodotti.aspx");
-            }
-
-            //Se sbagli le credenziali non funge
             if (!Page.IsPostBack)
             {
+                //Se l'utente è già loggato lo mando ai prodotti
+                if (Session["IdUtente"] != null && Session["TipoUtente"] != null)
+                    Response.Redirect("prodotti.aspx");
                 adoNet.impostaConnessione("App_Data/DBEcommerce.mdf");
             }
         }
 
+        /******************/
+        /* Gestione Login */
+        /******************/
         protected void btnLogin_Click(object sender, EventArgs e)
         {
             string codSql = String.Empty;
@@ -36,12 +40,14 @@ namespace ProgettoEcommerce
             string tipoUtente = String.Empty;
             bool errore = false;
 
+            //Controllo dati di input
             if (usernameLogin.Value != String.Empty)
             {
                 if (pwdLogin.Value != String.Empty)
                 {
                     if (lstTipoUtente.SelectedIndex != -1)
                     {
+                        //Controllo credenziali su db
                         if (lstTipoUtente.Value == "admin")
                         {
                             codSql = "SELECT PwdAdmin AS Pwd, IdAdmin AS Id FROM Admin WHERE UserAdmin = '" + usernameLogin.Value+ "' AND ValAdmin = ' '";
@@ -59,7 +65,7 @@ namespace ProgettoEcommerce
                         }
                         else
                         {
-                            printErrori("Tipo utente non valido");
+                            stampaErrori(msgLogin, "Tipo utente non valido");
                             errore = true;
                         }
 
@@ -70,52 +76,52 @@ namespace ProgettoEcommerce
                                 tab = ado.eseguiQuery(codSql, CommandType.Text);
                                 if (tab.Rows.Count == 1)
                                 {
+                                    //Calcolo l'hash della pwd inserita dall'utente
+                                    //e la confronto con quella su db
                                     hashPwdLogin = calcolaMD5(pwdLogin.Value);
                                     StringComparer comparer = StringComparer.OrdinalIgnoreCase;
                                     if (comparer.Compare(hashPwdLogin, tab.Rows[0].ItemArray[0].ToString()) == 0)
                                     {
+                                        //Imposto i dati utente nella sessione
                                         Session["IdUtente"] = tab.Rows[0].ItemArray[1].ToString();
                                         Session["TipoUtente"] = tipoUtente;
                                         Response.Redirect("prodotti.aspx");
                                     }
                                     else
-                                    {
-                                        printErrori("Credenziali errate");
-                                    }
+                                        stampaErrori(msgLogin, "Credenziali errate");
                                 }
                                 else
-                                {
-                                    printErrori("Credenziali errate");
-                                }
+                                    stampaErrori(msgLogin, "Credenziali errate");
                             }
                             catch (Exception ex)
                             {
-                                printErrori("Attenzione!!! Errore: " + ex.Message);
+                                stampaErrori(msgLogin, "Attenzione!!! Errore: " + ex.Message);
                             }
                         }
                     }
                     else
-                    {
-                        printErrori("Specificare il tipo utente");
-                    }
+                        stampaErrori(msgLogin, "Specificare il Tipo Utente");
                 }
                 else
-                {
-                    printErrori("Inserire la Password");
-                }
+                    stampaErrori(msgLogin, "Inserire la Password");
             }
             else
-            {
-                printErrori("Inserire uno Username");
-            }
+                stampaErrori(msgLogin, "Inserire lo Username");
         }
 
-        private void printErrori(string msgErrore)
+        /*******************/
+        /* Gestione Errori */
+        /*******************/
+        private void stampaErrori(HtmlGenericControl contMsg, string msgErrore)
         {
-            msgLogin.InnerHtml = msgErrore;
+            contMsg.InnerText = msgErrore;
+            contMsg.Attributes.Add("class", "alert alert-danger");
+            contMsg.Visible = true;
         }
 
-        //Conversione della stringa in input in MD5
+        /*********************************************/
+        /* Conversione della stringa in input in MD5 */
+        /*********************************************/
         public string calcolaMD5(string strIn)
         {
             string ret = String.Empty;

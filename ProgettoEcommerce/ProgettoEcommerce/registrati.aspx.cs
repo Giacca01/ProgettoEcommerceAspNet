@@ -10,26 +10,31 @@ using System.Data;
 using System.Text.RegularExpressions;
 using System.Net.Mail;
 using System.Security.Cryptography;
+using System.Web.UI.HtmlControls;
 
 namespace ProgettoEcommerce
 {
     public partial class registrati : System.Web.UI.Page
     {
+        /**********************/
+        /* Routine Principale */
+        /**********************/
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["IdUtente"] != null && Session["TipoUtente"] != null)
-            {
-                Response.Redirect("prodotti.aspx");
-            }
-
             if (!Page.IsPostBack)
             {
+                //Se l'utente è già loggato lo mando ai prodotti
+                if (Session["IdUtente"] != null && Session["TipoUtente"] != null)
+                    Response.Redirect("prodotti.aspx");
                 adoNet.impostaConnessione("App_Data/DBEcommerce.mdf");
                 caricaComboCitta();
             }
 
         }
 
+        /******************************/
+        /* Gestione Caricamento Città */
+        /******************************/
         private void caricaComboCitta()
         {
             adoNet ado = new adoNet();
@@ -47,15 +52,23 @@ namespace ProgettoEcommerce
             }
             catch (Exception ex)
             {
-                printErrori("Attenzione!!! Errore: " + ex.Message);
+                stampaErrori(msgReg, "Attenzione!!! Errore: " + ex.Message);
             }
         }
 
-        private void printErrori(string msgErrore)
+        /*******************/
+        /* Gestione Errori */
+        /*******************/
+        private void stampaErrori(HtmlGenericControl contMsg, string msgErrore)
         {
-            msgReg.InnerHtml = msgErrore;
+            contMsg.InnerText = msgErrore;
+            contMsg.Attributes.Add("class", "alert alert-danger");
+            contMsg.Visible = true;
         }
 
+        /**************************/
+        /* Gestione Registrazione */
+        /**************************/
         protected void btnRegistrati_Click(object sender, EventArgs e)
         {
             DateTime dataNas = DateTime.MinValue;
@@ -66,6 +79,7 @@ namespace ProgettoEcommerce
             DataTable tab = new DataTable();
             bool cognOk;
 
+            //Controllo dati di input
             try
             {
                 if (lstTipoUtenteReg.SelectedValue == "fornitore" || lstTipoUtenteReg.SelectedValue == "cliente" || lstTipoUtenteReg.SelectedValue == "admin")
@@ -78,7 +92,7 @@ namespace ProgettoEcommerce
                                 cognOk = true;
                             else
                             {
-                                printErrori("Inserire il Cognome dell' utente");
+                                stampaErrori(msgReg, "Inserire il Cognome dell' utente");
                                 cognOk = false;
                             }
                         }
@@ -105,6 +119,7 @@ namespace ProgettoEcommerce
                                                         {
                                                             if (lstCittaReg.SelectedIndex != -1)
                                                             {
+                                                                //Controli su db per evitare duplicazione dei dati
                                                                 if (lstTipoUtenteReg.SelectedValue == "fornitore")
                                                                     codSql = "SELECT * FROM Fornitori WHERE Telefono = '" + telReg.Value + "'";
                                                                 else if (lstTipoUtenteReg.SelectedValue == "cliente")
@@ -138,6 +153,7 @@ namespace ProgettoEcommerce
 
                                                                         if (tab.Rows.Count == 0)
                                                                         {
+                                                                            //Inserimento Utente su DB
                                                                             if (lstTipoUtenteReg.SelectedValue == "fornitore")
                                                                             {
                                                                                 codSql = "INSERT INTO Fornitori ([NomeFornitore], [Telefono], [Email], [UserFornitore], [PwdFornitore], [ViaFornitore], [CivicoFornitore], [IdCitta], [ValFornitore])" +
@@ -158,83 +174,58 @@ namespace ProgettoEcommerce
                                                                             Response.Redirect("login.aspx");
                                                                         }
                                                                         else
-                                                                        {
-                                                                            printErrori("Username non disponibile");
-                                                                        }
+                                                                            stampaErrori(msgReg, "Username non disponibile");
                                                                     }
                                                                     else
-                                                                    {
-                                                                        printErrori("Email non disponibile");
-                                                                    }
+                                                                        stampaErrori(msgReg, "Email non disponibile");
                                                                 }
                                                                 else
-                                                                {
-                                                                    printErrori("Telefono non disponibile");
-                                                                }
+                                                                    stampaErrori(msgReg, "Telefono non disponibile");
                                                             }
                                                             else
-                                                            {
-                                                                printErrori("Selezionare la città di residenza");
-                                                            }
+                                                                stampaErrori(msgReg, "Selezionare la Città di residenza");
                                                         }
                                                         else
-                                                        {
-                                                            printErrori("Inserire il numero civico");
-                                                        }
+                                                            stampaErrori(msgReg, "Inserire il Numero Civico");
                                                     }
                                                     else
-                                                    {
-                                                        printErrori("Inserire la via di residenza");
-                                                    }
+                                                        stampaErrori(msgReg, "Inserire la via di residenza");
                                                 }
                                                 else
-                                                {
-                                                    printErrori("Inserire una password valida");
-                                                }
+                                                    stampaErrori(msgReg, "Inserire una password valida");
                                             }
                                             else
-                                            {
-                                                printErrori("Inserire uno username");
-                                            }
+                                                stampaErrori(msgReg, "Inserire uno username");
                                         }
                                         else
-                                        {
-                                            printErrori("Inserire un telefono valido");
-                                        }
+                                            stampaErrori(msgReg, "Inserire un telefono valido");
                                     }
                                     else
-                                    {
-                                        printErrori("Inserire una mail valida");
-                                    }
+                                        stampaErrori(msgReg, "Inserire una mail valida");
                                 }
                                 else
-                                {
-                                    printErrori("Occorre aver compiuto almeno 18 anni");
-                                }
+                                    stampaErrori(msgReg, "Occorre aver compiuto almeno 18 anni");
                             }
                             else
-                            {
-                                printErrori("Data di nascita non valida");
-                            }
+                                stampaErrori(msgReg, "Data di nascita non valida");
                         }
                     }
                     else
-                    {
-                        printErrori("Inserire il Nome dell' utente");
-                    }
+                        stampaErrori(msgReg, "Inserire il Nome dell' utente");
                 }
                 else
-                {
-                    printErrori("Tipo utente non valido");
-                }
+                    stampaErrori(msgReg, "Tipo utente non valido");
             }
             catch (Exception ex)
             {
-                printErrori("Attenzione!!! Errore: " + ex.Message);
+                stampaErrori(msgReg, "Attenzione!!! Errore: " + ex.Message);
             }
             
         }
 
+        /*********************/
+        /* Validazione Email */
+        /*********************/
         private bool validaEmail(string email)
         {
             try
@@ -248,7 +239,9 @@ namespace ProgettoEcommerce
             }
         }
 
-        //Conversione della stringa in input in MD5
+        /*********************************************/
+        /* Conversione della stringa in input in MD5 */
+        /*********************************************/
         public string calcolaMD5(string strIn)
         {
             string ret = String.Empty;
@@ -283,20 +276,31 @@ namespace ProgettoEcommerce
             return ret;
         }
 
+        /**********************/
+        /* Gestione Dati Form */
+        /**********************/
         protected void lstTipoUtenteReg_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //In base al tipo utente nascondo alcuni campi del form
+            //che il fornitore non deve inserire
             if (lstTipoUtenteReg.SelectedValue == "fornitore")
                 gestFormFornitore();
             else
                 gestFormAdmiCliente();
         }
 
+        /********************************/
+        /* Gestione Dati Form Fornitore */
+        /********************************/
         private void gestFormFornitore()
         {
             cognomeReg.Visible = false;
             contDataNascitaReg.Visible = false;
         }
 
+        /******************************/
+        /* Gestione Dati Form Cliente */
+        /******************************/
         private void gestFormAdmiCliente()
         {
             cognomeReg.Visible = true;
