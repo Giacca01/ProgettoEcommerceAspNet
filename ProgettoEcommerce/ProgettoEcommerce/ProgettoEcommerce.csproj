@@ -83,6 +83,7 @@
     <Content Include="js\carrello.js" />
     <Content Include="js\modificaProfilo.js" />
     <Content Include="js\registrati.js" />
+    <Content Include="js\reimpostaPwd.js" />
     <Content Include="js\storicoOrdini.js" />
     <Content Include="modificaProfilo.aspx" />
     <Content Include="prodotti.aspx" />
@@ -202,6 +203,7 @@
     <Content Include="login.aspx" />
     <Content Include="registrati.aspx" />
     <Content Include="dettaglioProdotto.aspx" />
+    <Content Include="reimpostaPwd.aspx" />
     <Content Include="storicoOrdini.aspx" />
     <Content Include="TipiCarteCredito.aspx" />
     <Content Include="vendors\animate-css\animate.css" />
@@ -346,6 +348,13 @@
     </Compile>
     <Compile Include="dettaglioProdotto.aspx.designer.cs">
       <DependentUpon>dettaglioProdotto.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="reimpostaPwd.aspx.cs">
+      <DependentUpon>reimpostaPwd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="reimpostaPwd.aspx.designer.cs">
+      <DependentUpon>reimpostaPwd.aspx</DependentUpon>
     </Compile>
     <Compile Include="storicoOrdini.aspx.cs">
       <DependentUpon>storicoOrdini.aspx</DependentUpon>

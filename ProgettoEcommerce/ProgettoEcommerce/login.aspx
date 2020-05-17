@@ -118,7 +118,7 @@
                                         <asp:Button id="btnLogin" class="genric-btn primary circle btn-block" runat="server" Text="Login" OnClick="btnLogin_Click"/>
                                         <%--<a id="btnLogin" class="genric-btn primary circle btn-block" runat="server">Login</a>--%>
                                         <a id="btnRegistrati" href="registrati.aspx" class="genric-btn link circle btn-block">Non hai un account? Registrati!</a>
-                                        <a id="btnReimpostaPwd" href="nuovaPassword.aspx" class="genric-btn link circle btn-block">Password dimenticata? Reimpostala!</a>
+                                        <a id="btnReimpostaPwd" href="reimpostaPwd.aspx" class="genric-btn link circle btn-block">Password dimenticata? Reimpostala!</a>
                                     </div>
                                 </div>
                         </div>
