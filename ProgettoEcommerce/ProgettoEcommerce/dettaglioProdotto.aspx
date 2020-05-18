@@ -30,7 +30,7 @@
         <!--================Header Menu Area =================-->
         <header class="header_area">
             <div class="main_menu">
-                <div class="container">
+                <div class="container" style="max-width:100%">
                     <nav class="navbar navbar-expand-lg navbar-light w-100">
                         <!-- Brand and toggle get grouped for better mobile display -->
                         <a class="navbar-brand logo_h" href="index.html">
@@ -49,32 +49,67 @@
                             <span class="icon-bar"></span>
                         </button>
                         <!-- Collect the nav links, forms, and other content for toggling -->
-                        <div
-                            class="collapse navbar-collapse offset w-100"
-                            id="navbarSupportedContent">
+                        <div class="collapse navbar-collapse offset w-100" id="navbarSupportedContent">
                             <div class="row w-100 mr-0">
-                                <div class="col-lg-7 pr-0">
-                                    <ul class="nav navbar-nav center_nav pull-right">
-                                        <li class="nav-item active">
-                                            <a href="dettaglioProdotto.aspx" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                                aria-expanded="false" runat="server">Dettaglio Prodotto</a>
+                                <div id="contNavBar" class="col-lg-10 pr-0" runat="server">
+                                    <ul id="navBar" class="nav navbar-nav center_nav pull-right" runat="server">
+                                        <li id="navHome" class="nav-item" runat="server">
+                                            <a class="nav-link" href="index.aspx">Home</a>
+                                        </li>
+                                        <li id="navRegistrati" class="nav-item" runat="server">
+                                            <a href="registrati.aspx" class="nav-link">Registrati</a>
+                                        </li>
+                                        <li id="navLogin" class="nav-item" runat="server">
+                                            <a href="login.aspx" class="nav-link">Login</a>
+                                        </li>
+                                        <li id="navReimpostaPwd" class="nav-item" runat="server">
+                                            <a href="reimpostaPwd.aspx" class="nav-link">Reimposta Password</a>
+                                        </li>
+                                        <li id="navProdotti" class="nav-item active" runat="server">
+                                            <a href="prodotti.aspx" class="nav-link active">Elenco Prodotti</a>
+                                        </li>
+                                        <li id="navAndamentoVendite" class="nav-item" runat="server">
+                                            <a href="andamentoVendite.aspx" class="nav-link">Andamento Vendite</a>
+                                        </li>
+                                        <li id="navCarrello" class="nav-item" runat="server">
+                                            <a href="carrello.aspx" class="nav-link">Carrello</a>
+                                        </li>
+                                        <li id="navCategorie" class="nav-item" runat="server">
+                                            <a href="categorie.aspx" class="nav-link">Categorie</a>
+                                        </li>
+                                        <li id="navGestioneOrdini" class="nav-item" runat="server">
+                                            <a href="gestioneOrdini.aspx" class="nav-link">Gestione Ordini</a>
+                                        </li>
+                                        <li id="navGestioneProdotti" class="nav-item" runat="server">
+                                            <a href="gestioneProdotti.aspx" class="nav-link">Gestione Prodotti</a>
+                                        </li>
+                                        <li id="navGestioneUtenti" class="nav-item" runat="server">
+                                            <a href="gestioneUtenti.aspx" class="nav-link">Gestione Utenti</a>
+                                        </li>
+                                        <li id="navStoricoOrdini" class="nav-item" runat="server">
+                                            <a href="storicoOrdini.aspx" class="nav-link">Storico Ordini</a>
+                                        </li>
+                                        <li id="navTipiCarte" class="nav-item" runat="server">
+                                            <a href="TipiCarteCredito.aspx" class="nav-link">Carte di Credito</a>
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="col-lg-5 pr-0">
-                                    <ul id="navUtenteCarrrello" class="nav navbar-nav navbar-right right_nav pull-right" runat="server">
+                                <div id="navUtenteCarrrello" class="col-lg-2 pr-0" runat="server">
+                                    <ul class="nav navbar-nav navbar-right right_nav pull-right">
                                         <li class='nav-item submenu dropdown'>
                                             <a href='#' class='icons dropdown-toggle' data-toggle='dropdown' role="button" aria-haspopup='true'><i class='ti-user' aria-hidden='true'></i></a>
                                             <ul id="dropDownLogout" class='dropdown-menu' runat="server">
-                                                <li class='nav-item'></li>
+                                                <li id="contLogout" class='nav-item' runat="server"></li>
+                                                <li class='nav-item'>
+                                                    <a href="modificaProfilo.aspx" class='icons'><i class="ti-user" aria-hidden='true'></i>Profilo</a>
+                                                </li>
                                             </ul>
                                         </li>
                                         <li class='nav-item'>
-                                            <a href='#' class='icons'><i class='ti-shopping-cart' aria-hidden='true'></i></a>
+                                            <a href="carrello.aspx" class='icons'><i class='ti-shopping-cart' aria-hidden='true'></i></a>
                                         </li>
                                     </ul>
                                 </div>
-
                             </div>
                         </div>
                     </nav>
@@ -101,7 +136,7 @@
         </section>
         <!--================End Home Banner Area =================-->
 
-        <!--================Single Product Area =================-->
+        <!--================ Inizio Sezione Dettaglio Prodotto =================-->
         <div id="contDettaglioProdotto" runat="server">
             <div class="product_image_area">
                 <div class="container">
@@ -117,9 +152,8 @@
                     </div>
                 </div>
             </div>
-            <!--================End Single Product Area =================-->
 
-            <!--================Product Description Area =================-->
+            <!--================ Inizio Sezione Dettaglio Prodotto =================-->
             <section class="product_description_area">
                 <div class="container">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -146,15 +180,16 @@
                     </div>
                 </div>
             </section>
-            <!--================End Product Description Area =================-->
+            <!--================ Fine Sezione Dettaglio Prodotto =================-->
         </div>
+        <!--================ Fine Sezione Dettaglio Prodotto =================-->
 
         <div id="contMsgNoProd" runat="server">
             <section class="product_image_area">
                 <div class="container">
                 <div class="row">
-                    <div class="col-sm-12 col-lg-6 col-md-6 mx-auto">
-                        <h2 id="contMsgErroreCreazioneDetProd" runat="server"></h2>
+                    <div class="col-sm-12 col-lg-7 col-md-7 mx-auto">
+                        <h2 id="contMsgErroreCreazioneDetProd" role="alert" style="text-align: center;" runat="server"></h2>
                     </div>
                 </div>
             </div>
@@ -162,63 +197,22 @@
             <br />
             <br />
         </div>
-
         <!--================ start footer Area  =================-->
         <footer class="footer-area section_gap">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-2 col-md-6 single-footer-widget">
-                        <h4>Top Products</h4>
-                        <ul>
-                            <li><a href="#">Managed Website</a></li>
-                            <li><a href="#">Manage Reputation</a></li>
-                            <li><a href="#">Power Tools</a></li>
-                            <li><a href="#">Marketing Service</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-2 col-md-6 single-footer-widget">
-                        <h4>Quick Links</h4>
-                        <ul>
-                            <li><a href="#">Jobs</a></li>
-                            <li><a href="#">Brand Assets</a></li>
-                            <li><a href="#">Investor Relations</a></li>
-                            <li><a href="#">Terms of Service</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-2 col-md-6 single-footer-widget">
-                        <h4>Features</h4>
-                        <ul>
-                            <li><a href="#">Jobs</a></li>
-                            <li><a href="#">Brand Assets</a></li>
-                            <li><a href="#">Investor Relations</a></li>
-                            <li><a href="#">Terms of Service</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-2 col-md-6 single-footer-widget">
-                        <h4>Resources</h4>
-                        <ul>
-                            <li><a href="#">Guides</a></li>
-                            <li><a href="#">Research</a></li>
-                            <li><a href="#">Experts</a></li>
-                            <li><a href="#">Agencies</a></li>
-                        </ul>
-                    </div>
                     <div class="col-lg-4 col-md-6 single-footer-widget">
-                        <h4>Newsletter</h4>
-                        <p>You can trust us. we only send promo offers,</p>
-                        <div class="form-wrap" id="mc_embed_signup">
-                            <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
-                                method="get" class="form-inline">
-                                <input class="form-control" name="EMAIL" placeholder="Your Email Address" onfocus="this.placeholder = ''"
-                                    onblur="this.placeholder = 'Your Email Address '" required="" type="email">
-                                <button class="click-btn btn btn-default">Subscribe</button>
-                                <div style="position: absolute; left: -5000px;">
-                                    <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
-                                </div>
-
-                                <div class="info"></div>
-                            </form>
-                        </div>
+                        <h4>Giacardi's Store</h4>
+                        <p>Un negozio all'avanguardia per tutte le tue esigenze</p>
+                    </div>
+                    <div class="col-lg-4 col-md-6 single-footer-widget"></div>
+                    <div class="col-lg-4 col-md-6 single-footer-widget">
+                        <h4>Contatti</h4>
+                        <ul>
+                            <li>+3984190593</li>
+                            <li>Via Genova, 105 Palermo</li>
+                            <li>info@giacardistore.com</li>
+                        </ul>
                     </div>
                 </div>
                 <div class="footer-bottom row align-items-center">

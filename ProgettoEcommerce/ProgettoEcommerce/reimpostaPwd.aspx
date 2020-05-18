@@ -29,7 +29,7 @@
         <!--================Header Menu Area =================-->
         <header class="header_area">
             <div class="main_menu">
-                <div class="container">
+                <div class="container" style="max-width:100%">
                     <nav class="navbar navbar-expand-lg navbar-light w-100">
                         <!-- Brand and toggle get grouped for better mobile display -->
                         <a class="navbar-brand logo_h" href="index.html">

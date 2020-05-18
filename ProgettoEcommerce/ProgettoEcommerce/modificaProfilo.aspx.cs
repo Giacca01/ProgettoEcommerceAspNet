@@ -11,6 +11,9 @@ namespace ProgettoEcommerce
 {
     public partial class ModificaProfilo : System.Web.UI.Page
     {
+        /**********************/
+        /* Routine Principale */
+        /**********************/
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
@@ -26,20 +29,72 @@ namespace ProgettoEcommerce
                     if (Session["TipoUtente"].ToString() == "Cliente")
                         caricaTipiCarte();
                     else
-                    {
                         sezElencoCarte.Visible = false;
-                        sezInsCarta.Visible = false;
-                    }
+
+                    sezInsCarta.Visible = false;
                 }
 
             }
 
-            caricaCarteDiCredito();
+            //Gestito fuori dal postback per poter agganciare gli eventi ai bottoni
+            if (Session["TipoUtente"].ToString() == "Cliente")
+                caricaCarteDiCredito();
+            //Gestito fuori dal postback per poter agganciare l'evento al bottone di logout
+            gestUtenteLoggato();
 
             Page.ClientScript.RegisterStartupScript(GetType(), "impostaLista", "impostaLista();", true);
 
         }
 
+        /**********************************/
+        /* Gestione NavBar Utente Loggato */
+        /**********************************/
+        private void gestUtenteLoggato()
+        {
+            navUtenteCarrrello.Visible = true;
+            LinkButton btnLogout = new LinkButton();
+            btnLogout.CssClass = "icons";
+            btnLogout.Text = "<i class='fa fa-sign-out' aria-hidden='true'></i> Esci";
+            btnLogout.Click += BtnLogout_Click;
+            contLogout.Controls.Add(btnLogout);
+            if (Session["TipoUtente"].ToString().ToUpper() == "ADMIN")
+            {
+                navCarrello.Visible = false;
+                navStoricoOrdini.Visible = false;
+            }
+            else if (Session["TipoUtente"].ToString().ToUpper() == "CLIENTE")
+            {
+                navAndamentoVendite.Visible = false;
+                navCategorie.Visible = false;
+                navGestioneOrdini.Visible = false;
+                navGestioneProdotti.Visible = false;
+                navGestioneUtenti.Visible = false;
+                navTipiCarte.Visible = false;
+            }
+            else
+            {
+                navCarrello.Visible = false;
+                navGestioneUtenti.Visible = false;
+                navStoricoOrdini.Visible = false;
+                navTipiCarte.Visible = false;
+                navCategorie.Visible = false;
+                navGestioneOrdini.Visible = false;
+            }
+        }
+
+        /*******************/
+        /* Gestione Logout */
+        /*******************/
+        private void BtnLogout_Click(object sender, EventArgs e)
+        {
+            Session.Clear();
+            Session.Abandon();
+            Response.Redirect("login.aspx");
+        }
+
+        /***************************/
+        /* Caricamento Lista Città */
+        /***************************/
         private void caricaComboCitta()
         {
             adoNet ado = new adoNet();
@@ -61,6 +116,9 @@ namespace ProgettoEcommerce
             }
         }
 
+        /************************/
+        /* Stampa Form Modifica */
+        /************************/
         private void stampaFormModifica()
         {
             adoNet ado = new adoNet();
@@ -126,6 +184,9 @@ namespace ProgettoEcommerce
             }
         }
 
+        /********************************/
+        /* Caricamento Lista Tipi Carte */
+        /********************************/
         private void caricaTipiCarte()
         {
             adoNet ado = new adoNet();
@@ -147,6 +208,9 @@ namespace ProgettoEcommerce
             }
         }
 
+        /**********************************/
+        /* Stampa Elenco Carte di Credito */
+        /**********************************/
         private void caricaCarteDiCredito()
         {
             adoNet ado = new adoNet();
@@ -158,7 +222,6 @@ namespace ProgettoEcommerce
             CheckBox chkVal;
 
             sezElencoCarte.Visible = true;
-            sezInsCarta.Visible = true;
             codSql = "SELECT C.*, T.* FROM Carte AS C " +
                 "INNER JOIN TipiCarte AS T " +
                 "ON C.IdTipoCarta = T.IdTipoCarte " +
@@ -209,6 +272,9 @@ namespace ProgettoEcommerce
             }
         }
 
+        /*************************************/
+        /* Gestione Elimina/Ripristina Carta */
+        /*************************************/
         private void BtnGestioneCarta_Click(object sender, EventArgs e)
         {
             LinkButton btnSender = sender as LinkButton;
@@ -226,7 +292,7 @@ namespace ProgettoEcommerce
                 try
                 {
                     ado.eseguiNonQuery(codSql, CommandType.Text);
-                    Response.Redirect(Request.RawUrl);
+                    ClientScript.RegisterStartupScript(typeof(Page), "autoPostback", ClientScript.GetPostBackEventReference(this, String.Empty), true);
                 }
                 catch (Exception ex)
                 {
@@ -237,6 +303,9 @@ namespace ProgettoEcommerce
                 stampaErrori(msgElencoCarte, "Dati mancanti. Ricaricare la pagina");
         }
 
+        /*******************/
+        /* Gestione Errori */
+        /*******************/
         private void stampaErrori(HtmlGenericControl contMsg, string msgErrore)
         {
             contMsg.InnerText = msgErrore;
@@ -244,6 +313,9 @@ namespace ProgettoEcommerce
             contMsg.Visible = true;
         }
 
+        /*****************************/
+        /* Gestione Modifica Profilo */
+        /*****************************/
         protected void btnModificaProfilo_Click(object sender, EventArgs e)
         {
             DateTime dataNas = DateTime.MinValue;
@@ -255,6 +327,7 @@ namespace ProgettoEcommerce
 
             try
             {
+                //Controllo Dati di Input
                 if (nomeModProfilo.Value != String.Empty)
                 {
                     if (Session["TipoUtente"].ToString() == "Cliente" || Session["TipoUtente"].ToString() == "Admin")
@@ -381,6 +454,9 @@ namespace ProgettoEcommerce
             }
         }
 
+        /*********************/
+        /* Validazione Email */
+        /*********************/
         private bool validaEmail(string email)
         {
             try
@@ -394,6 +470,9 @@ namespace ProgettoEcommerce
             }
         }
 
+        /******************************/
+        /* Gestione Inserimento Carta */
+        /******************************/
         protected void btnInsCarta_Click(object sender, EventArgs e)
         {
             adoNet ado = new adoNet();
@@ -401,6 +480,7 @@ namespace ProgettoEcommerce
             DataTable tab = new DataTable();
             Regex regCodCarta = new Regex(@"^[0-9]*$");
 
+            //Controllo Dati di Input
             if (codiceInsCarta.Value.Length >= 13 && codiceInsCarta.Value.Length <= 16)
             {
                 if (regCodCarta.IsMatch(codiceInsCarta.Value))
@@ -416,7 +496,7 @@ namespace ProgettoEcommerce
                             codiceInsCarta.Value = String.Empty;
                             lstTipoCarta.SelectedIndex = -1;
                             msgInsCarta.Visible = false;
-                            Response.Redirect(Request.RawUrl);
+                            ClientScript.RegisterStartupScript(typeof(Page), "autoPostback", ClientScript.GetPostBackEventReference(this, String.Empty), true);
                         }
                         else
                             stampaErrori(msgInsCarta, "Dati carta non validi");
@@ -429,6 +509,23 @@ namespace ProgettoEcommerce
             }
             else
                 stampaErrori(msgInsCarta, "Il Codice Carta deve essere compreso tra 13 e 16 cifre");
+        }
+
+        /***********************************/
+        /* Gestione Form Inserimento Carta */
+        /***********************************/
+        protected void btnApriInsCarta_Click(object sender, EventArgs e)
+        {
+            if (sezInsCarta.Visible)
+            {
+                sezInsCarta.Visible = false;
+                btnApriInsCarta.Text = "Aggiungi Carta";
+            }
+            else
+            {
+                sezInsCarta.Visible = true;
+                btnApriInsCarta.Text = "Chiudi";
+            }
         }
     }
 }

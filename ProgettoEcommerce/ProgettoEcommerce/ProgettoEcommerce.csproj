@@ -71,7 +71,6 @@
     <Content Include="andamentoVendite.aspx" />
     <Content Include="App_Data\DBEcommerce.mdf" />
     <Content Include="App_Data\DBEcommerce_log.ldf" />
-    <Content Include="blog.aspx" />
     <Content Include="carrello.aspx" />
     <Content Include="categorie.aspx" />
     <Content Include="gestioneOrdini.aspx" />
@@ -87,15 +86,12 @@
     <Content Include="js\storicoOrdini.js" />
     <Content Include="modificaProfilo.aspx" />
     <Content Include="prodotti.aspx" />
-    <Content Include="checkout.aspx" />
-    <Content Include="contact.aspx" />
     <Content Include="css\bootstrap.css" />
     <Content Include="css\flaticon.css" />
     <Content Include="css\font-awesome.min.css" />
     <Content Include="css\responsive.css" />
     <Content Include="css\style.css" />
     <Content Include="css\themify-icons.css" />
-    <Content Include="elements.aspx" />
     <Content Include="fonts\Flaticon.svg" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\themify.svg" />
@@ -243,13 +239,6 @@
     <Compile Include="andamentoVendite.aspx.designer.cs">
       <DependentUpon>andamentoVendite.aspx</DependentUpon>
     </Compile>
-    <Compile Include="blog.aspx.cs">
-      <DependentUpon>blog.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="blog.aspx.designer.cs">
-      <DependentUpon>blog.aspx</DependentUpon>
-    </Compile>
     <Compile Include="carrello.aspx.cs">
       <DependentUpon>carrello.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -298,27 +287,6 @@
     </Compile>
     <Compile Include="prodotti.aspx.designer.cs">
       <DependentUpon>prodotti.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="checkout.aspx.cs">
-      <DependentUpon>checkout.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="checkout.aspx.designer.cs">
-      <DependentUpon>checkout.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="contact.aspx.cs">
-      <DependentUpon>contact.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="contact.aspx.designer.cs">
-      <DependentUpon>contact.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="elements.aspx.cs">
-      <DependentUpon>elements.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="elements.aspx.designer.cs">
-      <DependentUpon>elements.aspx</DependentUpon>
     </Compile>
     <Compile Include="index.aspx.cs">
       <DependentUpon>index.aspx</DependentUpon>

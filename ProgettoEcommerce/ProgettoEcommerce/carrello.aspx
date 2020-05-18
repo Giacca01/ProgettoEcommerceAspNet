@@ -31,7 +31,7 @@
         <!--================Header Menu Area =================-->
         <header class="header_area">
             <div class="main_menu">
-                <div class="container">
+                <div class="container" style="max-width: 100%">
                     <nav class="navbar navbar-expand-lg navbar-light w-100">
                         <!-- Brand and toggle get grouped for better mobile display -->
                         <a class="navbar-brand logo_h" href="index.aspx">
@@ -50,102 +50,52 @@
                             <span class="icon-bar"></span>
                         </button>
                         <!-- Collect the nav links, forms, and other content for toggling -->
-                        <div
-                            class="collapse navbar-collapse offset w-100"
-                            id="navbarSupportedContent">
+                        <div class="collapse navbar-collapse offset w-100" id="navbarSupportedContent">
                             <div class="row w-100 mr-0">
-                                <div class="col-lg-7 pr-0">
-                                    <ul class="nav navbar-nav center_nav pull-right">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="index.aspx">Home</a>
+                                <div id="contNavBar" class="col-lg-10 pr-0" runat="server">
+                                    <ul id="navBar" class="nav navbar-nav center_nav pull-right" runat="server">
+                                        <li id="navProdotti" class="nav-item" runat="server">
+                                            <a href="prodotti.aspx" class="nav-link active">Elenco Prodotti</a>
                                         </li>
-                                        <li class="nav-item active submenu dropdown">
-                                            <a
-                                                href="#"
-                                                class="fa fa-sign-out"
-                                                data-toggle="dropdown"
-                                                role="button"
-                                                aria-haspopup="true"
-                                                aria-expanded="false">Shop</a>
-                                            <ul class="dropdown-menu">
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="category.html">Shop Category</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="single-product.html">Product Details</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="checkout.html">Product Checkout</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="cart.html">Shopping Cart</a>
-                                                </li>
-                                            </ul>
+                                        <li id="navAndamentoVendite" class="nav-item" runat="server">
+                                            <a href="andamentoVendite.aspx" class="nav-link">Andamento Vendite</a>
                                         </li>
-                                        <li class="nav-item submenu dropdown">
-                                            <a
-                                                href="#"
-                                                class="nav-link dropdown-toggle"
-                                                data-toggle="dropdown"
-                                                role="button"
-                                                aria-haspopup="true"
-                                                aria-expanded="false">Blog</a>
-                                            <ul class="dropdown-menu">
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="blog.html">Blog</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="single-blog.html">Blog Details</a>
-                                                </li>
-                                            </ul>
+                                        <li id="navCarrello" class="nav-item active" runat="server">
+                                            <a href="carrello.aspx" class="nav-link">Carrello</a>
                                         </li>
-                                        <li class="nav-item submenu dropdown">
-                                            <a
-                                                href="#"
-                                                class="nav-link dropdown-toggle"
-                                                data-toggle="dropdown"
-                                                role="button"
-                                                aria-haspopup="true"
-                                                aria-expanded="false">Pages</a>
-                                            <ul class="dropdown-menu">
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="tracking.html">Tracking</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="elements.html">Elements</a>
-                                                </li>
-                                            </ul>
+                                        <li id="navCategorie" class="nav-item" runat="server">
+                                            <a href="categorie.aspx" class="nav-link">Categorie</a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="contact.html">Contact</a>
+                                        <li id="navGestioneOrdini" class="nav-item" runat="server">
+                                            <a href="gestioneOrdini.aspx" class="nav-link">Gestione Ordini</a>
+                                        </li>
+                                        <li id="navGestioneProdotti" class="nav-item" runat="server">
+                                            <a href="gestioneProdotti.aspx" class="nav-link">Gestione Prodotti</a>
+                                        </li>
+                                        <li id="navGestioneUtenti" class="nav-item" runat="server">
+                                            <a href="gestioneUtenti.aspx" class="nav-link">Gestione Utenti</a>
+                                        </li>
+                                        <li id="navStoricoOrdini" class="nav-item" runat="server">
+                                            <a href="storicoOrdini.aspx" class="nav-link">Storico Ordini</a>
+                                        </li>
+                                        <li id="navTipiCarte" class="nav-item" runat="server">
+                                            <a href="TipiCarteCredito.aspx" class="nav-link">Carte di Credito</a>
                                         </li>
                                     </ul>
                                 </div>
-
-                                <div class="col-lg-5 pr-0">
+                                <div id="navUtenteCarrrello" class="col-lg-2 pr-0" runat="server">
                                     <ul class="nav navbar-nav navbar-right right_nav pull-right">
-                                        <li class="nav-item">
-                                            <a href="#" class="icons">
-                                                <i class="ti-search" aria-hidden="true"></i>
-                                            </a>
+                                        <li class='nav-item submenu dropdown'>
+                                            <a href='#' class='icons dropdown-toggle' data-toggle='dropdown' role="button" aria-haspopup='true'><i class='ti-user' aria-hidden='true'></i></a>
+                                            <ul id="dropDownLogout" class='dropdown-menu' runat="server">
+                                                <li id="contLogout" class='nav-item' runat="server"></li>
+                                                <li class='nav-item'>
+                                                    <a href="modificaProfilo.aspx" class='icons'><i class="ti-user" aria-hidden='true'></i>Profilo</a>
+                                                </li>
+                                            </ul>
                                         </li>
-
-                                        <li class="nav-item">
-                                            <a href="#" class="icons">
-                                                <i class="ti-shopping-cart"></i>
-                                            </a>
-                                        </li>
-
-                                        <li class="nav-item">
-                                            <a href="#" class="icons">
-                                                <i class="ti-user" aria-hidden="true"></i>
-                                            </a>
-                                        </li>
-
-                                        <li class="nav-item">
-                                            <a href="#" class="icons">
-                                                <i class="ti-heart" aria-hidden="true"></i>
-                                            </a>
+                                        <li class='nav-item'>
+                                            <a href="carrello.aspx" class='icons'><i class='ti-shopping-cart' aria-hidden='true'></i></a>
                                         </li>
                                     </ul>
                                 </div>
@@ -161,8 +111,7 @@
         <section class="banner_area">
             <div class="banner_inner d-flex align-items-center">
                 <div class="container">
-                    <div
-                        class="banner_content d-md-flex justify-content-between align-items-center">
+                    <div class="banner_content d-md-flex justify-content-between align-items-center">
                         <div class="mb-3 mb-md-0">
                             <h2>Carrello</h2>
                         </div>
@@ -176,38 +125,31 @@
         </section>
         <!--================End Home Banner Area =================-->
 
-        <div id="contMsgNoProd" runat="server">
-            <section class="product_image_area">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-12 col-lg-6 col-md-6 mx-auto">
-                            <h2 id="contMsgErroreElencoProdCarrello" runat="server"></h2>
+        <!--================ Inizio Sezione Carrello =================-->
+        <section id="sezElencoProdCarrello" class="cart_area" runat="server">
+            <div class="container">
+                <div class="row">
+                    <div class="cart_inner">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Prodotto</th>
+                                        <th scope="col">Prezzo</th>
+                                        <th scope="col">Quantit&agrave;</th>
+                                        <th scope="col">Totale</th>
+                                        <th scope="col">Elimina</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="corpoTabCarrello" runat="server">
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-            </section>
-            <br />
-            <br />
-        </div>
-
-        <!--================Cart Area =================-->
-        <section id="sezElencoProdCarrello" class="cart_area" runat="server">
-            <div class="container">
-                <div class="cart_inner">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Prodotto</th>
-                                    <th scope="col">Prezzo</th>
-                                    <th scope="col">Quantit&agrave;</th>
-                                    <th scope="col">Totale</th>
-                                    <th scope="col">Elimina</th>
-                                </tr>
-                            </thead>
-                            <tbody id="corpoTabCarrello" runat="server">
-                            </tbody>
-                        </table>
+                <div class="row">
+                    <div class="col-sm-12 col-md-7 col-lg-7 mx-auto">
+                        <div id="msgErroreElProdCar" role="alert" style="text-align: center;" runat="server"></div>
                     </div>
                 </div>
                 <div class="row">
@@ -226,7 +168,7 @@
                 </div>
             </div>
         </section>
-        <!--================End Cart Area =================-->
+        <!--================ Fine Sezione Carrello =================-->
 
         <!-- Modal Conferma Ordine-->
         <div class="modal fade" id="modalConfermaOrdine" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
@@ -244,7 +186,7 @@
                             <p id="msgConfermaOrdine" style="text-align: center;" runat="server"></p>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6 col-md-12 col-lg-6 mx-auto">
+                            <div class="col-sm-12 col-md-7 col-lg-7 mx-auto">
                                 <div id="msgErroreConfermaOrdine" role="alert" style="text-align: center;"></div>
                             </div>
                         </div>
@@ -260,40 +202,40 @@
         <!-- Fine Modal Conferma Ordine-->
 
         <!--================ start footer Area  =================-->
-    <footer class="footer-area section_gap">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 col-md-6 single-footer-widget">
-                    <h4>Giacardi's Store</h4>
-                    <p>Un negozio all'avanguardia per tutte le tue esigenze</p>
+        <footer class="footer-area section_gap">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 single-footer-widget">
+                        <h4>Giacardi's Store</h4>
+                        <p>Un negozio all'avanguardia per tutte le tue esigenze</p>
+                    </div>
+                    <div class="col-lg-4 col-md-6 single-footer-widget"></div>
+                    <div class="col-lg-4 col-md-6 single-footer-widget">
+                        <h4>Contatti</h4>
+                        <ul>
+                            <li>+3984190593</li>
+                            <li>Via Genova, 105 Palermo</li>
+                            <li>info@giacardistore.com</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="col-lg-4 col-md-6 single-footer-widget"></div>
-                <div class="col-lg-4 col-md-6 single-footer-widget">
-                    <h4>Contatti</h4>
-                    <ul>
-                        <li>+3984190593</li>
-                        <li>Via Genova, 105 Palermo</li>
-                        <li>info@giacardistore.com</li>
-                    </ul>
+                <div class="footer-bottom row align-items-center">
+                    <p class="footer-text m-0 col-lg-8 col-md-12">
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+                        All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i>by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    </p>
+                    <div class="col-lg-4 col-md-12 footer-social">
+                        <a href="#"><i class="fa fa-facebook"></i></a>
+                        <a href="#"><i class="fa fa-twitter"></i></a>
+                        <a href="#"><i class="fa fa-dribbble"></i></a>
+                        <a href="#"><i class="fa fa-behance"></i></a>
+                    </div>
                 </div>
             </div>
-            <div class="footer-bottom row align-items-center">
-                <p class="footer-text m-0 col-lg-8 col-md-12">
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    Copyright &copy;<script>document.write(new Date().getFullYear());</script>
-                    All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i>by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                </p>
-                <div class="col-lg-4 col-md-12 footer-social">
-                    <a href="#"><i class="fa fa-facebook"></i></a>
-                    <a href="#"><i class="fa fa-twitter"></i></a>
-                    <a href="#"><i class="fa fa-dribbble"></i></a>
-                    <a href="#"><i class="fa fa-behance"></i></a>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!--================ End footer Area  =================-->
+        </footer>
+        <!--================ End footer Area  =================-->
     </form>
 
 

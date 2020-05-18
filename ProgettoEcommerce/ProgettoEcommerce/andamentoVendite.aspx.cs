@@ -14,22 +14,56 @@ namespace ProgettoEcommerce
 {
     public partial class andamentoVendite : System.Web.UI.Page
     {
+        /**********************/
+        /* Routine Principale */
+        /**********************/
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
-                adoNet.impostaConnessione("App_Data/DBEcommerce.mdf");
-
-            if (Session["IdUtente"] == null && Session["TipoUtente"] == null)
-                Response.Redirect("login.aspx");
-            else if (Session["IdUtente"] != null && Session["TipoUtente"].ToString().ToUpper() == "ADMIN")
             {
-                creaGraficoCategorie();
-                creaGraficoProdotti();
+                adoNet.impostaConnessione("App_Data/DBEcommerce.mdf");
+                if (Session["IdUtente"] == null && Session["TipoUtente"] == null)
+                    Response.Redirect("login.aspx");
+                else if (Session["IdUtente"] != null && Session["TipoUtente"].ToString().ToUpper() == "ADMIN")
+                {
+                    creaGraficoCategorie();
+                    creaGraficoProdotti();
+                }
+                else
+                    Response.Redirect("prodotti.aspx");
             }
-            else
-                Response.Redirect("prodotti.aspx");
+            //Gestito fuori dal postback per poter agganciare l'evento al bottone di logout
+            gestUtenteLoggato();
         }
 
+        /**********************************/
+        /* Gestione NavBar Utente Loggato */
+        /**********************************/
+        private void gestUtenteLoggato()
+        {
+            navUtenteCarrrello.Visible = true;
+            LinkButton btnLogout = new LinkButton();
+            btnLogout.CssClass = "icons";
+            btnLogout.Text = "<i class='fa fa-sign-out' aria-hidden='true'></i> Esci";
+            btnLogout.Click += BtnLogout_Click;
+            contLogout.Controls.Add(btnLogout);
+            navCarrello.Visible = false;
+            navStoricoOrdini.Visible = false;
+        }
+
+        /*******************/
+        /* Gestione Logout */
+        /*******************/
+        private void BtnLogout_Click(object sender, EventArgs e)
+        {
+            Session.Clear();
+            Session.Abandon();
+            Response.Redirect("login.aspx");
+        }
+
+        /***************************************/
+        /* Creazione Grafico Vendite Categorie */
+        /***************************************/
         private void creaGraficoCategorie()
         {
             adoNet ado = new adoNet();
@@ -70,6 +104,9 @@ namespace ProgettoEcommerce
             }
         }
 
+        /**************************************/
+        /* Creazione Grafico Vendite Prodotti */
+        /**************************************/
         private void creaGraficoProdotti()
         {
             adoNet ado = new adoNet();
@@ -111,6 +148,9 @@ namespace ProgettoEcommerce
             }
         }
 
+        /*******************/
+        /* Gestione Errori */
+        /*******************/
         private void stampaErrori(HtmlGenericControl contMsg, string msgErrore)
         {
             contMsg.InnerText = msgErrore;

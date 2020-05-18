@@ -30,7 +30,7 @@
         <!--================Header Menu Area =================-->
         <header class="header_area">
             <div class="main_menu">
-                <div class="container">
+                <div class="container" style="max-width:100%">
                     <nav class="navbar navbar-expand-lg navbar-light w-100">
                         <!-- Brand and toggle get grouped for better mobile display -->
                         <a class="navbar-brand logo_h" href="index.aspx">
@@ -49,102 +49,52 @@
                             <span class="icon-bar"></span>
                         </button>
                         <!-- Collect the nav links, forms, and other content for toggling -->
-                        <div
-                            class="collapse navbar-collapse offset w-100"
-                            id="navbarSupportedContent">
+                        <div class="collapse navbar-collapse offset w-100" id="navbarSupportedContent">
                             <div class="row w-100 mr-0">
-                                <div class="col-lg-7 pr-0">
-                                    <ul class="nav navbar-nav center_nav pull-right">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="index.aspx">Home</a>
+                                <div id="contNavBar" class="col-lg-10 pr-0" runat="server">
+                                    <ul id="navBar" class="nav navbar-nav center_nav pull-right" runat="server">
+                                        <li id="navProdotti" class="nav-item" runat="server">
+                                            <a href="prodotti.aspx" class="nav-link active">Elenco Prodotti</a>
                                         </li>
-                                        <li class="nav-item active submenu dropdown">
-                                            <a
-                                                href="#"
-                                                class="fa fa-sign-out"
-                                                data-toggle="dropdown"
-                                                role="button"
-                                                aria-haspopup="true"
-                                                aria-expanded="false">Shop</a>
-                                            <ul class="dropdown-menu">
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="category.html">Shop Category</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="single-product.html">Product Details</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="checkout.html">Product Checkout</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="cart.html">Shopping Cart</a>
-                                                </li>
-                                            </ul>
+                                        <li id="navAndamentoVendite" class="nav-item" runat="server">
+                                            <a href="andamentoVendite.aspx" class="nav-link">Andamento Vendite</a>
                                         </li>
-                                        <li class="nav-item submenu dropdown">
-                                            <a
-                                                href="#"
-                                                class="nav-link dropdown-toggle"
-                                                data-toggle="dropdown"
-                                                role="button"
-                                                aria-haspopup="true"
-                                                aria-expanded="false">Blog</a>
-                                            <ul class="dropdown-menu">
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="blog.html">Blog</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="single-blog.html">Blog Details</a>
-                                                </li>
-                                            </ul>
+                                        <li id="navCarrello" class="nav-item" runat="server">
+                                            <a href="carrello.aspx" class="nav-link">Carrello</a>
                                         </li>
-                                        <li class="nav-item submenu dropdown">
-                                            <a
-                                                href="#"
-                                                class="nav-link dropdown-toggle"
-                                                data-toggle="dropdown"
-                                                role="button"
-                                                aria-haspopup="true"
-                                                aria-expanded="false">Pages</a>
-                                            <ul class="dropdown-menu">
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="tracking.html">Tracking</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="elements.html">Elements</a>
-                                                </li>
-                                            </ul>
+                                        <li id="navCategorie" class="nav-item active" runat="server">
+                                            <a href="categorie.aspx" class="nav-link">Categorie</a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="contact.html">Contact</a>
+                                        <li id="navGestioneOrdini" class="nav-item" runat="server">
+                                            <a href="gestioneOrdini.aspx" class="nav-link">Gestione Ordini</a>
+                                        </li>
+                                        <li id="navGestioneProdotti" class="nav-item" runat="server">
+                                            <a href="gestioneProdotti.aspx" class="nav-link">Gestione Prodotti</a>
+                                        </li>
+                                        <li id="navGestioneUtenti" class="nav-item" runat="server">
+                                            <a href="gestioneUtenti.aspx" class="nav-link">Gestione Utenti</a>
+                                        </li>
+                                        <li id="navStoricoOrdini" class="nav-item" runat="server">
+                                            <a href="storicoOrdini.aspx" class="nav-link">Storico Ordini</a>
+                                        </li>
+                                        <li id="navTipiCarte" class="nav-item" runat="server">
+                                            <a href="TipiCarteCredito.aspx" class="nav-link">Carte di Credito</a>
                                         </li>
                                     </ul>
                                 </div>
-
-                                <div class="col-lg-5 pr-0">
+                                <div id="navUtenteCarrrello" class="col-lg-2 pr-0" runat="server">
                                     <ul class="nav navbar-nav navbar-right right_nav pull-right">
-                                        <li class="nav-item">
-                                            <a href="#" class="icons">
-                                                <i class="ti-search" aria-hidden="true"></i>
-                                            </a>
+                                        <li class='nav-item submenu dropdown'>
+                                            <a href='#' class='icons dropdown-toggle' data-toggle='dropdown' role="button" aria-haspopup='true'><i class='ti-user' aria-hidden='true'></i></a>
+                                            <ul id="dropDownLogout" class='dropdown-menu' runat="server">
+                                                <li id="contLogout" class='nav-item' runat="server"></li>
+                                                <li class='nav-item'>
+                                                    <a href="modificaProfilo.aspx" class='icons'><i class="ti-user" aria-hidden='true'></i>Profilo</a>
+                                                </li>
+                                            </ul>
                                         </li>
-
-                                        <li class="nav-item">
-                                            <a href="#" class="icons">
-                                                <i class="ti-shopping-cart"></i>
-                                            </a>
-                                        </li>
-
-                                        <li class="nav-item">
-                                            <a href="#" class="icons">
-                                                <i class="ti-user" aria-hidden="true"></i>
-                                            </a>
-                                        </li>
-
-                                        <li class="nav-item">
-                                            <a href="#" class="icons">
-                                                <i class="ti-heart" aria-hidden="true"></i>
-                                            </a>
+                                        <li class='nav-item'>
+                                            <a href="carrello.aspx" class='icons'><i class='ti-shopping-cart' aria-hidden='true'></i></a>
                                         </li>
                                     </ul>
                                 </div>
@@ -201,7 +151,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-6 col-md-12 col-lg-6 mx-auto">
+                    <div class="col-sm-12 col-md-7 col-lg-7 mx-auto">
                         <div id="msgElencoCategorie" role="alert" style="text-align: center;" runat="server"></div>
                     </div>
                 </div>
@@ -215,13 +165,13 @@
                 <div class="row">
                     <div class="col-lg-12 mx-auto">
                         <div class="main_title">
-                            <h2><span>Inserimento Categoria</span></h2>
+                            <h2><span id="titoloSezInsCat" runat="server">Inserimento Categoria</span></h2>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-4 col-lg-4 mx-auto">
                         <div class="input-group-icon mt-10">
                             <div class="icon">
-                                <i class="fa fa-user" aria-hidden="true"></i>
+                                <i class="fa fa-tag" aria-hidden="true"></i>
                             </div>
                             <input type="text" id="descrizioneInsCategoria" name="descrizioneInsCategoria" placeholder="Descrizione"
                                 onfocus="this.placeholder = ''; this.classList.remove('alert-danger');" onblur="this.placeholder = 'Descrizione'"
@@ -231,7 +181,7 @@
                 </div>
                 <br />
                 <div class="row">
-                    <div class="col-sm-12 col-md-4 col-lg-4 mx-auto">
+                    <div class="col-sm-12 col-md-7 col-lg-7 mx-auto">
                         <div id="msgInsCat" role="alert" style="text-align: center;" runat="server"></div>
                     </div>
                 </div>
@@ -239,57 +189,13 @@
                 <div class="row">
                     <div class="col-sm-12 col-md-4 col-lg-4 mx-auto">
                         <div class="form-group">
-                            <asp:LinkButton ID="btnInsCat" CssClass="genric-btn primary circle btn-block" runat="server" OnClick="btnInsCat_Click"><i class="fa fa-plus" aria-hidden="true"></i> Aggiungi</asp:LinkButton>
+                            <asp:LinkButton ID="btnInsCat" CssClass="genric-btn primary circle btn-block" runat="server" OnClick="btnInsCat_Click">Aggiungi</asp:LinkButton>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
         <!--================ Fine Sezione Inserimento Categorie =================-->
-
-        <!--================ Sezione Modifica Categorie =================-->
-        <section id="sezModCategorie" class="cart_area" runat="server">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12 mx-auto">
-                        <div class="main_title">
-                            <h2><span>Modifica Categoria</span></h2>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-md-4 col-lg-4 mx-auto">
-                        <div class="input-group-icon mt-10">
-                            <div class="icon">
-                                <i class="fa fa-user" aria-hidden="true"></i>
-                            </div>
-                            <input type="text" id="txtDescModCat" name="txtDescModCat" placeholder="Descrizione"
-                                onfocus="this.placeholder = ''; this.classList.remove('alert-danger');" onblur="this.placeholder = 'Descrizione'"
-                                class="single-input" runat="server" required>
-                        </div>
-                        <div class="input-group-icon mt-10">
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="chkValModCat" runat="server">
-                                <label class="form-check-label" for="chkValModCat">Valido</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <br />
-                <div class="row">
-                    <div class="col-sm-12 col-md-4 col-lg-4 mx-auto">
-                        <div id="msgModCat" role="alert" style="text-align: center;" runat="server"></div>
-                    </div>
-                </div>
-                <br />
-                <div class="row">
-                    <div class="col-sm-12 col-md-4 col-lg-4 mx-auto">
-                        <div class="form-group">
-                            <asp:LinkButton ID="btnModCat" CssClass="genric-btn primary circle btn-block" runat="server" OnClick="btnModCat_Click"><i class="fa fa-plus" aria-hidden="true"></i> Modifica</asp:LinkButton>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!--================ Fine Sezione Modifica Categorie =================-->
 
         <!--================ start footer Area  =================-->
         <footer class="footer-area section_gap">

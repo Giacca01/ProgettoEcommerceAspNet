@@ -13,22 +13,55 @@ namespace ProgettoEcommerce
 {
     public partial class gestioneUtenti : System.Web.UI.Page
     {
+        /**********************/
+        /* Routine Principale */
+        /**********************/
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
                 adoNet.impostaConnessione("App_Data/DBEcommerce.mdf");
-
+            //Gestito fuori dal postback per poter agganciare gli eventi ai bottoni
             if (Session["IdUtente"] == null && Session["TipoUtente"] == null)
                 Response.Redirect("login.aspx");
             else if (Session["IdUtente"] != null && Session["TipoUtente"].ToString().ToUpper() == "ADMIN")
             {
                 stampaElencoClienti();
                 stampaElencoFornitori();
+                //Gestito fuori dal postback per poter agganciare l'evento al bottone di logout
+                gestUtenteLoggato();
             }
             else
                 Response.Redirect("prodotti.aspx");
         }
 
+        /**********************************/
+        /* Gestione NavBar Utente Loggato */
+        /**********************************/
+        private void gestUtenteLoggato()
+        {
+            navUtenteCarrrello.Visible = true;
+            LinkButton btnLogout = new LinkButton();
+            btnLogout.CssClass = "icons";
+            btnLogout.Text = "<i class='fa fa-sign-out' aria-hidden='true'></i> Esci";
+            btnLogout.Click += BtnLogout_Click;
+            contLogout.Controls.Add(btnLogout);
+            navCarrello.Visible = false;
+            navStoricoOrdini.Visible = false;
+        }
+
+        /*******************/
+        /* Gestione Logout */
+        /*******************/
+        private void BtnLogout_Click(object sender, EventArgs e)
+        {
+            Session.Clear();
+            Session.Abandon();
+            Response.Redirect("login.aspx");
+        }
+
+        /***************************/
+        /* Recupero Elenco Clienti */
+        /***************************/
         private void stampaElencoClienti()
         {
             adoNet ado = new adoNet();
@@ -124,6 +157,9 @@ namespace ProgettoEcommerce
             }
         }
 
+        /***************************************/
+        /* Gestione Elimina/Ripristina Cliente */
+        /***************************************/
         private void BtnGestCliente_Click(object sender, EventArgs e)
         {
             LinkButton btnSender = sender as LinkButton;
@@ -142,7 +178,7 @@ namespace ProgettoEcommerce
                 try
                 {
                     ado.eseguiNonQuery(codSql, CommandType.Text);
-                    Response.Redirect(Request.RawUrl);
+                    ClientScript.RegisterStartupScript(typeof(Page), "autoPostback", ClientScript.GetPostBackEventReference(this, String.Empty), true);
                 }
                 catch (Exception ex)
                 {
@@ -153,6 +189,9 @@ namespace ProgettoEcommerce
                 stampaErrori(msgElencoClienti, "Parametri mancanti, ricaricare la pagina");
         }
 
+        /*****************************/
+        /* Recupero Elenco Fornitori */
+        /*****************************/
         private void stampaElencoFornitori()
         {
             adoNet ado = new adoNet();
@@ -241,6 +280,9 @@ namespace ProgettoEcommerce
             }
         }
 
+        /*****************************************/
+        /* Gestione Elimina/Ripristina Fornitore */
+        /*****************************************/
         private void BtnGestioneFornitore_Click(object sender, EventArgs e)
         {
             LinkButton btnSender = sender as LinkButton;
@@ -259,7 +301,7 @@ namespace ProgettoEcommerce
                 try
                 {
                     ado.eseguiNonQuery(codSql, CommandType.Text);
-                    Response.Redirect(Request.RawUrl);
+                    ClientScript.RegisterStartupScript(typeof(Page), "autoPostback", ClientScript.GetPostBackEventReference(this, String.Empty), true);
                 }
                 catch (Exception ex)
                 {
@@ -270,6 +312,9 @@ namespace ProgettoEcommerce
                 stampaErrori(msgElencoClienti, "Parametri mancanti, ricaricare la pagina");
         }
 
+        /*******************/
+        /* Gestione Errori */
+        /*******************/
         private void stampaErrori(HtmlGenericControl contMsg, string msgErrore)
         {
             contMsg.InnerText = msgErrore;

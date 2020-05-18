@@ -13,6 +13,9 @@ namespace ProgettoEcommerce
 {
     public partial class storicoOrdini : System.Web.UI.Page
     {
+        /**********************/
+        /* Routine Principale */
+        /**********************/
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
@@ -23,9 +26,44 @@ namespace ProgettoEcommerce
                 else if (Session["TipoUtente"].ToString().ToUpper() != "CLIENTE")
                     Response.Redirect("prodotti.aspx");
             }
+            //Gestito fuori dal postback per poter agganciare l'evento al bottone di logout
+            gestUtenteLoggato();
+            //Gestito fuori dal postback per poter agganciare gli eventi ai bottoni
             stampaElencoOrdini();
         }
 
+        /**********************************/
+        /* Gestione NavBar Utente Loggato */
+        /**********************************/
+        private void gestUtenteLoggato()
+        {
+            navUtenteCarrrello.Visible = true;
+            LinkButton btnLogout = new LinkButton();
+            btnLogout.CssClass = "icons";
+            btnLogout.Text = "<i class='fa fa-sign-out' aria-hidden='true'></i> Esci";
+            btnLogout.Click += BtnLogout_Click;
+            contLogout.Controls.Add(btnLogout);
+            navAndamentoVendite.Visible = false;
+            navCategorie.Visible = false;
+            navGestioneOrdini.Visible = false;
+            navGestioneProdotti.Visible = false;
+            navGestioneUtenti.Visible = false;
+            navTipiCarte.Visible = false;
+        }
+
+        /*******************/
+        /* Gestione Logout */
+        /*******************/
+        private void BtnLogout_Click(object sender, EventArgs e)
+        {
+            Session.Clear();
+            Session.Abandon();
+            Response.Redirect("login.aspx");
+        }
+
+        /*************************/
+        /* Stampa Storico Ordini */
+        /*************************/
         private void stampaElencoOrdini()
         {
             adoNet ado = new adoNet();
@@ -114,6 +152,9 @@ namespace ProgettoEcommerce
             }
         }
 
+        /**************************************/
+        /* Gestione Apertura Dettaglio Ordine */
+        /**************************************/
         private void BtnDetOrdine_Click(object sender, EventArgs e)
         {
             LinkButton btnSender = sender as LinkButton;
@@ -136,6 +177,9 @@ namespace ProgettoEcommerce
             }
         }
 
+        /************************************/
+        /* Gestione Stampa Dettaglio Ordine */
+        /************************************/
         private void stampaDettagliOrdine(int codOrdine)
         {
             adoNet ado = new adoNet();
@@ -194,6 +238,9 @@ namespace ProgettoEcommerce
             SetFocus(sezDetOrdine);
         }
 
+        /********************************/
+        /* Gestione Eliminazione Ordine */
+        /********************************/
         private void BtnEliminaOrdine_Click(object sender, EventArgs e)
         {
             LinkButton btnSender = sender as LinkButton;
@@ -208,6 +255,9 @@ namespace ProgettoEcommerce
                 stampaErrori(msgElencoOrdini, "Codice ordine non valido");
         }
 
+        /*******************/
+        /* Gestione Errori */
+        /*******************/
         private void stampaErrori(HtmlGenericControl contMsg, string msgErrore)
         {
             contMsg.InnerText = msgErrore;
@@ -215,6 +265,9 @@ namespace ProgettoEcommerce
             contMsg.Visible = true;
         }
 
+        /*****************************************/
+        /* Gestione Conferma Eliminazione Ordine */
+        /*****************************************/
         protected void btnConfermaElimOrdine_Click(object sender, EventArgs e)
         {
             adoNet ado = new adoNet();

@@ -14,19 +14,25 @@ namespace ProgettoEcommerce
 {
     public partial class cart : System.Web.UI.Page
     {
+        /**********************/
+        /* Routine Principale */
+        /**********************/
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
-            {
                 adoNet.impostaConnessione("App_Data/DBEcommerce.mdf");
-            }
-
+            //Gestito fuori dal postback per poter agganciare l'evento al bottone di eliminazione
             if (Session["IdUtente"] == null && Session["TipoUtente"] == null)
                 Response.Redirect("login.aspx");
-            else
+            else if(Session["TipoUtente"].ToString().ToUpper() == "CLIENTE")
                 chkTipoChiamata();
+            else
+                Response.Redirect("prodotti.aspx");
         }
 
+        /************************************/
+        /* Gestione Elenco Carte di Credito */
+        /************************************/
         private void gestCarteDiCredito()
         {
             adoNet ado = new adoNet();
@@ -62,19 +68,56 @@ namespace ProgettoEcommerce
             }
         }
 
+        /***************************/
+        /* Controllo Chiama Pagine */
+        /***************************/
         private void chkTipoChiamata()
         {
+            //Caricamento NavBar
+            gestUtenteLoggato();
+            //Se sono presenti il codice prodotto e la quantità
+            //si vuole aggiungere un prodotto
+            //altrimenti stampo l'elenco dei prodotti prensenti nel carrello
             if (Session["CodProd"] != null && Session["Qta"] != null)
-            {
                 gestAddProdotto();
-            }
             else
-            {
                 stampaElencoProdotti();
-            }
             gestCarteDiCredito();
         }
 
+        /**********************************/
+        /* Gestione NavBar Utente Loggato */
+        /**********************************/
+        private void gestUtenteLoggato()
+        {
+            navUtenteCarrrello.Visible = true;
+            LinkButton btnLogout = new LinkButton();
+            btnLogout.CssClass = "icons";
+            btnLogout.Text = "<i class='fa fa-sign-out' aria-hidden='true'></i> Esci";
+            btnLogout.Click += BtnLogout_Click;
+            contLogout.Controls.Add(btnLogout);
+            navAndamentoVendite.Visible = false;
+            navCategorie.Visible = false;
+            navGestioneOrdini.Visible = false;
+            navGestioneProdotti.Visible = false;
+            navGestioneUtenti.Visible = false;
+            navTipiCarte.Visible = false;
+        }
+
+        /*******************/
+        /* Gestione Logout */
+        /*******************/
+        private void BtnLogout_Click(object sender, EventArgs e)
+        {
+            Session.Clear();
+            Session.Abandon();
+            Response.Redirect("login.aspx");
+        }
+
+        /******************************/
+        /* Gestione Aggiunta Prodotto */
+        /* al Carrello                */
+        /******************************/
         private void gestAddProdotto()
         {
             adoNet ado = new adoNet();
@@ -90,10 +133,13 @@ namespace ProgettoEcommerce
             customCulture.NumberFormat.NumberGroupSeparator = "";
             System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
 
+            //Controllo parametri in get
             if (Int32.TryParse(Session["CodProd"].ToString(), out codProd))
             {
                 if (Int32.TryParse(Session["Qta"].ToString(), out newQta))
                 {
+                    //Controllo se il prodotto scelto è disponibile
+                    //nella quantità scelta
                     codSql = "SELECT * FROM Prodotti WHERE IdProdotto = " + Session["CodProd"].ToString() + " AND (QtaGiacenza - " + Session["Qta"].ToString() + ") >= 0 ";
                     try
                     {
@@ -101,6 +147,7 @@ namespace ProgettoEcommerce
                         tab = ado.eseguiQuery(codSql, CommandType.Text);
                         if (tab.Rows.Count > 0)
                         {
+                            //Gestione Prodotti Carrello
                             codSql = "SELECT * FROM Carrello WHERE IdProdotto = " + codProd + " AND Ordinato = 0 AND IdCliente = " + Session["IdUtente"].ToString();
                             tabCarrello = ado.eseguiQuery(codSql, CommandType.Text);
                             nProd = tabCarrello.Rows.Count;
@@ -110,6 +157,8 @@ namespace ProgettoEcommerce
                                 newPrezzo = ((Convert.ToDouble(tab.Rows[0].ItemArray[tab.Columns["Prezzo"].Ordinal].ToString()) * Convert.ToDouble(tab.Rows[0].ItemArray[tab.Columns["Sconto"].Ordinal].ToString())) / 100);
                             else
                                 newPrezzo = Convert.ToDouble(tab.Rows[0].ItemArray[tab.Columns["Prezzo"].Ordinal].ToString());
+                            //Se il prodotto è già presente aumento la quantità
+                            //altrimenti lo aggiungo
                             if (nProd > 0)
                             {
                                 qtaTotale = Convert.ToInt32(tabCarrello.Rows[0].ItemArray[3]) + newQta;
@@ -128,20 +177,23 @@ namespace ProgettoEcommerce
                             stampaElencoProdotti();
                         }
                         else
-                            stampaErroreCreazioneDetProd("Il prodotto scelto non è disponibile in questa quantità");
+                            stampaErrori(msgErroreElProdCar, "Il prodotto scelto non è disponibile in questa quantità");
                     }
                     catch (Exception ex)
                     {
-                        stampaErroreCreazioneDetProd("Errore: " + ex.Message);
+                        stampaErrori(msgErroreElProdCar, "Errore: " + ex.Message);
                     }
                 }
                 else
-                    stampaErroreCreazioneDetProd("Quantità non valida");
+                    stampaErrori(msgErroreElProdCar, "Quantità non valida");
             }
             else
-                stampaErroreCreazioneDetProd("Prodotto non valido");
+                stampaErrori(msgErroreElProdCar, "Prodotto non valido");
         }
 
+        /*************************************/
+        /* Gestione Elenco Prodotti Carrello */
+        /*************************************/
         private void stampaElencoProdotti()
         {
             adoNet ado = new adoNet();
@@ -184,7 +236,7 @@ namespace ProgettoEcommerce
                         riga.Controls.Add(cella);
 
                         cella = new TableCell();
-                        cella.Text = "<h5>" + string.Format("{0:N2}", prezzoFinale) + "&euro;</h5>";
+                        cella.Text = "<h5>" + prezzoFinale + "&euro;</h5>";
                         riga.Controls.Add(cella);
 
                         cella = new TableCell();
@@ -192,7 +244,7 @@ namespace ProgettoEcommerce
                         riga.Controls.Add(cella);
 
                         cella = new TableCell();
-                        cella.Text = "<h5>" + string.Format("{0:N2}", (prezzoFinale * Convert.ToInt32(tab.Rows[i].ItemArray[3].ToString()))) + "&euro;</h5>";
+                        cella.Text = "<h5>" + (prezzoFinale * Convert.ToInt32(tab.Rows[i].ItemArray[3].ToString())) + "&euro;</h5>";
                         riga.Controls.Add(cella);
 
                         cella = new TableCell();
@@ -206,7 +258,6 @@ namespace ProgettoEcommerce
 
                         totale += (prezzoFinale * Convert.ToInt32(tab.Rows[i].ItemArray[3].ToString()));
 
-
                         corpoTabCarrello.Controls.Add(riga);
                     }
 
@@ -218,23 +269,23 @@ namespace ProgettoEcommerce
                     riga.Controls.Add(cella);
 
                     cella = new TableCell();
-                    cella.Text = "<h5>" + string.Format("{0:N2}", totale) + "&euro;</h5>";
+                    cella.Text = "<h5>" + totale + "&euro;</h5>";
                     riga.Controls.Add(cella);
 
                     corpoTabCarrello.Controls.Add(riga);
                 }
                 else
-                {
-                    btnGestOrdine.Visible = false;
-                }
-                
+                    btnGestOrdine.Visible = false;                
             }
             catch (Exception ex)
             {
-                stampaErroreCreazioneDetProd("Errore: " + ex.Message);
+                stampaErrori(msgErroreElProdCar, "Errore: " + ex.Message);
             }
         }
 
+        /*******************************************/
+        /* Gestione Eliminazione Prodotto Carrello */
+        /*******************************************/
         private void BtnEl_Click(object sender, EventArgs e)
         {
             adoNet ado = new adoNet();
@@ -252,22 +303,26 @@ namespace ProgettoEcommerce
                 }
                 catch (Exception ex)
                 {
-                    stampaErroreCreazioneDetProd("Errore: " + ex.Message);
+                    stampaErrori(msgErroreElProdCar, "Errore: " + ex.Message);
                 }
             }
             else
-            {
-
-            }
+                stampaErrori(msgErroreElProdCar, "Codice Prodotto non valido");
         }
 
-        private void stampaErroreCreazioneDetProd(string msgErrore)
+        /*******************/
+        /* Gestione Errori */
+        /*******************/
+        private void stampaErrori(HtmlGenericControl contMsg, string msgErrore)
         {
-            sezElencoProdCarrello.Visible = false;
-            contMsgNoProd.Visible = true;
-            contMsgErroreElencoProdCarrello.InnerText = msgErrore;
+            contMsg.InnerText = msgErrore;
+            contMsg.Attributes.Add("class", "alert alert-danger");
+            contMsg.Visible = true;
         }
 
+        /****************************/
+        /* Gestione Conferma Ordine */
+        /****************************/
         protected void btnConfermaOrdine_Click(object sender, EventArgs e)
         {
             adoNet ado = new adoNet();
@@ -285,6 +340,7 @@ namespace ProgettoEcommerce
             DataTable tab2 = new DataTable();
             string totale = String.Empty;
 
+            //Cambio il separatore dei decimali e delle migliaia per adattarmi alla notazione SQL
             System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
             customCulture.NumberFormat.NumberDecimalSeparator = ".";
             customCulture.NumberFormat.NumberGroupSeparator = "";
@@ -293,6 +349,7 @@ namespace ProgettoEcommerce
 
             if (lstCartePagamento.SelectedIndex != -1)
             {
+                //Controllo se il prodotto è disponibile
                 codSql = "SELECT COUNT(*) " +
                     "FROM Carrello AS C " +
                     "INNER JOIN Prodotti AS P " +
@@ -305,12 +362,15 @@ namespace ProgettoEcommerce
                 {
                     if (Convert.ToInt32(ado.eseguiScalar(codSql, CommandType.Text)) == 0)
                     {
+                        //Recupero i dati del cliente
                         codSql = "SELECT * FROM Carrello WHERE IdCliente = " + Session["IdUtente"].ToString() + " AND ValCarrello = ' ' AND Ordinato = 0";
                         tab = ado.eseguiQuery(codSql, CommandType.Text);
+                        //Recupero la spesa totale per la tabella ordini
                         codSql = "SELECT IdCliente, SUM(PrezzoUnitario) AS Totale FROM Carrello WHERE IdCliente = " + Session["IdUtente"] + " AND ValCarrello = ' ' AND Ordinato = 0 GROUP BY IdCliente";
                         tab1 = ado.eseguiQuery(codSql, CommandType.Text);
                         codOrdine = getCodiceOrdine();
                         totale = tab1.Rows[0].ItemArray[1].ToString();
+                        //Preparo le query per la transazione
                         codQuery1 = "SET IDENTITY_INSERT [dbo].[Ordini] ON;INSERT INTO Ordini ([IdOrdine], [DataOrdine], [PrezzoTotale], [IdCarta], [ValOrdine]) " +
                             "VALUES (" + codOrdine + ", '" + DateTime.Now.ToString(@"yyyy/MM/dd") + "', " + tab1.Rows[0].ItemArray[1].ToString() + ", " + lstCartePagamento.Value + ", ' ');SET IDENTITY_INSERT[dbo].[Ordini] OFF";
                         codQuery2 = "INSERT INTO DettaglioOrdini ([IdOrdine], [IdProdotto], [QtaOrdine], [PrezzoUnitario], [ValDettaglioOrdini]) " +
@@ -326,12 +386,15 @@ namespace ProgettoEcommerce
                         codQuery4 = "UPDATE Prodotti " +
                             "SET QtaGiacenza = QtaGiacenza-(SELECT C.QtaProd FROM Carrello AS C WHERE C.IdProdotto = Prodotti.IdProdotto AND C.IdCliente = " + Session["IdUtente"].ToString() + " AND C.ValCarrello = ' ' AND C.Ordinato = 0) " +
                             "WHERE Prodotti.IdProdotto IN (SELECT C1.IdProdotto FROM Carrello AS C1 WHERE C1.IdCliente = " + Session["IdUtente"].ToString() + " AND C1.ValCarrello = ' ' AND C1.Ordinato = 0)";
+                        //Eseguo la transazione per confermare l'ordine
+                        //se fallisce c'è un rollback è tutte le modifiche sono cancellate
                         ado.transazioneOrdine(codQuery1, codQuery2, codQuery3, codQuery4, CommandType.Text);
                         codSqlElProdOrdine = "SELECT P.*, D.* FROM Prodotti AS P " +
                             "INNER JOIN DettaglioOrdini AS D " +
                             "ON P.IdProdotto = D.IdProdotto " +
                             "WHERE D.IdOrdine = " + codOrdine;
                         tab2 = ado.eseguiQuery(codSqlElProdOrdine, CommandType.Text);
+                        //Scrivo la mail di conferma all' utente
                         codSql = "SELECT MailCliente FROM Clienti WHERE ValCliente = ' ' AND IdCliente = " + Session["IdUtente"];
                         tab = ado.eseguiQuery(codSql, CommandType.Text);
                         testoMail = "Gentile Cliente,\nle confermiamo l'avvenuta registrazione del suo ordine, effettuato sulla nostra piattaforma in data " + DateTime.Now.ToString(@"dd/MM/yyyy") + ".\n" +
@@ -340,6 +403,7 @@ namespace ProgettoEcommerce
                             testoMail += "-" + tab2.Rows[j].ItemArray[tab2.Columns["ModelloProdotto"].Ordinal].ToString() + " Quantità: " + tab2.Rows[j].ItemArray[tab2.Columns["QtaOrdine"].Ordinal].ToString() + "\n";
                         testoMail += "Totale: " + string.Format("{0:N2}€", totale);
                         inviaMailOrdine("noreplyambulatoriogiacardi@gmail.com", tab.Rows[0].ItemArray[0].ToString(), "Conferma Ordine", testoMail);
+                        //Scrivo le mail di conferma a tutti i fornitori coinvolti
                         codSql = "SELECT * " +
                             "FROM Prodotti AS P " +
                             "INNER JOIN DettaglioOrdini AS D " +
@@ -363,25 +427,34 @@ namespace ProgettoEcommerce
                             testoMail += "-" + tab.Rows[k].ItemArray[tab.Columns["ModelloProdotto"].Ordinal].ToString() + " Quantità: " + tab.Rows[k].ItemArray[tab.Columns["QtaOrdine"].Ordinal].ToString() + "\n";
                         }
                         inviaMailOrdine("noreplyambulatoriogiacardi@gmail.com", ausIndirizzo, "Notifica Ordine", testoMail);
-                        Response.Redirect("contact.aspx");
+                        stampaConfOrdine(msgConfermaOrdine, "Ordine Completato con successo");
                     }
                     else
-                    {
-                        stampaErroreCreazioneDetProd("Uno o più prodotti non sono disponibili nella quantità ordinata");
-                    }
+                        stampaErrori(msgConfermaOrdine, "Uno o più prodotti non sono disponibili nella quantità ordinata");
                 }
                 catch (Exception ex)
                 {
-                    stampaErroreCreazioneDetProd("Errore: " + ex.Message);
+                    stampaErrori(msgConfermaOrdine, "Errore: " + ex.Message);
                 }
             }
             else
-            {
-                msgConfermaOrdine.InnerText = "Indicare una carta di credito";
-            }
-            
+                stampaErrori(msgConfermaOrdine, "Indicare una carta di credito"); 
         }
 
+        /**********************************/
+        /* Gestione Esito Conferma Ordine */
+        /**********************************/
+        private void stampaConfOrdine(HtmlGenericControl contMsg, string msgErrore)
+        {
+            contMsg.InnerText = msgErrore;
+            contMsg.Attributes.Remove("class");
+            contMsg.Attributes.Add("class", "alert alert-success");
+            contMsg.Visible = true;
+        }
+
+        /********************************/
+        /* Recupero Codice Nuovo Ordine */
+        /********************************/
         private int getCodiceOrdine()
         {
             adoNet ado = new adoNet();
@@ -395,12 +468,15 @@ namespace ProgettoEcommerce
             }
             catch (Exception ex)
             {
-                stampaErroreCreazioneDetProd("Errore: " + ex.Message);
+                stampaErrori(msgConfermaOrdine, "Errore: " + ex.Message);
             }
 
             return cod;
         }
 
+        /**************************/
+        /* Funzione di Invio Mail */
+        /**************************/
         private void inviaMailOrdine(string mittente, string destinatario, string oggetto, string testo)
         {
             MailMessage m1 = new MailMessage(mittente, destinatario, oggetto, testo);

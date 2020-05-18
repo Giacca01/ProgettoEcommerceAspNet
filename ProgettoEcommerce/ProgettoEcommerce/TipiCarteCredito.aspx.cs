@@ -15,6 +15,9 @@ namespace ProgettoEcommerce
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            /**********************/
+            /* Routine Principale */
+            /**********************/
             if (!Page.IsPostBack)
             {
                 adoNet.impostaConnessione("App_Data/DBEcommerce.mdf");
@@ -23,11 +26,40 @@ namespace ProgettoEcommerce
                 else if(Session["TipoUtente"].ToString().ToUpper() != "ADMIN")
                     Response.Redirect("prodotti.aspx");
             }
-
+            //Gestito fuori dal postback per poter agganciare gli eventi ai bottoni
             stampaElencoTipiCarte();
-
+            //Gestito fuori dal postback per poter agganciare l'evento al bottone di logout
+            gestUtenteLoggato();
         }
 
+        /**********************************/
+        /* Gestione NavBar Utente Loggato */
+        /**********************************/
+        private void gestUtenteLoggato()
+        {
+            navUtenteCarrrello.Visible = true;
+            LinkButton btnLogout = new LinkButton();
+            btnLogout.CssClass = "icons";
+            btnLogout.Text = "<i class='fa fa-sign-out' aria-hidden='true'></i> Esci";
+            btnLogout.Click += BtnLogout_Click;
+            contLogout.Controls.Add(btnLogout);
+            navCarrello.Visible = false;
+            navStoricoOrdini.Visible = false;
+        }
+
+        /*******************/
+        /* Gestione Logout */
+        /*******************/
+        private void BtnLogout_Click(object sender, EventArgs e)
+        {
+            Session.Clear();
+            Session.Abandon();
+            Response.Redirect("login.aspx");
+        }
+
+        /**********************************/
+        /* Stampa Elenco Carte di Credito */
+        /**********************************/
         private void stampaElencoTipiCarte()
         {
             adoNet ado = new adoNet();
@@ -101,6 +133,9 @@ namespace ProgettoEcommerce
             }
         }
 
+        /*****************************/
+        /* Modifica Carte di Credito */
+        /*****************************/
         private void BtnModifica_Click(object sender, EventArgs e)
         {
             LinkButton btnSender = sender as LinkButton;
@@ -131,6 +166,9 @@ namespace ProgettoEcommerce
                 stampaErrori(msgElencoTipiCarte, "Codice categoria non valido");
         }
 
+        /***************************************/
+        /* Elimina/Ripristina Carte di Credito */
+        /***************************************/
         private void BtnGestCat_Click(object sender, EventArgs e)
         {
             LinkButton btnSender = sender as LinkButton;
@@ -148,7 +186,7 @@ namespace ProgettoEcommerce
                 try
                 {
                     ado.eseguiNonQuery(codSql, CommandType.Text);
-                    Response.Redirect(Request.RawUrl);
+                    ClientScript.RegisterStartupScript(typeof(Page), "autoPostback", ClientScript.GetPostBackEventReference(this, String.Empty), true);
                 }
                 catch (Exception ex)
                 {
@@ -159,6 +197,9 @@ namespace ProgettoEcommerce
                 stampaErrori(msgElencoTipiCarte, "Dati mancanti. Ricaricare la pagina");
         }
 
+        /*******************/
+        /* Gestione Errori */
+        /*******************/
         private void stampaErrori(HtmlGenericControl contMsg, string msgErrore)
         {
             contMsg.InnerText = msgErrore;
@@ -166,6 +207,9 @@ namespace ProgettoEcommerce
             contMsg.Visible = true;
         }
 
+        /*****************************************/
+        /* Modifica/Inserimento Carte di Credito */
+        /*****************************************/
         protected void btnInsModTipiCarte_Click(object sender, EventArgs e)
         {
             adoNet ado = new adoNet();
@@ -183,7 +227,7 @@ namespace ProgettoEcommerce
                     ado.eseguiNonQuery(codSql, CommandType.Text);
                     Session["IdTipoCarta"] = null;
                     Session["DescTipoCarta"] = null;
-                    Response.Redirect(Request.RawUrl);
+                    ClientScript.RegisterStartupScript(typeof(Page), "autoPostback", ClientScript.GetPostBackEventReference(this, String.Empty), true);
                 }
                 else
                     stampaErrori(msgInsModTipiCarte, "Esiste già un tipo carta di credito con la medesima descrizione");
@@ -198,7 +242,7 @@ namespace ProgettoEcommerce
                         codSql = "INSERT INTO TipiCarte " +
                             "VALUES ('" + descrizioneInsModTipiCarte.Value + "', ' ')";
                         ado.eseguiNonQuery(codSql, CommandType.Text);
-                        Response.Redirect(Request.RawUrl);
+                        ClientScript.RegisterStartupScript(typeof(Page), "autoPostback", ClientScript.GetPostBackEventReference(this, String.Empty), true);
                     }
                     else
                         stampaErrori(msgInsModTipiCarte, "Esiste già un tipo carta di credito con la medesima descrizione");
