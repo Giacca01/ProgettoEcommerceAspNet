@@ -158,7 +158,7 @@
                                             <i class="fa fa-building" aria-hidden="true"></i>
                                         </div>
                                         <div>
-                                            <select id="lstCittaReg" title="Città Utente" runat="server" class="single-input form-control" required>
+                                            <select id="lstCittaReg" data-live-search="true" data-live-search-placeholder="Cerca città" title="Città Utente" runat="server" class="single-input form-control" required>
                                             </select>
                                         </div>
                                     </div>

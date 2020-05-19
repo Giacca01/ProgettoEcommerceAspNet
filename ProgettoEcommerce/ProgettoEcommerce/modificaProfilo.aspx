@@ -216,7 +216,7 @@
                                 <i class="fa fa-building" aria-hidden="true"></i>
                             </div>
                             <div>
-                                <select id="lstCittaModProfilo" title="Città Utente" runat="server" class="single-input form-control" required="required">
+                                <select id="lstCittaModProfilo" data-live-search="true" data-live-search-placeholder="Cerca città" title="Città Utente" runat="server" class="single-input form-control" required="required">
                                 </select>
                             </div>
                         </div>

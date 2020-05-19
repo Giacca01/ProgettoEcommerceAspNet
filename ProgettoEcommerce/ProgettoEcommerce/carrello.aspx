@@ -154,7 +154,7 @@
                 </div>
                 <div class="row">
                     <div class="col col-sm-12 col-md-6 col-lg-6 mx-auto" style="text-align: center">
-                        <select id="lstCartePagamento" title="Carta di credito" runat="server" class="single-input" required></select>
+                        <select id="lstCartePagamento" title="Carta di credito" runat="server" class="single-input form-control" required></select>
                         <a id="btnAddCarta" class="genric-btn link" href="modificaProfilo.aspx" runat="server">Aggiungi una carta di credito</a>
                         <div id="msgErrCartaCredito" class="msg" runat="server"></div>
                     </div>

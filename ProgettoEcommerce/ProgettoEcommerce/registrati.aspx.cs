@@ -77,7 +77,7 @@ namespace ProgettoEcommerce
             adoNet ado = new adoNet();
             string codSql = String.Empty;
             DataTable tab = new DataTable();
-            bool cognOk;
+            bool cognDataNasOk;
 
             //Controllo dati di input
             try
@@ -89,125 +89,128 @@ namespace ProgettoEcommerce
                         if (lstTipoUtenteReg.SelectedValue == "cliente" || lstTipoUtenteReg.SelectedValue == "admin")
                         {
                             if (cognomeReg.Value != String.Empty)
-                                cognOk = true;
+                            {
+                                if (DateTime.TryParse(dataNascitaReg.Value, out dataNas))
+                                    cognDataNasOk = true;
+                                else
+                                {
+                                    stampaErrori(msgReg, "Data di nascita non valida");
+                                    cognDataNasOk = false;
+                                }
+                            }
                             else
                             {
                                 stampaErrori(msgReg, "Inserire il Cognome dell' utente");
-                                cognOk = false;
+                                cognDataNasOk = false;
                             }
                         }
                         else
-                            cognOk = true;
+                            cognDataNasOk = true;
 
-                        if (cognOk)
+                        if (cognDataNasOk)
                         {
-                            if (DateTime.TryParse(dataNascitaReg.Value, out dataNas))
+                            if (DateTime.Now.AddYears(-18) >= dataNas)
                             {
-                                if (DateTime.Now.AddYears(-18) >= dataNas)
+                                if (validaEmail(mailReg.Value))
                                 {
-                                    if (validaEmail(mailReg.Value))
+                                    if (regTel.IsMatch(telReg.Value))
                                     {
-                                        if (regTel.IsMatch(telReg.Value))
+                                        if (usernameReg.Value != String.Empty)
                                         {
-                                            if (usernameReg.Value != String.Empty)
+                                            if (regPwd.IsMatch(pwdReg.Value))
                                             {
-                                                if (regPwd.IsMatch(pwdReg.Value))
+                                                if (viaReg.Value != String.Empty)
                                                 {
-                                                    if (viaReg.Value != String.Empty)
+                                                    if (civicoReg.Value != String.Empty)
                                                     {
-                                                        if (civicoReg.Value != String.Empty)
+                                                        if (lstCittaReg.SelectedIndex != -1)
                                                         {
-                                                            if (lstCittaReg.SelectedIndex != -1)
+                                                            //Controli su db per evitare duplicazione dei dati
+                                                            if (lstTipoUtenteReg.SelectedValue == "fornitore")
+                                                                codSql = "SELECT * FROM Fornitori WHERE Telefono = '" + telReg.Value + "'";
+                                                            else if (lstTipoUtenteReg.SelectedValue == "cliente")
+                                                                codSql = "SELECT * FROM Clienti WHERE TelefonoCliente = '" + telReg.Value + "'";
+                                                            else
+                                                                codSql = "SELECT * FROM Admin WHERE TelefonoAdmin = '" + telReg.Value + "'";
+
+                                                            tab = ado.eseguiQuery(codSql, CommandType.Text);
+
+                                                            if (tab.Rows.Count == 0)
                                                             {
-                                                                //Controli su db per evitare duplicazione dei dati
                                                                 if (lstTipoUtenteReg.SelectedValue == "fornitore")
-                                                                    codSql = "SELECT * FROM Fornitori WHERE Telefono = '" + telReg.Value + "'";
+                                                                    codSql = "SELECT * FROM Fornitori WHERE Email = '" + mailReg.Value + "'";
                                                                 else if (lstTipoUtenteReg.SelectedValue == "cliente")
-                                                                    codSql = "SELECT * FROM Clienti WHERE TelefonoCliente = '" + telReg.Value + "'";
+                                                                    codSql = "SELECT * FROM Clienti WHERE MailCliente = '" + mailReg.Value + "'";
                                                                 else
-                                                                    codSql = "SELECT * FROM Admin WHERE TelefonoAdmin = '" + telReg.Value + "'";
+                                                                    codSql = "SELECT * FROM Admin WHERE MailAdmin = '" + mailReg.Value + "'";
 
                                                                 tab = ado.eseguiQuery(codSql, CommandType.Text);
 
                                                                 if (tab.Rows.Count == 0)
                                                                 {
                                                                     if (lstTipoUtenteReg.SelectedValue == "fornitore")
-                                                                        codSql = "SELECT * FROM Fornitori WHERE Email = '" + mailReg.Value + "'";
+                                                                        codSql = "SELECT * FROM Fornitori WHERE UserFornitore = '" + usernameReg.Value + "'";
                                                                     else if (lstTipoUtenteReg.SelectedValue == "cliente")
-                                                                        codSql = "SELECT * FROM Clienti WHERE MailCliente = '" + mailReg.Value + "'";
+                                                                        codSql = "SELECT * FROM Clienti WHERE UserCliente = '" + usernameReg.Value + "'";
                                                                     else
-                                                                        codSql = "SELECT * FROM Admin WHERE MailAdmin = '" + mailReg.Value + "'";
+                                                                        codSql = "SELECT * FROM Admin WHERE UserAdmin = '" + usernameReg.Value + "'";
 
                                                                     tab = ado.eseguiQuery(codSql, CommandType.Text);
 
                                                                     if (tab.Rows.Count == 0)
                                                                     {
+                                                                        //Inserimento Utente su DB
                                                                         if (lstTipoUtenteReg.SelectedValue == "fornitore")
-                                                                            codSql = "SELECT * FROM Fornitori WHERE UserFornitore = '" + usernameReg.Value + "'";
-                                                                        else if (lstTipoUtenteReg.SelectedValue == "cliente")
-                                                                            codSql = "SELECT * FROM Clienti WHERE UserCliente = '" + usernameReg.Value + "'";
-                                                                        else
-                                                                            codSql = "SELECT * FROM Admin WHERE UserAdmin = '" + usernameReg.Value + "'";
-
-                                                                        tab = ado.eseguiQuery(codSql, CommandType.Text);
-
-                                                                        if (tab.Rows.Count == 0)
                                                                         {
-                                                                            //Inserimento Utente su DB
-                                                                            if (lstTipoUtenteReg.SelectedValue == "fornitore")
-                                                                            {
-                                                                                codSql = "INSERT INTO Fornitori ([NomeFornitore], [Telefono], [Email], [UserFornitore], [PwdFornitore], [ViaFornitore], [CivicoFornitore], [IdCitta], [ValFornitore])" +
-                                                                                "VALUES ('" + nomeReg.Value + "', '" + telReg.Value + "', '" + mailReg.Value + "', '" + usernameReg.Value + "', '" + calcolaMD5(pwdReg.Value) + "', '" + viaReg.Value + "', '" + civicoReg.Value + "', " + lstCittaReg.Value + ", ' ')";
-                                                                            }
-                                                                            else if (lstTipoUtenteReg.SelectedValue == "cliente")
-                                                                            {
-                                                                                codSql = "INSERT INTO Clienti ([NomeCliente], [CognomeCliente], [DataNascitaCliente], [TelefonoCliente], [MailCliente], [UserCliente], [PwdCliente], [ViaCliente], [CivicoCliente], [IdCittaClienti], [ValCliente])" +
-                                                                                "VALUES ('" + nomeReg.Value + "', '" + cognomeReg.Value + "', '" + dataNas.ToString("yyyy/MM/dd") + "', '" + telReg.Value + "', '" + mailReg.Value + "', '" + usernameReg.Value + "', '" + calcolaMD5(pwdReg.Value) + "', '" + viaReg.Value + "', '" + civicoReg.Value + "', " + lstCittaReg.Value + ", ' ')";
-                                                                            }
-                                                                            else
-                                                                            {
-                                                                                codSql = "INSERT INTO Admin ([NomeAdmin], [CognomeAdmin], [DataNascitaAdmin], [TelefonoAdmin], [MailAdmin], [UserAdmin], [PwdAdmin], [ViaAdmin], [CivicoAdmin], [IdCittaAdmin], [ValAdmin])" +
-                                                                                "VALUES ('" + nomeReg.Value + "', '" + cognomeReg.Value + "', '" + dataNas.ToString("yyyy/MM/dd") + "', '" + telReg.Value + "', '" + mailReg.Value + "', '" + usernameReg.Value + "', '" + calcolaMD5(pwdReg.Value) + "', '" + viaReg.Value + "', '" + civicoReg.Value + "', " + lstCittaReg.Value + ", ' ')";
-                                                                            }
-
-                                                                            ado.eseguiNonQuery(codSql, CommandType.Text);
-                                                                            Response.Redirect("login.aspx");
+                                                                            codSql = "INSERT INTO Fornitori ([NomeFornitore], [Telefono], [Email], [UserFornitore], [PwdFornitore], [ViaFornitore], [CivicoFornitore], [IdCitta], [ValFornitore])" +
+                                                                            "VALUES ('" + nomeReg.Value + "', '" + telReg.Value + "', '" + mailReg.Value + "', '" + usernameReg.Value + "', '" + calcolaMD5(pwdReg.Value) + "', '" + viaReg.Value + "', '" + civicoReg.Value + "', " + lstCittaReg.Value + ", ' ')";
+                                                                        }
+                                                                        else if (lstTipoUtenteReg.SelectedValue == "cliente")
+                                                                        {
+                                                                            codSql = "INSERT INTO Clienti ([NomeCliente], [CognomeCliente], [DataNascitaCliente], [TelefonoCliente], [MailCliente], [UserCliente], [PwdCliente], [ViaCliente], [CivicoCliente], [IdCittaClienti], [ValCliente])" +
+                                                                            "VALUES ('" + nomeReg.Value + "', '" + cognomeReg.Value + "', '" + dataNas.ToString("yyyy/MM/dd") + "', '" + telReg.Value + "', '" + mailReg.Value + "', '" + usernameReg.Value + "', '" + calcolaMD5(pwdReg.Value) + "', '" + viaReg.Value + "', '" + civicoReg.Value + "', " + lstCittaReg.Value + ", ' ')";
                                                                         }
                                                                         else
-                                                                            stampaErrori(msgReg, "Username non disponibile");
+                                                                        {
+                                                                            codSql = "INSERT INTO Admin ([NomeAdmin], [CognomeAdmin], [DataNascitaAdmin], [TelefonoAdmin], [MailAdmin], [UserAdmin], [PwdAdmin], [ViaAdmin], [CivicoAdmin], [IdCittaAdmin], [ValAdmin])" +
+                                                                            "VALUES ('" + nomeReg.Value + "', '" + cognomeReg.Value + "', '" + dataNas.ToString("yyyy/MM/dd") + "', '" + telReg.Value + "', '" + mailReg.Value + "', '" + usernameReg.Value + "', '" + calcolaMD5(pwdReg.Value) + "', '" + viaReg.Value + "', '" + civicoReg.Value + "', " + lstCittaReg.Value + ", ' ')";
+                                                                        }
+
+                                                                        ado.eseguiNonQuery(codSql, CommandType.Text);
+                                                                        Response.Redirect("login.aspx");
                                                                     }
                                                                     else
-                                                                        stampaErrori(msgReg, "Email non disponibile");
+                                                                        stampaErrori(msgReg, "Username non disponibile");
                                                                 }
                                                                 else
-                                                                    stampaErrori(msgReg, "Telefono non disponibile");
+                                                                    stampaErrori(msgReg, "Email non disponibile");
                                                             }
                                                             else
-                                                                stampaErrori(msgReg, "Selezionare la Città di residenza");
+                                                                stampaErrori(msgReg, "Telefono non disponibile");
                                                         }
                                                         else
-                                                            stampaErrori(msgReg, "Inserire il Numero Civico");
+                                                            stampaErrori(msgReg, "Selezionare la Città di residenza");
                                                     }
                                                     else
-                                                        stampaErrori(msgReg, "Inserire la via di residenza");
+                                                        stampaErrori(msgReg, "Inserire il Numero Civico");
                                                 }
                                                 else
-                                                    stampaErrori(msgReg, "Inserire una password valida");
+                                                    stampaErrori(msgReg, "Inserire la via di residenza");
                                             }
                                             else
-                                                stampaErrori(msgReg, "Inserire uno username");
+                                                stampaErrori(msgReg, "Inserire una password valida");
                                         }
                                         else
-                                            stampaErrori(msgReg, "Inserire un telefono valido");
+                                            stampaErrori(msgReg, "Inserire uno username");
                                     }
                                     else
-                                        stampaErrori(msgReg, "Inserire una mail valida");
+                                        stampaErrori(msgReg, "Inserire un telefono valido");
                                 }
                                 else
-                                    stampaErrori(msgReg, "Occorre aver compiuto almeno 18 anni");
+                                    stampaErrori(msgReg, "Inserire una mail valida");
                             }
                             else
-                                stampaErrori(msgReg, "Data di nascita non valida");
+                                stampaErrori(msgReg, "Occorre aver compiuto almeno 18 anni");
                         }
                     }
                     else
