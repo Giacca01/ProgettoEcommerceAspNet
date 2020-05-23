@@ -20,7 +20,10 @@ namespace ProgettoEcommerce
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
+            {
                 adoNet.impostaConnessione("App_Data/DBEcommerce.mdf");
+                gestCarteDiCredito();
+            }
             //Gestito fuori dal postback per poter agganciare l'evento al bottone di eliminazione
             if (Session["IdUtente"] == null && Session["TipoUtente"] == null)
                 Response.Redirect("login.aspx");
@@ -82,7 +85,6 @@ namespace ProgettoEcommerce
                 gestAddProdotto();
             else
                 stampaElencoProdotti();
-            gestCarteDiCredito();
         }
 
         /**********************************/
@@ -275,7 +277,13 @@ namespace ProgettoEcommerce
                     corpoTabCarrello.Controls.Add(riga);
                 }
                 else
-                    btnGestOrdine.Visible = false;                
+                {
+                    contTabProdCarrello.Visible = false;
+                    btnGestOrdine.Visible = false;
+                    contCarteCredito.Visible = false;
+                    if (msgErroreElProdCar.InnerText != "Ordine completato con successo")
+                        stampaErrori(msgErroreElProdCar, "Nessun prodotto presente nel carrello");
+                }                
             }
             catch (Exception ex)
             {
@@ -371,13 +379,13 @@ namespace ProgettoEcommerce
                         codOrdine = getCodiceOrdine();
                         totale = tab1.Rows[0].ItemArray[1].ToString();
                         //Preparo le query per la transazione
-                        codQuery1 = "SET IDENTITY_INSERT [dbo].[Ordini] ON;INSERT INTO Ordini ([IdOrdine], [DataOrdine], [PrezzoTotale], [IdCarta], [ValOrdine]) " +
-                            "VALUES (" + codOrdine + ", '" + DateTime.Now.ToString(@"yyyy/MM/dd") + "', " + tab1.Rows[0].ItemArray[1].ToString() + ", " + lstCartePagamento.Value + ", ' ');SET IDENTITY_INSERT[dbo].[Ordini] OFF";
-                        codQuery2 = "INSERT INTO DettaglioOrdini ([IdOrdine], [IdProdotto], [QtaOrdine], [PrezzoUnitario], [ValDettaglioOrdini]) " +
+                        codQuery1 = "SET IDENTITY_INSERT [dbo].[Ordini] ON;INSERT INTO Ordini ([IdOrdine], [DataOrdine], [PrezzoTotale], [IdCarta], [IdCliente], [ValOrdine]) " +
+                            "VALUES (" + codOrdine + ", '" + DateTime.Now.ToString(@"yyyy/MM/dd") + "', " + tab1.Rows[0].ItemArray[1].ToString() + ", " + lstCartePagamento.Value + ", "+ Session["IdUtente"].ToString() + ", ' ');SET IDENTITY_INSERT[dbo].[Ordini] OFF";
+                        codQuery2 = "INSERT INTO DettaglioOrdini ([IdOrdine], [IdProdotto], [QtaOrdine], [PrezzoUnitario], [Accettato], [ValDettaglioOrdini]) " +
                             "VALUES ";
                         for (int i = 0; i < tab.Rows.Count; i++)
                         {
-                            codQuery2 += "(" + codOrdine + ", " + tab.Rows[i].ItemArray[1].ToString() + ", " + tab.Rows[i].ItemArray[3].ToString() + ", " + tab.Rows[i].ItemArray[4].ToString() + ", ' ')";
+                            codQuery2 += "(" + codOrdine + ", " + tab.Rows[i].ItemArray[1].ToString() + ", " + tab.Rows[i].ItemArray[3].ToString() + ", " + tab.Rows[i].ItemArray[4].ToString() + ", 0, ' ')";
                             if (i != tab.Rows.Count - 1)
                                 codQuery2 += ",";
                         }
@@ -427,18 +435,19 @@ namespace ProgettoEcommerce
                             testoMail += "-" + tab.Rows[k].ItemArray[tab.Columns["ModelloProdotto"].Ordinal].ToString() + " Quantità: " + tab.Rows[k].ItemArray[tab.Columns["QtaOrdine"].Ordinal].ToString() + "\n";
                         }
                         inviaMailOrdine("noreplyambulatoriogiacardi@gmail.com", ausIndirizzo, "Notifica Ordine", testoMail);
-                        stampaConfOrdine(msgConfermaOrdine, "Ordine Completato con successo");
+                        stampaConfOrdine(msgErroreElProdCar, "Ordine completato con successo");
+                        stampaElencoProdotti();
                     }
                     else
-                        stampaErrori(msgConfermaOrdine, "Uno o più prodotti non sono disponibili nella quantità ordinata");
+                        stampaErrori(msgErroreElProdCar, "Uno o più prodotti non sono disponibili nella quantità ordinata");
                 }
                 catch (Exception ex)
                 {
-                    stampaErrori(msgConfermaOrdine, "Errore: " + ex.Message);
+                    stampaErrori(msgErroreElProdCar, "Errore: " + ex.Message);
                 }
             }
             else
-                stampaErrori(msgConfermaOrdine, "Indicare una carta di credito"); 
+                stampaErrori(msgErroreElProdCar, "Indicare una carta di credito"); 
         }
 
         /**********************************/
@@ -461,7 +470,7 @@ namespace ProgettoEcommerce
             string codSql = String.Empty;
             int cod = -1;
 
-            codSql = "SELECT COUNT(*) FROM Ordini WHERE ValOrdine = ' '";
+            codSql = "SELECT COUNT(*) FROM Ordini";
             try
             {
                 cod = Convert.ToInt32(ado.eseguiScalar(codSql, CommandType.Text)) + 1;

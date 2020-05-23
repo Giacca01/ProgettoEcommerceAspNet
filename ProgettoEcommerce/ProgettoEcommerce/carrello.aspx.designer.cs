@@ -166,6 +166,15 @@ namespace ProgettoEcommerce {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl sezElencoProdCarrello;
         
         /// <summary>
+        /// Controllo contTabProdCarrello.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl contTabProdCarrello;
+        
+        /// <summary>
         /// Controllo corpoTabCarrello.
         /// </summary>
         /// <remarks>
@@ -175,13 +184,13 @@ namespace ProgettoEcommerce {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl corpoTabCarrello;
         
         /// <summary>
-        /// Controllo msgErroreElProdCar.
+        /// Controllo contCarteCredito.
         /// </summary>
         /// <remarks>
         /// Campo generato automaticamente.
         /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl msgErroreElProdCar;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl contCarteCredito;
         
         /// <summary>
         /// Controllo lstCartePagamento.
@@ -209,6 +218,15 @@ namespace ProgettoEcommerce {
         /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl msgErrCartaCredito;
+        
+        /// <summary>
+        /// Controllo msgErroreElProdCar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl msgErroreElProdCar;
         
         /// <summary>
         /// Controllo btnGestOrdine.

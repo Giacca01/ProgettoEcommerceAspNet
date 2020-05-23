@@ -128,35 +128,37 @@
         <!--================ Inizio Sezione Carrello =================-->
         <section id="sezElencoProdCarrello" class="cart_area" runat="server">
             <div class="container">
-                <div class="row">
-                    <div class="cart_inner">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Prodotto</th>
-                                        <th scope="col">Prezzo</th>
-                                        <th scope="col">Quantit&agrave;</th>
-                                        <th scope="col">Totale</th>
-                                        <th scope="col">Elimina</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="corpoTabCarrello" runat="server">
-                                </tbody>
-                            </table>
+                <div id="contTabProdCarrello" class="row" runat="server">
+                    <div class="col-sm-12 col-md-12 col-lg-12 mx-auto">
+                        <div class="cart_inner">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Prodotto</th>
+                                            <th scope="col">Prezzo</th>
+                                            <th scope="col">Quantit&agrave;</th>
+                                            <th scope="col">Totale</th>
+                                            <th scope="col">Elimina</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="corpoTabCarrello" runat="server">
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
+                    </div>
+                </div>
+                <div id="contCarteCredito" class="row" runat="server">
+                    <div class="col col-sm-12 col-md-6 col-lg-6 mx-auto" style="text-align: center">
+                        <select id="lstCartePagamento" title="Carta di credito" runat="server" class="single-input form-control" required></select>
+                        <a id="btnAddCarta" class="genric-btn link" href="modificaProfilo.aspx" runat="server">Aggiungi una carta di credito</a>
+                        <div id="msgErrCartaCredito" class="msg" runat="server"></div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-12 col-md-7 col-lg-7 mx-auto">
                         <div id="msgErroreElProdCar" role="alert" style="text-align: center;" runat="server"></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col col-sm-12 col-md-6 col-lg-6 mx-auto" style="text-align: center">
-                        <select id="lstCartePagamento" title="Carta di credito" runat="server" class="single-input form-control" required></select>
-                        <a id="btnAddCarta" class="genric-btn link" href="modificaProfilo.aspx" runat="server">Aggiungi una carta di credito</a>
-                        <div id="msgErrCartaCredito" class="msg" runat="server"></div>
                     </div>
                 </div>
                 <br />
