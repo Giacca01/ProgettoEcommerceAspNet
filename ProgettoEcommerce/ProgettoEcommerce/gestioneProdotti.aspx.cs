@@ -54,7 +54,6 @@ namespace ProgettoEcommerce
         /**********************************/
         private void gestUtenteLoggato()
         {
-            contNavBar.Attributes.Add("class", "col-lg-7 pr-0");
             navUtenteCarrrello.Visible = true;
             LinkButton btnLogout = new LinkButton();
             btnLogout.CssClass = "icons";

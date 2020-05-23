@@ -65,7 +65,7 @@
                         <!-- Collect the nav links, forms, and other content for toggling -->
                         <div class="collapse navbar-collapse offset w-100" id="navbarSupportedContent">
                             <div class="row w-100 mr-0">
-                                <div id="contNavBar" class="col-lg-7 pr-0" runat="server">
+                                <div id="contNavBar" class="col-lg-10 pr-0" runat="server">
                                     <ul id="navBar" class="nav navbar-nav center_nav pull-right" runat="server">
                                         <li id="navProdotti" class="nav-item" runat="server">
                                             <a href="prodotti.aspx" class="nav-link">Elenco Prodotti</a>
@@ -96,7 +96,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div id="navUtenteCarrrello" class="col-lg-5 pr-0" runat="server">
+                                <div id="navUtenteCarrrello" class="col-lg-2 pr-0" runat="server">
                                     <ul class="nav navbar-nav navbar-right right_nav pull-right">
                                         <li class='nav-item submenu dropdown'>
                                             <a href='#' class='icons dropdown-toggle' data-toggle='dropdown' role="button" aria-haspopup='true'><i class='ti-user' aria-hidden='true'></i></a>
