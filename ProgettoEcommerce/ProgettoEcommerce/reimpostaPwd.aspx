@@ -47,23 +47,19 @@
                                 <div class="col-lg-12 pr-0">
                                     <ul class="nav navbar-nav center_nav pull-right">
                                         <li class="nav-item">
-                                            <a class="nav-link" href="index.html">Home</a>
+                                            <a class="nav-link" href="index.aspx">Home</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                                aria-expanded="false">Elenco Prodotti</a>
+                                            <a href="prodotti.aspx" class="nav-link">Elenco Prodotti</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                                aria-expanded="false">Registrati</a>
+                                            <a href="registrati.aspx" class="nav-link">Registrati</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                                aria-expanded="false">Login</a>
+                                            <a href="login.aspx" class="nav-link">Login</a>
                                         </li>
                                         <li class="nav-item active">
-                                            <a href="reimpostaPwd.aspx" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                                aria-expanded="false">Reimposta Password</a>
+                                            <a href="reimpostaPwd.aspx" class="nav-link">Reimposta Password</a>
                                         </li>
                                     </ul>
                                 </div>

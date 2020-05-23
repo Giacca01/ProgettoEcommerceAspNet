@@ -81,7 +81,6 @@ namespace ProgettoEcommerce
                 navStoricoOrdini.Visible = false;
                 navTipiCarte.Visible = false;
                 navCategorie.Visible = false;
-                navGestioneOrdini.Visible = false;
             }
         }
 

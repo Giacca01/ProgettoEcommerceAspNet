@@ -62,7 +62,6 @@ namespace ProgettoEcommerce
                 navStoricoOrdini.Visible = false;
                 navTipiCarte.Visible = false;
                 navCategorie.Visible = false;
-                navGestioneOrdini.Visible = false;
             }
             navHome.Visible = false;
             navRegistrati.Visible = false;
@@ -116,6 +115,8 @@ namespace ProgettoEcommerce
                 codSql = "SELECT * FROM Prodotti AS P " +
                     "INNER JOIN Categorie AS C " +
                     "ON C.IdCategoria = P.IdCategoria " +
+                    "INNER JOIN Fornitori AS F " +
+                    "ON F.IdFornitore = P.IdFornitore " +
                     "WHERE P.ValProdotto = ' ' AND P.IdProdotto = " + codProd;
                 try
                 {
@@ -132,7 +133,10 @@ namespace ProgettoEcommerce
                         codHtml += "<h2>" + Convert.ToDouble(tab.Rows[0].ItemArray[7].ToString()) + "&euro;</h2>";
                         codHtml += "<ul class='list'>";
                         codHtml += "<li>";
-                        codHtml += "<a><span>Categoria</span> "+ tab.Rows[0].ItemArray[tab.Columns["DescrizioneCategoria"].Ordinal].ToString() + "</a>";
+                        codHtml += "<a><span>Fornitore:</span> " + tab.Rows[0].ItemArray[tab.Columns["NomeFornitore"].Ordinal].ToString() + "</a>";
+                        codHtml += "</li>";
+                        codHtml += "<li>";
+                        codHtml += "<a><span>Categoria:</span> "+ tab.Rows[0].ItemArray[tab.Columns["DescrizioneCategoria"].Ordinal].ToString() + "</a>";
                         codHtml += "</li>";
                         codHtml += "<li>";
                         codHtml += "<a> <span>Stato:</span> "+ statoProd + "</a>";

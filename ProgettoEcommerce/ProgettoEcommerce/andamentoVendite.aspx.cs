@@ -52,7 +52,6 @@ namespace ProgettoEcommerce
                 navGestioneUtenti.Visible = false;
                 navTipiCarte.Visible = false;
                 navCategorie.Visible = false;
-                navGestioneOrdini.Visible = false;
             }
 
             navCarrello.Visible = false;
